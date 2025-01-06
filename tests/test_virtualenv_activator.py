@@ -4,14 +4,14 @@ from subprocess import check_output
 
 import pytest
 
-from xonsh.pytest.tools import ON_WINDOWS
+from deepsh.pytest.tools import ON_WINDOWS
 
 
 @pytest.mark.parametrize("dir_name", ["venv", "venv with space"])
-def test_xonsh_activator(tmp_path, dir_name):
+def test_deepsh_activator(tmp_path, dir_name):
     # Create virtualenv
     venv_dir = tmp_path / dir_name
-    assert b"XonshActivator" in check_output(
+    assert b"DeepshActivator" in check_output(
         [sys.executable, "-m", "virtualenv", str(venv_dir)]
     )
     assert venv_dir.is_dir()
@@ -29,7 +29,7 @@ def test_xonsh_activator(tmp_path, dir_name):
         [
             sys.executable,
             "-m",
-            "xonsh",
+            "deepsh",
             "-c",
             "import shutil; shutil.which('python') or shutil.which('python3')",
         ]
@@ -41,7 +41,7 @@ def test_xonsh_activator(tmp_path, dir_name):
         [
             sys.executable,
             "-m",
-            "xonsh",
+            "deepsh",
             "-c",
             f"source r'{activate_path}'; which python",
         ]
@@ -53,7 +53,7 @@ def test_xonsh_activator(tmp_path, dir_name):
         [
             sys.executable,
             "-m",
-            "xonsh",
+            "deepsh",
             "-c",
             f"source r'{activate_path}'; deactivate; "
             "import shutil; shutil.which('python') or shutil.which('python3')",

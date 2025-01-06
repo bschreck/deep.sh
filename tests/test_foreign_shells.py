@@ -5,18 +5,18 @@ import subprocess
 
 import pytest  # noqa F401
 
-from xonsh.foreign_shells import foreign_shell_data, parse_aliases, parse_env
-from xonsh.pytest.tools import skip_if_on_unix, skip_if_on_windows
+from deepsh.foreign_shells import foreign_shell_data, parse_aliases, parse_env
+from deepsh.pytest.tools import skip_if_on_unix, skip_if_on_windows
 
 
 def test_parse_env():
     exp = {"X": "YES", "Y": "NO"}
     s = (
         "some garbage\n"
-        "__XONSH_ENV_BEG__\n"
+        "__DEEPSH_ENV_BEG__\n"
         "Y=NO\n"
         "X=YES\n"
-        "__XONSH_ENV_END__\n"
+        "__DEEPSH_ENV_END__\n"
         "more filth"
     )
     obs = parse_env(s)
@@ -27,11 +27,11 @@ def test_parse_env_newline():
     exp = {"X": "YES", "Y": "NO", "PROMPT": "why\nme "}
     s = (
         "some garbage\n"
-        "__XONSH_ENV_BEG__\n"
+        "__DEEPSH_ENV_BEG__\n"
         "Y=NO\n"
         "PROMPT=why\nme \n"
         "X=YES\n"
-        "__XONSH_ENV_END__\n"
+        "__DEEPSH_ENV_END__\n"
         "more filth"
     )
     obs = parse_env(s)
@@ -42,11 +42,11 @@ def test_parse_env_equals():
     exp = {"X": "YES", "Y": "NO", "LS_COLORS": "*.tar=5"}
     s = (
         "some garbage\n"
-        "__XONSH_ENV_BEG__\n"
+        "__DEEPSH_ENV_BEG__\n"
         "Y=NO\n"
         "LS_COLORS=*.tar=5\n"
         "X=YES\n"
-        "__XONSH_ENV_END__\n"
+        "__DEEPSH_ENV_END__\n"
         "more filth"
     )
     obs = parse_env(s)
@@ -61,11 +61,11 @@ def test_parse_aliases():
     }
     s = (
         "some garbage\n"
-        "__XONSH_ALIAS_BEG__\n"
+        "__DEEPSH_ALIAS_BEG__\n"
         "alias x='yes -1'\n"
         "alias y='echo    no'\n"
         "alias z='echo True && \\\n echo Next || \\\n echo False'\n"  # noqa: E261,W605
-        "__XONSH_ALIAS_END__\n"
+        "__DEEPSH_ALIAS_END__\n"
         "more filth"
     )
     obs = parse_aliases(s, "bash")

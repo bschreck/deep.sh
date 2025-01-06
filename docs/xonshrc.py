@@ -1,4 +1,4 @@
-from xonsh.built_ins import XSH
+from deepsh.built_ins import XSH
 
 env = XSH.env
 # adjust some paths
@@ -16,8 +16,8 @@ XSH.aliases["gc"] = ["git", "commit"]
 
 # some customization options, see https://xon.sh/envvars.html for details
 env["MULTILINE_PROMPT"] = "`·.,¸,.·*¯`·.,¸,.·*¯"
-env["XONSH_SHOW_TRACEBACK"] = True
-env["XONSH_STORE_STDOUT"] = True
-env["XONSH_HISTORY_MATCH_ANYWHERE"] = True
+env["DEEPSH_SHOW_TRACEBACK"] = True
+env["DEEPSH_STORE_STDOUT"] = True
+env["DEEPSH_HISTORY_MATCH_ANYWHERE"] = True
 env["COMPLETIONS_CONFIRM"] = True
-env["XONSH_AUTOPAIR"] = True
+env["DEEPSH_AUTOPAIR"] = True

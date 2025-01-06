@@ -1,7 +1,7 @@
 .. _api:
 
 =================
-Xonsh API
+Deepsh API
 =================
 For those of you who want the gritty details.
 
@@ -13,11 +13,11 @@ For those of you who want the gritty details.
     :template: api-summary-module.rst
     :recursive:
 
-    xonsh.parsers.lexer
-    xonsh.parser
-    xonsh.parsers.ast
-    xonsh.execer
-    xonsh.imphooks
+    deepsh.parsers.lexer
+    deepsh.parser
+    deepsh.parsers.ast
+    deepsh.execer
+    deepsh.imphooks
 
 
 **Command Prompt:**
@@ -27,23 +27,23 @@ For those of you who want the gritty details.
     :template: api-summary-module.rst
     :recursive:
 
-    xonsh.built_ins
-    xonsh.environ
-    xonsh.aliases
-    xonsh.dirstack
-    xonsh.procs
-    xonsh.lib.inspectors
-    xonsh.history
-    xonsh.completer
-    xonsh.completers
-    xonsh.prompt
-    xonsh.shells
-    xonsh.shells.base_shell
-    xonsh.shells.readline_shell
-    xonsh.shells.ptk_shell
-    xonsh.lib.pretty
-    xonsh.history.diff_history
-    xonsh.xoreutils
+    deepsh.built_ins
+    deepsh.environ
+    deepsh.aliases
+    deepsh.dirstack
+    deepsh.procs
+    deepsh.lib.inspectors
+    deepsh.history
+    deepsh.completer
+    deepsh.completers
+    deepsh.prompt
+    deepsh.shells
+    deepsh.shells.base_shell
+    deepsh.shells.readline_shell
+    deepsh.shells.ptk_shell
+    deepsh.lib.pretty
+    deepsh.history.diff_history
+    deepsh.xoreutils
 
 
 **Helpers:**
@@ -53,25 +53,25 @@ For those of you who want the gritty details.
     :template: api-summary-module.rst
     :recursive:
 
-    xonsh.events
-    xonsh.lib
-    xonsh.tools
-    xonsh.platform
-    xonsh.lazyjson
-    xonsh.lazyasd
-    xonsh.lib.openpy
-    xonsh.foreign_shells
-    xonsh.commands_cache
-    xonsh.tracer
-    xonsh.main
-    xonsh.color_tools
-    xonsh.pyghooks
-    xonsh.shells.dumb_shell
-    xonsh.wizard
-    xonsh.xonfig
-    xonsh.xontribs
-    xonsh.codecache
-    xonsh.contexts
+    deepsh.events
+    deepsh.lib
+    deepsh.tools
+    deepsh.platform
+    deepsh.lazyjson
+    deepsh.lazyasd
+    deepsh.lib.openpy
+    deepsh.foreign_shells
+    deepsh.commands_cache
+    deepsh.tracer
+    deepsh.main
+    deepsh.color_tools
+    deepsh.pyghooks
+    deepsh.shells.dumb_shell
+    deepsh.wizard
+    deepsh.xonfig
+    deepsh.xontribs
+    deepsh.codecache
+    deepsh.contexts
 
 
 **Xontribs:**

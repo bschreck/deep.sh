@@ -9,14 +9,14 @@ def test_envionment():
   assert ${'U' + 'SER'} == 'snail'
 
 
-def test_xonsh_party():
-  from xonsh.built_ins import XSH
-  orig = XSH.env.get('XONSH_INTERACTIVE')
-  XSH.env['XONSH_INTERACTIVE'] = False
+def test_deepsh_party():
+  from deepsh.built_ins import XSH
+  orig = XSH.env.get('DEEPSH_INTERACTIVE')
+  XSH.env['DEEPSH_INTERACTIVE'] = False
   try:
-      x = 'xonsh'
+      x = 'deepsh'
       y = 'party'
       out = $(echo @(x + '-' + y)).strip()
-      assert out == 'xonsh-party', 'Out really was <' + out + '>, sorry.'
+      assert out == 'deepsh-party', 'Out really was <' + out + '>, sorry.'
   finally:
-      XSH.env['XONSH_INTERACTIVE'] = orig
+      XSH.env['DEEPSH_INTERACTIVE'] = orig

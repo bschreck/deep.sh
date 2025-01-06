@@ -3,7 +3,7 @@ import subprocess
 
 import pytest
 
-from xonsh.completers.commands import complete_xompletions
+from deepsh.completers.commands import complete_xompletions
 
 regex_cases = [
     "pip",

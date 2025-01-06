@@ -1,14 +1,14 @@
 import os
 
-from xonsh.environ import Env
-from xonsh.platform import ON_WINDOWS
-from xonsh.procs.executables import (
+from deepsh.environ import Env
+from deepsh.platform import ON_WINDOWS
+from deepsh.procs.executables import (
     get_paths,
     get_possible_names,
     locate_executable,
     locate_file,
 )
-from xonsh.tools import chdir
+from deepsh.tools import chdir
 
 
 def test_get_possible_names():

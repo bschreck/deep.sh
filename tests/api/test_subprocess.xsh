@@ -2,12 +2,12 @@
 import tempfile
 from subprocess import CalledProcessError
 
-from xonsh.api.os import indir
-from xonsh.api.subprocess import run, check_call, check_output
+from deepsh.api.os import indir
+from deepsh.api.subprocess import run, check_call, check_output
 
 import pytest
 
-from xonsh.pytest.tools import ON_WINDOWS
+from deepsh.pytest.tools import ON_WINDOWS
 
 
 def test_run():

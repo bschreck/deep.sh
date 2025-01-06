@@ -1,6 +1,6 @@
-"""Test module xonsh/cli_utils.py"""
+"""Test module deepsh/cli_utils.py"""
 
-from xonsh import cli_utils
+from deepsh import cli_utils
 
 
 def func_with_doc(param: str, multi: str, optional=False):
@@ -48,7 +48,7 @@ def test_get_doc_param():
 
 
 def test_generated_parser():
-    from xonsh.completers._aliases import CompleterAlias
+    from deepsh.completers._aliases import CompleterAlias
 
     alias = CompleterAlias()
 
@@ -65,14 +65,14 @@ def test_generated_parser():
 
 
 def test_parser_hooking():
-    from xonsh.history.main import HistoryAlias
+    from deepsh.history.main import HistoryAlias
 
     alias = HistoryAlias()
 
     parser, _ = cli_utils.ArgparseCompleter.get_parser(alias.parser, ["show"])
     assert parser._get_positional_actions()[0].choices == (
         "session",
-        "xonsh",
+        "deepsh",
         "all",
         "zsh",
         "bash",
@@ -80,7 +80,7 @@ def test_parser_hooking():
 
 
 def test_parser_default_func(mocker):
-    import xonsh.xontribs as xx
+    import deepsh.xontribs as xx
 
     alias = xx.XontribAlias()
 

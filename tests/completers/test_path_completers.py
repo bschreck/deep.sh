@@ -3,12 +3,12 @@ from unittest.mock import patch
 
 import pytest
 
-import xonsh.completers.path as xcp
+import deepsh.completers.path as xcp
 
 
 @pytest.fixture(autouse=True)
-def xonsh_execer_autouse(xession, xonsh_execer):
-    return xonsh_execer
+def deepsh_execer_autouse(xession, deepsh_execer):
+    return deepsh_execer
 
 
 def test_pattern_need_quotes():
@@ -28,7 +28,7 @@ def test_complete_path(xession, completion_context_parse):
     xcp.complete_path(completion_context_parse("[1-0.1]", 7))
 
 
-@patch("xonsh.completers.path._add_cdpaths")
+@patch("deepsh.completers.path._add_cdpaths")
 def test_cd_path_no_cd(mock_add_cdpaths, xession, completion_context_parse):
     xession.env = {
         "CASE_SENSITIVE_COMPLETIONS": False,

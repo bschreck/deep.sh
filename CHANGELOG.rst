@@ -1,5 +1,5 @@
 ====================
-Xonsh Change Log
+Deepsh Change Log
 ====================
 
 .. current developments
@@ -9,7 +9,7 @@ v0.19.0
 
 **Added:**
 
-* env: Added ``$XONSH_SUPPRESS_WELCOME`` variable to suppress the welcome message.
+* env: Added ``$DEEPSH_SUPPRESS_WELCOME`` variable to suppress the welcome message.
 
 **Changed:**
 
@@ -115,40 +115,40 @@ v0.18.0
 
 * Added ``@aliases.return_command`` decorator to eliminate the need to wrap the logic for modifying command into callable alias wrapper (#5473).
 * Tutorial: added example of callable environment variable.
-* tools: added ``mkdir`` to ``xonsh.tools.chdir`` e.g. ``with chdir('/tmp/new', mkdir=True): pass``.
-* env: Added ``$XONSH_MODE`` variable to detect the current execution mode:
+* tools: added ``mkdir`` to ``deepsh.tools.chdir`` e.g. ``with chdir('/tmp/new', mkdir=True): pass``.
+* env: Added ``$DEEPSH_MODE`` variable to detect the current execution mode:
   ``interactive``, ``script_from_file``, ``source``, ``single_command``, ``script_from_stdin``.
 * Builtin: ``exit`` can return exit code e.g. ``exit 71``.
-* builtin: added ``__xonsh__.imp`` to have an ability to import and use modules immediately in one line
-  e.g. ``__xonsh__.json.loads('{}')``.
-  In the future ``__xonsh__`` will have short notation ``@`` and the line will looks more elegant ``@.imp.json.loads('{}')``.
+* builtin: added ``__deepsh__.imp`` to have an ability to import and use modules immediately in one line
+  e.g. ``__deepsh__.json.loads('{}')``.
+  In the future ``__deepsh__`` will have short notation ``@`` and the line will looks more elegant ``@.imp.json.loads('{}')``.
 * builtins: Added color to printx e.g. ``printx('Good', color='GREEN')``.
 * aliases: Added ability to set multiple decorator aliases e.g. ``j = $(@json @noerr echo '{}')``.
-* Created ``xonsh.api`` to use xonsh functionality in pure python code and downstream projects (#5383 #5538).
+* Created ``deepsh.api`` to use deepsh functionality in pure python code and downstream projects (#5383 #5538).
   It's usable but don't treat this serios because it's mostly to move some functions into distinct
   submodule to reflect the intention to have the API. We need review and improvements here.
 
 **Changed:**
 
-* New executable resolving method was introduced and the commands_cache usages were replaced in the key places. As result we expect speed up in xonsh startup, reducing lagging during typing in prompt and speed ups during the commands execution (#5544 by @anki-code).
+* New executable resolving method was introduced and the commands_cache usages were replaced in the key places. As result we expect speed up in deepsh startup, reducing lagging during typing in prompt and speed ups during the commands execution (#5544 by @anki-code).
 * ``COLOR_RESULTS`` switched to ``False`` for non-interactive command case to improve speed in default behavior (#5562).
 * main: Importing sqlite became optional.
 * prompt: Switching to prompt_toolkit in edge case of sending stdin to interactive mode (#5462 #5517).
 * Rename: ``SpecModifier``, ``xthread``, ``xunthread`` renamed to ``DecoratorAlias``, ``@thread``, ``@unthread`` to support idea that
   spec modifier is like a Python decorator.
-* Big refactoring of internal modules structure to give clear understanding of internal xonsh components (#5538).
-  E.g. if you have ``import xonsh.jobs`` convert this to ``import xonsh.procs.jobs``.
+* Big refactoring of internal modules structure to give clear understanding of internal deepsh components (#5538).
+  E.g. if you have ``import deepsh.jobs`` convert this to ``import deepsh.procs.jobs``.
   This kind of refactoring occurs once per many years.
 
 **Deprecated:**
 
-* Starting from this release we notify that in the future we will not recommend to use ``xonsh.procs.run_subproc``
-  and ``xonsh.built_ins.subproc_*`` functions for downstream projects because of #5383.
-  We will develop ``xonsh.api`` as alternative.
+* Starting from this release we notify that in the future we will not recommend to use ``deepsh.procs.run_subproc``
+  and ``deepsh.built_ins.subproc_*`` functions for downstream projects because of #5383.
+  We will develop ``deepsh.api`` as alternative.
 
 **Removed:**
 
-* xontrib: Do not autoload xontribs in ``xonsh --no-rc`` mode.
+* xontrib: Do not autoload xontribs in ``deepsh --no-rc`` mode.
 
 **Fixed:**
 
@@ -175,7 +175,7 @@ v0.17.0
 
 **Added:**
 
-* Added section "Use the Nix Package manager with Xonsh" to "Platform-specific tips and tricks".
+* Added section "Use the Nix Package manager with Deepsh" to "Platform-specific tips and tricks".
 * Added ``env.detype_all()`` to get all available variables that is possible to detype.
 * Reading stop signals from the process and update the process state (#5361).
 * Added support of NixOS core tools in ``predict_threadable``.
@@ -185,40 +185,40 @@ v0.17.0
 * Added alias name printing in case of exception in alias.
 * Saving history in case of any type of exiting the shell.
 * Added catching ChildProcessError in jobs. Avoiding hanging aliases in some cases.
-* Added xonsh support into Jupytext project! Jupytext is to store Jupyter notebooks as a plain text documents.
-* Now last executed CommandPipeline is available in ``__xonsh__.last``.
-* Added ``xonsh --no-env`` option to run xonsh without inheriting the environment variables. Now by running ``xonsh --no-rc --no-env`` you have pure xonsh session.
+* Added deepsh support into Jupytext project! Jupytext is to store Jupyter notebooks as a plain text documents.
+* Now last executed CommandPipeline is available in ``__deepsh__.last``.
+* Added ``deepsh --no-env`` option to run deepsh without inheriting the environment variables. Now by running ``deepsh --no-rc --no-env`` you have pure deepsh session.
 * Added thread class, name, func and alias names to thread exception for easy understanding the source of issue.
 * Added shortcut ``-st`` for ``--shell-type``.
 * Saving history on SIGINT. Development tools like PyCharm send SIGINT before killing the run
   and doing this is the last chance to save history.
 * Added ``spec.raise_subproc_error`` for fine-tuning exceptions via ``SpecModifierAlias`` (#5494).
-* Added ``$XONSH_SUBPROC_OUTPUT_FORMAT`` to switch the way to return the output lines.
+* Added ``$DEEPSH_SUBPROC_OUTPUT_FORMAT`` to switch the way to return the output lines.
   Default ``stream_lines`` to return text. Alternative ``list_lines`` to return
   the list of lines. Now you can run ``du $(ls)`` without additional stripping.
   Also supported custom lambda function to process lines (if you're looking for
   alternative to bash IFS).
 * Added ``xthread`` and ``xunthread`` aliases to force command running as threaded and unthreaded.
 * Added ``SpecModifierAlias`` class to have an ability to create alias that modifies spec before run e.g. ``xthread`` alias.
-* Added mode ``$XONSH_TRACE_SUBPROC=3`` to show more information about pipeline.
+* Added mode ``$DEEPSH_TRACE_SUBPROC=3`` to show more information about pipeline.
 * Added "Callable alias and capturing" to the tutorial.
 * Xonfig: show sensitive env variables that could affect the shell behavior.
-* We started `Zulip Community <https://xonsh.zulipchat.com/join/hbvue5rimpdkwkdjuiqfs7tv/>`_ to publish news and chatting.
+* We started `Zulip Community <https://deepsh.zulipchat.com/join/hbvue5rimpdkwkdjuiqfs7tv/>`_ to publish news and chatting.
 
 **Changed:**
 
 * Minor cleanup of ``commands_cache``, unifying behavior across platforms.
-* Xonsh AppImage downgraded to Python 3.11. We need to resolve 3.12 parser support (5166) before upgrade.
+* Deepsh AppImage downgraded to Python 3.11. We need to resolve 3.12 parser support (5166) before upgrade.
 * Env variables completion: now use substring for search and then sort results by the position of substring and then alphabetically. PR 5388.
 * jobs: default representation changed to dict.
-* The CommandPipeline repr will not show descriptors by default. Use XONSH_DEBUG mode to see them.
+* The CommandPipeline repr will not show descriptors by default. Use DEEPSH_DEBUG mode to see them.
 * Prompt: ``env_name`` will have yellow color by default.
 * Show ``root`` and ``@#`` in prompt if user is superuser.
 * Cleaning logic and functions around threading and capturing in ``procs/specs.py`` file.
 * Now the ending new line symbol ``\n`` will be stripped from the single line output.
   For ``$(whoami)`` you will get ``'user'`` instead of ``'user\n'``.
-* ``$XONSH_TRACE_SUBPROC=2`` returns more useful details.
-* The home based ``~/.xonshrc`` will not be executed in non-interactive mode (#5491).
+* ``$DEEPSH_TRACE_SUBPROC=2`` returns more useful details.
+* The home based ``~/.deepshrc`` will not be executed in non-interactive mode (#5491).
 
 **Removed:**
 
@@ -234,7 +234,7 @@ v0.17.0
 * Fixed empty stacktrace for CalledProcessError.
 * Fixed redirect with python substitution e.g. ``echo 1 > @('/tmp/file')`` is working now.
 * Fixed showing alias description using superhelp e.g. ``which?``.
-* Fixed ``xonsh -DVAR=VAL`` behavior: initiate env variables before shell initialization.
+* Fixed ``deepsh -DVAR=VAL`` behavior: initiate env variables before shell initialization.
 * Fixed processing exit signals and exceptions (e.g. SIGHUP in #5381) to provide careful exiting with right exit code and TTY cleaning.
 * Fixed ``TypeError`` in xoreutils.
 * Fixed populating the return code for interrupted process.
@@ -262,14 +262,14 @@ v0.16.0
 **Added:**
 
 * Square brackets can now be used in command arguments without quotes (e.g. `echo a[b]`)
-* Add ``XONSH_BASH_PATH_OVERRIDE`` option (off-by-default) to override what is
-  returned by `xonsh.platform.bash_command`.
+* Add ``DEEPSH_BASH_PATH_OVERRIDE`` option (off-by-default) to override what is
+  returned by `deepsh.platform.bash_command`.
 * Added PATH.prepend(path) to add path to the beginning.
 
 **Changed:**
 
-* Xonsh AppImage now on Python 3.12 that works faster.
-* Xonsh AppImage: pinned prompt-toolkit version until fix upstream issue.
+* Deepsh AppImage now on Python 3.12 that works faster.
+* Deepsh AppImage: pinned prompt-toolkit version until fix upstream issue.
 * Builtin aliases (xontrib, history) switched to threadable mode.
 * EnvPath methods (append, remove, add, insert) prepare the path before action.
 * Replaced black formatter with `ruff-format <https://docs.astral.sh/ruff/>`_
@@ -282,17 +282,17 @@ v0.16.0
 
 * Removed ``ArgParserAlias.hook_pre_add_argument``, ``ArgParserAlias.hook_post_add_argument``.
   Please use custom action instead to modify the argument options.
-* Removed deprecated module ``xonsh.proc``
+* Removed deprecated module ``deepsh.proc``
 
 **Fixed:**
 
-* Fixed an issue with completions when using absolute paths to commands and having $UPDATE_COMPLETIONS_ON_KEYPRESS set to True. https://github.com/xonsh/xonsh/issues/5127
+* Fixed an issue with completions when using absolute paths to commands and having $UPDATE_COMPLETIONS_ON_KEYPRESS set to True. https://github.com/deepsh/deepsh/issues/5127
 * Jobs: fixed "index out of range" exception.
 * Expressions like ``2>1`` are now parsed correctly as Python code instead of being treated like special io-redirection operators.
 * Redirect tokens in quotes (e.g. ">", "2>", "2>1") are now correctly passed to commands as regular arguments.
 * Fixed NotADirectoryError during load dircolors.
-* Fixed a bug that caused ``xonfig web`` to overwrite its own configuration file. See https://github.com/xonsh/xonsh/issues/5297
-* If an error is encountered while loading the xonshrc file, the traceback is now output as plain text rather than as a list of Tokens
+* Fixed a bug that caused ``xonfig web`` to overwrite its own configuration file. See https://github.com/deepsh/deepsh/issues/5297
+* If an error is encountered while loading the deepshrc file, the traceback is now output as plain text rather than as a list of Tokens
 
 **Authors:**
 
@@ -326,11 +326,11 @@ v0.15.0
 
 **Added:**
 
-* `Atuin <https://atuin.sh/>`_ now has official support for xonsh. (Related PR: https://github.com/atuinsh/atuin/pull/1375)
+* `Atuin <https://atuin.sh/>`_ now has official support for deepsh. (Related PR: https://github.com/atuinsh/atuin/pull/1375)
 
 **Changed:**
 
-* Updated docs to reflect VS Code support for xonsh as the user's default shell.
+* Updated docs to reflect VS Code support for deepsh as the user's default shell.
 * Pinned prompt-toolkit version 3.0.29-3.0.40 to workaround upstream issue. More info in issue 5241.
 
 **Authors:**
@@ -348,7 +348,7 @@ v0.14.4
 
 **Added:**
 
-* System clipboard can be fully disabled using ``$XONSH_USE_SYSTEM_CLIPBOARD``.
+* System clipboard can be fully disabled using ``$DEEPSH_USE_SYSTEM_CLIPBOARD``.
 
 **Authors:**
 
@@ -372,7 +372,7 @@ v0.14.3
 
 **Fixed:**
 
-* ``xonsh`` now adds the user site packages directory to ``sys.path`` where
+* ``deepsh`` now adds the user site packages directory to ``sys.path`` where
   required for proper ``xontrib`` discovery
 
 **Authors:**
@@ -392,7 +392,7 @@ v0.14.2
 * history: fix json file permissions upon `sudo` (#5220)
 * ``cd`` with no arguments will always return to ``$HOME``
 * Correctly parse multi line foreign aliases
-* Upgrade Python version at the introduction (https://github.com/xonsh/xonsh/pull/5193)
+* Upgrade Python version at the introduction (https://github.com/deepsh/deepsh/pull/5193)
 
 **Authors:**
 
@@ -414,7 +414,7 @@ v0.14.1
 **Added:**
 
 * Added ``history delete`` command to both the JSON and SQLite history backends allowing users to delete commands from history that matches a pattern.
-* Now you can become a sponsor to xonsh - https://github.com/sponsors/xonsh
+* Now you can become a sponsor to deepsh - https://github.com/sponsors/deepsh
 * Added preliminary support for Python v3.12
 
 **Changed:**
@@ -451,32 +451,32 @@ v0.14.0
 * Added ``history pull`` command to SQLite history backend to pull the history from parallel sessions and add to the current session.
 * Add support for `Semantic Prompt <https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md>`_ for line continuations in multiline prompts via two environment variables: ``$MULTILINE_PROMPT_PRE`` (e.g., ``\x01\x1b]133;P;k=c\x07\x02``), and ``$MULTILINE_PROMPT_POS`` (e.g., ``\x01\x1b]133;B\x07\x02``) that are inserted before/after each continuation line 'dots' block to mark input
 * Wheels for Python 3.11 are part of the automated release action
-* Added ``chdir`` to ``xonsh.tools``. This allows to use ``with chdir("dir"):`` to run commands block in the certain directory without manually cd-ing.
+* Added ``chdir`` to ``deepsh.tools``. This allows to use ``with chdir("dir"):`` to run commands block in the certain directory without manually cd-ing.
 * Display the current branch of Fossil VCS checkouts in the prompt,
   similar to git and hg.
-* Added link to xonsh on Mastodon - https://mastodon.online/@xonsh
+* Added link to deepsh on Mastodon - https://mastodon.online/@deepsh
 * xontrib load: added option ``-s`` to skip warning about not installed xontribs.
 
 **Changed:**
 
-* Altered documentation for xonshrc to remove Python REPL prompts so that you can copy the code without having to edit it.
-* xonsh AppImage - bumped python to 3.11
+* Altered documentation for deepshrc to remove Python REPL prompts so that you can copy the code without having to edit it.
+* deepsh AppImage - bumped python to 3.11
 * The prompt end character switched to ``@``.
 * The `command not found` error will show the ``repr(cmd)`` to uncover the cases when the command name has ``\n``, ``\t`` or not visible color codes and raises the error.
-* ``abbrevs`` xontrib transferred to `xontrib-abbrevs <https://github.com/xonsh/xontrib-abbrevs>`_.
-* ``bashisms`` xontrib transferred to `xontrib-bashisms <https://github.com/xonsh/xontrib-bashisms>`_.
-* ``free_cwd`` xontrib transferred to `xontrib-free-cwd <https://github.com/xonsh/xontrib-free-cwd>`_.
-* ``whole_word_jumping`` xontrib transferred to `xontrib-whole-word-jumping <https://github.com/xonsh/xontrib-whole-word-jumping>`_.
-* ``fish_completer`` xontrib transferred to `xontrib-fish-completer <https://github.com/xonsh/xontrib-fish-completer>`_.
-* ``vox``, ``autovox``, ``voxapi`` xontribs transferred to `xontrib-vox <https://github.com/xonsh/xontrib-vox>`_.
-* ``pdb``, ``xog`` xontribs transferred to `xontrib-debug-tools <https://github.com/xonsh/xontrib-debug-tools>`_.
+* ``abbrevs`` xontrib transferred to `xontrib-abbrevs <https://github.com/deepsh/xontrib-abbrevs>`_.
+* ``bashisms`` xontrib transferred to `xontrib-bashisms <https://github.com/deepsh/xontrib-bashisms>`_.
+* ``free_cwd`` xontrib transferred to `xontrib-free-cwd <https://github.com/deepsh/xontrib-free-cwd>`_.
+* ``whole_word_jumping`` xontrib transferred to `xontrib-whole-word-jumping <https://github.com/deepsh/xontrib-whole-word-jumping>`_.
+* ``fish_completer`` xontrib transferred to `xontrib-fish-completer <https://github.com/deepsh/xontrib-fish-completer>`_.
+* ``vox``, ``autovox``, ``voxapi`` xontribs transferred to `xontrib-vox <https://github.com/deepsh/xontrib-vox>`_.
+* ``pdb``, ``xog`` xontribs transferred to `xontrib-debug-tools <https://github.com/deepsh/xontrib-debug-tools>`_.
 
 **Fixed:**
 
-* Fixed xpip alias for xonsh AppImage.
-* Fixed missing ``webconfig/js/xonsh_sticker.svg`` in ``xonfig web``.
+* Fixed xpip alias for deepsh AppImage.
+* Fixed missing ``webconfig/js/deepsh_sticker.svg`` in ``xonfig web``.
 * update load_xontrib pytest fixture to handle auto-loaded xontribs
-* Suppress subprocess traceback on exception in case ``$XONSH_SHOW_TRACEBACK=False`` with ``$RAISE_SUBPROC_ERROR=True``.
+* Suppress subprocess traceback on exception in case ``$DEEPSH_SHOW_TRACEBACK=False`` with ``$RAISE_SUBPROC_ERROR=True``.
 * Improve the error message when ``$RAISE_SUBPROC_ERROR`` is set to True.
 * Fixed xontrib-jupyter to work in JupyterLab and terminal-based `Euporie <https://github.com/joouha/euporie>`_ environment.
 
@@ -504,7 +504,7 @@ v0.13.4
 **Added:**
 
 * tests for methods changed in tools.py (is_tok_color_dict)
-* ``$XDG_CACHE_HOME``, ``$XONSH_CACHE_DIR`` are now available inside ``Xonsh``
+* ``$XDG_CACHE_HOME``, ``$DEEPSH_CACHE_DIR`` are now available inside ``Deepsh``
 * #2455 Add `on_command_not_found` event, fired when a command is not found.
 
 **Changed:**
@@ -519,13 +519,13 @@ v0.13.4
 **Fixed:**
 
 * #4668 Fix ptk completion stacking when auto-suggest is on and no normal completions are generated.
-* $XONSH_STYLE_OVERRIDES cannot be assigned dict of {Token: str} #4375
+* $DEEPSH_STYLE_OVERRIDES cannot be assigned dict of {Token: str} #4375
 * commands_cache: add a configurable value to disable cache. useful for running scripts
 * fixed stale results when ``$COMMANDS_CACHE_SAVE_INTERMEDIATE`` is enabled.
 *  #4951 Fix gitstatus prompt when rebasing
 * fixed using aliases to override commands without the file extension on Windows
-* #3279 Add `XONSH_HISTORY_IGNORE_REGEX` support. You can specify a regular
-  expression in the environment variable `XONSH_HISTORY_IGNORE_REGEX` and any
+* #3279 Add `DEEPSH_HISTORY_IGNORE_REGEX` support. You can specify a regular
+  expression in the environment variable `DEEPSH_HISTORY_IGNORE_REGEX` and any
   command that matches the expression will not be added to the history.
 
 **Authors:**
@@ -588,11 +588,11 @@ v0.13.1
 
 **Added:**
 
-* The ujson (faster version of json) added to xonsh[full] package.
+* The ujson (faster version of json) added to deepsh[full] package.
 
 **Changed:**
 
-* Bumped Python version in `xonsh.AppImage` to 3.10
+* Bumped Python version in `deepsh.AppImage` to 3.10
 * The terminal's title is updated with the current command's name even if the command is a captured command or a callable alias
 
 **Fixed:**
@@ -630,7 +630,7 @@ v0.13.0
 
 **Removed:**
 
-* The ``xonsh`` code-base is no longer amalgamated, so tracebacks should be
+* The ``deepsh`` code-base is no longer amalgamated, so tracebacks should be
   human-readable without intervention.  This may have (minor) impacts on startup
   speed.
 
@@ -638,7 +638,7 @@ v0.13.0
 
 * Fix xontrib loading for `free_cwd`
 * Fixed `whole_word_jumping` xontrib failing on Linux, conditional import of ``ptk_win32`` → Windows only
-* Fixed error caused by unintialized Xonsh session env when using Xonsh as a library just for its Pygments lexer plugin.
+* Fixed error caused by unintialized Deepsh session env when using Deepsh as a library just for its Pygments lexer plugin.
 
 **Authors:**
 
@@ -673,9 +673,9 @@ v0.12.5
 **Added:**
 
 * Support for f-glob strings (e.g. ``fg`{prefix}*```)
-* Now xontribs support `loading and unloading <https://github.com/xonsh/xonsh/issues/4541>`_
-  with functions ``_load_xontrib_(xsh: XonshSession, **kwargs) -> dict``,
-  ``_unload_xontrib_(xsh: XonshSession, **kwargs) -> None`` defined in their module.
+* Now xontribs support `loading and unloading <https://github.com/deepsh/deepsh/issues/4541>`_
+  with functions ``_load_xontrib_(xsh: DeepshSession, **kwargs) -> dict``,
+  ``_unload_xontrib_(xsh: DeepshSession, **kwargs) -> None`` defined in their module.
   `Updated doc <https://xon.sh/tutorial_xontrib.html>`_
 * Added a special '$LAST_RETURN_CODE' environment variable to access the return code of the last issued command. (Only set during interactive use).
 * New prompt-customization fields: 'last_return_code_if_nonzero', 'last_return_code'.
@@ -685,7 +685,7 @@ v0.12.5
 
 * ![] now returns a HiddenCommandPipeline when run with a background command (e.g. `![sleep 10 &]`)
 * Extended `whole_word_jumping` xontrib with matching bindings for
-  `delete` and `backspace`. The `XONSH_WHOLE_WORD_CTRL_BKSP` environment
+  `delete` and `backspace`. The `DEEPSH_WHOLE_WORD_CTRL_BKSP` environment
   variable can be set to `False` to avoid binding `control+backspace` in
   incompatible terminals.
 * The default prompt (on unix-systems) now includes a red [<errorcode>] field in case a command failed.
@@ -697,7 +697,7 @@ v0.12.5
 * xontrib ``prompt_ret_code`` is now removed.
   Now the default prompt already shows the last-return-code when the previous command fails.
   Please use the new prompt fields ``last_return_code``, ``last_return_code_if_nonzero`` from
-  the `PR <https://github.com/xonsh/xonsh/pull/4798>`_
+  the `PR <https://github.com/deepsh/deepsh/pull/4798>`_
 
 **Fixed:**
 
@@ -740,8 +740,8 @@ v0.12.3
 **Changed:**
 
 * fix: remove os.path.basename from _get_git_branch()
-* now 3rd party xontrib list is maintained at `Awesome Xontribs <https://github.com/xonsh/awesome-xontribs/>`_ page.
-  Going forward, new contributions will be updated here, making it not depending on `the xonsh release <https://github.com/xonsh/xonsh/issues/4679>`_.
+* now 3rd party xontrib list is maintained at `Awesome Xontribs <https://github.com/deepsh/awesome-xontribs/>`_ page.
+  Going forward, new contributions will be updated here, making it not depending on `the deepsh release <https://github.com/deepsh/deepsh/issues/4679>`_.
 
 **Removed:**
 
@@ -768,8 +768,8 @@ v0.12.2
 
 * Fixed completions for command argument paths after equal signs
 * A trailing space no longer gets appended when tab-completing command arguments that involve equals signs. For example `dd sta` gets completed to `dd status=`, without a space space after the equals sign.
-* regression on `gitstatus <https://github.com/xonsh/xonsh/pull/4771>`_ prompt is fixed now. It will display the value now instead of the name.
-* `fixed <https://github.com/xonsh/xonsh/pull/4763>`_ ``vox rm`` crashing when user input is required
+* regression on `gitstatus <https://github.com/deepsh/deepsh/pull/4771>`_ prompt is fixed now. It will display the value now instead of the name.
+* `fixed <https://github.com/deepsh/deepsh/pull/4763>`_ ``vox rm`` crashing when user input is required
 
 **Authors:**
 
@@ -784,8 +784,8 @@ v0.12.1
 
 **Fixed:**
 
-* fixed regression issue in loading `xontrib-abbrevs <https://github.com/xonsh/xonsh/pull/4757>`_
-* Allow xonsh to start gracefully even if modal cursors aren't in the available
+* fixed regression issue in loading `xontrib-abbrevs <https://github.com/deepsh/deepsh/pull/4757>`_
+* Allow deepsh to start gracefully even if modal cursors aren't in the available
   prompt_toolkit version
 
 **Authors:**
@@ -800,12 +800,12 @@ v0.12.0
 
 **Added:**
 
-* Added interface to complete any alias that has ``xonsh_complete`` attribute. It is a function with ``fn(**kwargs) -> Iterator[RichCompletion | str]`` signature.
+* Added interface to complete any alias that has ``deepsh_complete`` attribute. It is a function with ``fn(**kwargs) -> Iterator[RichCompletion | str]`` signature.
 * added ``$ALIAS_COMPLETIONS_OPTIONS_LONGEST`` to control showing options in completions
 * added ``$CMD_COMPLETIONS_SHOW_DESC`` environment variable to control showing command completions with a description part.
 * `completer complete` command is added to test current completions
 * completions from man page will now show the description for the options if available.
-* ``$XONSH_COMPLETER_DIRS`` to put command completers
+* ``$DEEPSH_COMPLETER_DIRS`` to put command completers
 * ``Aliases.register`` to register an alias function.
 * Tracebacks are now printed in color if available (interactive session with shell that supports colors with pygments installed and $COLOR_RESULTS enabled)
 * Added python's match statement for python >=3.10.
@@ -814,14 +814,14 @@ v0.12.0
   they will get loaded lazily.
 * `xontrib.fish_completer` is available to complete using `fish` shell.
 * Support for pythons sys.last_type, sys.last_value, sys.last_traceback.
-* added ``xonsh-uname`` command to ``xoreutils``
+* added ``deepsh-uname`` command to ``xoreutils``
 * auto-completion support for commands : ``source-foreign``, ``source-bash``, ``source-zsh``, ``source-cmd``
 * added ``history transfer`` command to transfer history entries between backends.
 * now ``$PROMPT_FIELDS`` is a custom class with method ``pick(field_name)`` to get the field value efficiently.
   The results are cached within the same prompt call.
-* new class ``xonsh.prompt.base.PromptField`` to ease creating/extending prompt-fields
+* new class ``deepsh.prompt.base.PromptField`` to ease creating/extending prompt-fields
 * **Sublime Text 4** extension to the Editors page.
-* Support for the `virtualenv <https://virtualenv.pypa.io/en/20.0.1/extend.html#activation-scripts>`_ ``activate.xsh`` script is back! Ensure you create the virtualenv from the same python where xonsh is installed.
+* Support for the `virtualenv <https://virtualenv.pypa.io/en/20.0.1/extend.html#activation-scripts>`_ ``activate.xsh`` script is back! Ensure you create the virtualenv from the same python where deepsh is installed.
 * vox new/create accepts a new ``--prompt`` argument, which is passed through to ``python -m venv``
 * New set of commands and options to manage virtualenvs inspired from ``pew``
 
@@ -842,20 +842,20 @@ v0.12.0
 * ``prompt.env.env_name`` is now aware of the "prompt" key in ``pyvenv.cfg`` - search order from first to last is: ``$VIRTUAL_ENV_PROMPT``, ``pyvenv.cfg``, ``$VIRTUAL_ENV``, $``CONDA_DEFAULT_ENV``
 * new command ``vox upgrade``
 * ``xonfig web`` can now update ``abbrevs/aliases/env-variables``.
-* Added `xontrib-default-command <https://github.com/oh-my-xonsh/xontrib-default-command>` to xontrib list.
+* Added `xontrib-default-command <https://github.com/oh-my-deepsh/xontrib-default-command>` to xontrib list.
 * new `xontrib-django <https://github.com/jnoortheen/xontrib-django>`_ for django management completions
 * Added `xontrib-gruvbox <https://github.com/rpdelaney/xontrib-gruvbox>` to xontrib list.
-* Added `xontrib-up <https://github.com/oh-my-xonsh/xontrib-up>` to xontrib list.
+* Added `xontrib-up <https://github.com/oh-my-deepsh/xontrib-up>` to xontrib list.
 
 **Changed:**
 
-* BREAKING CHANGE: ``/etc/xonshrc`` location for run control file has been deprecated in favor of ``/etc/xonsh/xonshrc``.
-* Both ``*.xsh`` and ``*.py`` files inside ``$XONSHRC_DIR`` will get loaded now.
+* BREAKING CHANGE: ``/etc/deepshrc`` location for run control file has been deprecated in favor of ``/etc/deepsh/deepshrc``.
+* Both ``*.xsh`` and ``*.py`` files inside ``$DEEPSHRC_DIR`` will get loaded now.
 * Environment-variables of no predefined type or path environment variables are now represented as strings via the empty string.
-* Made stacktraces behave like in python, i.e. when something in user-provided code fails (both interactively and non-interactively), only that part is shown, and the (static) part of the stacktrace showing the location where the user code was called in xonsh remains hidden. When an unexpected exception occurs inside xonsh, everything is shown like before.
+* Made stacktraces behave like in python, i.e. when something in user-provided code fails (both interactively and non-interactively), only that part is shown, and the (static) part of the stacktrace showing the location where the user code was called in deepsh remains hidden. When an unexpected exception occurs inside deepsh, everything is shown like before.
 * run_compiled_code, run_script_with_cache, run_code_with_cache now return sys.exc_info() triples instead of throwing errors
-* SyntaxError tracebacks now by default hide the internal parser state (like in python); set XONSH_DEBUG >= 1 to enable it again.
-* XonshError tracebacks now by default hide xonshs internal state; set XONSH_DEBUG >= 1 to enable it again.
+* SyntaxError tracebacks now by default hide the internal parser state (like in python); set DEEPSH_DEBUG >= 1 to enable it again.
+* DeepshError tracebacks now by default hide deepshs internal state; set DEEPSH_DEBUG >= 1 to enable it again.
 * run_code_with_cache takes a new parameter display_filename to override the filename shown in exceptions (this is independent of caching)
 * Update uptime lib by the last one from Pypi
 * ``umask``, ``ulimit`` commands will not override the system's commands unless requested
@@ -866,48 +866,48 @@ v0.12.0
   * distributed
   * jupyter-kernel
   * jedi
-* Xonsh adopts `NEP-0029 <https://numpy.org/neps/nep-0029-deprecation_policy.html>`_ in supporting Python versions.
+* Deepsh adopts `NEP-0029 <https://numpy.org/neps/nep-0029-deprecation_policy.html>`_ in supporting Python versions.
 * Privatise certain attributes of lexer/parser to minimise API surface
 * Make `XSH.load` calls explicit (not in Execer)
 * Make import hooks require Execer
 * Simplified foreign functions
 * Updated tutorial.rst to clarify use of time_format
 * ``vox new`` will use default python version of the system rather than the one vox is run with
-* ``xonfig web`` now shows latest xontribs available from ``xonsh.xontribs_meta``
+* ``xonfig web`` now shows latest xontribs available from ``deepsh.xontribs_meta``
 
 **Removed:**
 
-* ``$XONSH_GITSTATUS_*`` is removed
+* ``$DEEPSH_GITSTATUS_*`` is removed
   since the prompt fields can be customized easily now individually.
-* ``$XONSH_GITSTATUS_FIELDS_HIDDEN`` is removed.
+* ``$DEEPSH_GITSTATUS_FIELDS_HIDDEN`` is removed.
   Please set hidden fields in ``$PROMPT_FIELDS['gitstatus'].hidden = (...)``
-* Removed ``xonsh.ptk2`` module whcih was kept for some old packages sake. Now xonsh requires atleast ptk3 version.
+* Removed ``deepsh.ptk2`` module whcih was kept for some old packages sake. Now deepsh requires atleast ptk3 version.
 
 **Fixed:**
 
 * Some of the bash completions scripts can change path starting with '~/' to `/home/user/` during autocompletion.
-  xonsh `bash_completions` does not expect that, so it breaks autocompletion by producing paths like `~/f/home/user/foo`.
+  deepsh `bash_completions` does not expect that, so it breaks autocompletion by producing paths like `~/f/home/user/foo`.
   After the fix if bash returns changed paths then `/home/user` prefix will be replaced with `~/`.
 * ``pip`` completer now handles path completions correctly
 * SyntaxErrors thrown during compilation (i.e. not during parsing) now include the offending source line.
 * If a .xsh file is imported, the resulting module will now always have an absolute \_\_file\_\_ attribute to be consistent with pythons behavior since python 3.4.
-* ``$CONDA_DEFAULT_ENV`` is now respected when xonsh is run outside of conda.
+* ``$CONDA_DEFAULT_ENV`` is now respected when deepsh is run outside of conda.
 * Fixed unpacking of dictionaries inside a dictionary
 * Empty or comments only .xsh files can now be imported to align with pythons behavior.
 * Fixed regex globbing for file paths that contain special regex characters (e.g. "test*1/model")
 * Fixed list comprehension in return statement incorrectly being parsed as a subprocess command.
-* Fixed the expansion of $XONSH_TRACEBACK_LOGFILE user paths (e.g. "~/log")
+* Fixed the expansion of $DEEPSH_TRACEBACK_LOGFILE user paths (e.g. "~/log")
 * Fixed DeprecationWarning when providing autocompletion for a non-callable type with ``(``
 * OSC codes in ``$PROMPT`` is no longer removed when using ptk shell.
   These codes need to be escaped with ``\001..\002`` instead.
 * Attempt to show a modal cursor in vi_mode (ie. block in cmd, bar in ins)
-* Xonsh can now be used in VIM (e.g. by ":read !ls" if VIM is configured to use xonsh. This may be the case when xonsh is the default shell.)
+* Deepsh can now be used in VIM (e.g. by ":read !ls" if VIM is configured to use deepsh. This may be the case when deepsh is the default shell.)
 * Fixed OSError on Windows when GnuWin32 is installed in the PATH.
-* Do not show welcome message when any ``$XONSHRC_DIR`` directory entry exists.
+* Do not show welcome message when any ``$DEEPSHRC_DIR`` directory entry exists.
 * SyntaxErrors now get initialized with all available fields so that the error message can be formatted properly.
-* Raising BaseException no longer causes Xonsh to crash (fix #4567)
-* Exceptions in user code when using xonsh non-interactively no longer simply crash xonsh, rather a proper stacktrace is printed and also postmain() is called.
-* Tracebacks will now show the correct filename (i.e. as in python) for interactive use "<stdin>", scripts read by stdin "<stdin>" and -c commands "<string>". (Instead of MD5 hashes as filenames or "<xonsh-code>")
+* Raising BaseException no longer causes Deepsh to crash (fix #4567)
+* Exceptions in user code when using deepsh non-interactively no longer simply crash deepsh, rather a proper stacktrace is printed and also postmain() is called.
+* Tracebacks will now show the correct filename (i.e. as in python) for interactive use "<stdin>", scripts read by stdin "<stdin>" and -c commands "<string>". (Instead of MD5 hashes as filenames or "<deepsh-code>")
 * Default ZSH FUNCSCMD was not working in ZSH 5.8 (and possibly other versions)
 * Passing multiple files to be sourced to source-foreign was broken
 * prompt field ``current_branch`` will now work empty git repository.
@@ -949,21 +949,21 @@ v0.11.0
 
 **Added:**
 
-* added new utility classes ``xonsh.cli_utils.ArgParserAlias``, ``xonsh.cli_utils.ArgCompleter``.
+* added new utility classes ``deepsh.cli_utils.ArgParserAlias``, ``deepsh.cli_utils.ArgCompleter``.
   These are helper classes, that add coloring and auto-completion support to the alias-commands.
 * when ``$ENABLE_ASYNC_PROMPT=True`` lazy load ``prompt-toolkit``'s color-input support.
 * Add ``CTRL-Right`` key binding to complete a single auto-suggestion word.
 * Show environment variables' type and descriptions when completing them.
-* Add ``CTRL-Backspace`` key binding to delete a single word via ``$XONSH_CTRL_BKSPC_DELETION``.
+* Add ``CTRL-Backspace`` key binding to delete a single word via ``$DEEPSH_CTRL_BKSPC_DELETION``.
 * Improved ``pip``/``xpip`` completer.
-* Separator used by gitstatus can now be styled using ``XONSH_GITSTATUS_SEPARATOR``.
+* Separator used by gitstatus can now be styled using ``DEEPSH_GITSTATUS_SEPARATOR``.
 * Complete 'import' statements with modules that aren't loaded.
 * Complete multiple modules/objects in 'import' statements.
 * Multiple new metadata fields in ``setup.py``
 * Pure Python control files are now supported when named ``*.py``.
   Using python files may lower the startup time by a bit.
-* new environment variable ``$XONSH_TRACE_SUBPROC_FUNC``
-  to handle ``$XONSH_TRACE_SUBPROC`` output
+* new environment variable ``$DEEPSH_TRACE_SUBPROC_FUNC``
+  to handle ``$DEEPSH_TRACE_SUBPROC`` output
 * Added `xontrib-pyrtn <https://github.com/dyuri/xontrib-pyrtn>` to xontrib list.
 
 **Changed:**
@@ -984,9 +984,9 @@ v0.11.0
 * The ``--rc`` argument is extended to support directories as well as files.
   Passing a directory will result in all ``*.xsh`` files in the directory being
   sorted and loaded at startup (equivalent to using the environment variable
-  ``XONSHRC_DIR``).
-* The environment variables ``XONSHRC`` and ``XONSHRC_DIR`` are no longer updated by xonsh on
-  startup according to which files were actually loaded. This caused problems if xonsh is called
+  ``DEEPSHRC_DIR``).
+* The environment variables ``DEEPSHRC`` and ``DEEPSHRC_DIR`` are no longer updated by deepsh on
+  startup according to which files were actually loaded. This caused problems if deepsh is called
   recursively, as the child shells would inherit the modified startup environment of the parent.
   These variables will now be left untouched, and the actual RC files loaded (according to those
   variables and command line arguments) can be seen in the output of ``xonfig``.
@@ -1006,7 +1006,7 @@ v0.11.0
 * Add quotes in autocomplete when filename contains brackets
 * Handle ``None`` value on XSH.env if ``$UPDATE_OS_ENVIRON`` is set to ``True``
 * Implemented `__hash__` method to Env, so that it can be used in `lru_cache` without crashing.
-* Make sure aliases are always captured regardless of ``$XONSH_CAPTURE_ALWAYS``
+* Make sure aliases are always captured regardless of ``$DEEPSH_CAPTURE_ALWAYS``
 * ``fromdircolors`` doesn't crash if output from subprocess call to ``dircolors`` returns
   nothing (usually due to permission errors)
 * Fixed issue with environment not being iterable on session objects.
@@ -1017,7 +1017,7 @@ v0.11.0
 * ``Jedi`` completer doesn't complete paths with ``~``.
 * Sometimes the completion menu doesn't take space when cursor is at the bottom of the screen.
 * vox now passes system-site-packages option
-* Fix Duplicate paths left over when add paths to Path via xonsh.tools.EnvPath
+* Fix Duplicate paths left over when add paths to Path via deepsh.tools.EnvPath
 * Fix  Crash with FileNotFoundError when current working directory is deleted #4467
 * Completing a single-arg python code segment (e.g. ``@(/etc/hos<TAB>)``).
 * Fixed pipelines in WSL2
@@ -1031,7 +1031,7 @@ v0.10.1
 
 **Fixed:**
 
-* ``execx`` and ``xonsh -c`` previously exposed xonsh-internal code in global scope. They also did not support defining variables and then referring to them in comprehensions, generators, functions, or lambdas. - https://github.com/xonsh/xonsh/issues/4363
+* ``execx`` and ``deepsh -c`` previously exposed deepsh-internal code in global scope. They also did not support defining variables and then referring to them in comprehensions, generators, functions, or lambdas. - https://github.com/deepsh/deepsh/issues/4363
 * Short color token names can be used in ``register_custom_style()`` (#4339)
 
 **Authors:**
@@ -1046,19 +1046,19 @@ v0.10.0
 
 **Added:**
 
-* Added ability to set XONSH_HISTORY_FILE before loading the history backend.
+* Added ability to set DEEPSH_HISTORY_FILE before loading the history backend.
 * Added ability to get the arguments list in ExecAlias using ``$args`` and ``$arg<n>`` environment variables.
-* Added instruction how to run xonsh AppImage on Alpine
-* Xonsh now supports generators as completer functions.
+* Added instruction how to run deepsh AppImage on Alpine
+* Deepsh now supports generators as completer functions.
 * Completion Context - Allow completers to access a parsed representation of the current commandline context.
 * Added casting CommandPipeline to int, hash and str.
 * Ability to call the tool by the name from callable alias with the same name without the infinite loop error.
 * ``on wsl`` field when running xonfig (when linux is detected)
 * Help and superhelp (``obj?`` and ``obj??``) now use the ``__name__`` if available.
-* added ``$XONSH_GITSTATUS_FIELDS_TO_HIDE`` to hide unwanted fields from ``{gitstatus}`` prompt field.
+* added ``$DEEPSH_GITSTATUS_FIELDS_TO_HIDE`` to hide unwanted fields from ``{gitstatus}`` prompt field.
 * Added number of lines added and removed to gitstatus
 * Saving current working directory (cwd) to the history.
-* Added XONSH_HISTORY_SAVE_CWD environment variable.
+* Added DEEPSH_HISTORY_SAVE_CWD environment variable.
 * Added environment variable ``$COMPLETE_DOTS`` to specify how current and previous directories should be tab completed in cd  ('./', '../'):
     - ``always`` Always complete paths with ./ and ../
     - ``never`` Never complete paths with ./ and ../
@@ -1066,27 +1066,27 @@ v0.10.0
 * Complete ``import`` keyword in ``from ... import`` statements.
 * Enabled case-insensitive completions for the ``jedi`` xontrib.
 * Non-exclusive completers that enable aggregating multiple completer results.
-* New ``$XONSH_CAPTURE_ALWAYS`` variable for opt-in interactive capturing.
+* New ``$DEEPSH_CAPTURE_ALWAYS`` variable for opt-in interactive capturing.
   Since this capturing breaks background jobs and some interactive programs (like ``git`` invoking an editor),
   This behavior is now opt-in using this variable.
-  See https://github.com/xonsh/xonsh/pull/4283 and linked issues.
-* Wrap selection with quote/parens when ``$XONSH_AUTOPAIR=True``.
-* Now xonsh will work with Python 3.10. (Match statement is not supported).
-* In addition to reading single rc files at startup (``/etc/xonshrc``, ``~/.config/xonsh/rc.xsh``),
-  xonsh now also supports rc.d-style config directories, from which all files are sourced. This is
+  See https://github.com/deepsh/deepsh/pull/4283 and linked issues.
+* Wrap selection with quote/parens when ``$DEEPSH_AUTOPAIR=True``.
+* Now deepsh will work with Python 3.10. (Match statement is not supported).
+* In addition to reading single rc files at startup (``/etc/deepshrc``, ``~/.config/deepsh/rc.xsh``),
+  deepsh now also supports rc.d-style config directories, from which all files are sourced. This is
   designed to support drop-in style configuration where you could, for example, have a common config
   file shared across multiple machines and a separate machine specific file.
 
-  This is controlled by the environment variable ``XONSHRC_DIR``, which defaults to
-  ``["/etc/xonsh/rc.d", "~/.config/xonsh/rc.d"]``. If those directories exist, then any ``xsh`` files
+  This is controlled by the environment variable ``DEEPSHRC_DIR``, which defaults to
+  ``["/etc/deepsh/rc.d", "~/.config/deepsh/rc.d"]``. If those directories exist, then any ``xsh`` files
   contained within are sorted and then sourced.
-* Added xontrib-prompt-starship - Starship prompt in xonsh shell.
-* Added XONSH_SUBPROC_CAPTURED_PRINT_STDERR (default False) environment variable to hide unwanted printing the stderr when using captured object.
-* A ``$XONSH_TRACE_COMPLETIONS`` variable for completions debugging.
+* Added xontrib-prompt-starship - Starship prompt in deepsh shell.
+* Added DEEPSH_SUBPROC_CAPTURED_PRINT_STDERR (default False) environment variable to hide unwanted printing the stderr when using captured object.
+* A ``$DEEPSH_TRACE_COMPLETIONS`` variable for completions debugging.
 * Added warning about prompt-toolkit in the welcome message.
 * Added history backend name to the xonfig.
-* `xontrib-linuxbrew <https://github.com/eugenesvk/xontrib-linuxbrew>`_ to add Homebrew's shell environment to xonsh shell on Linux
-* Added xontrib-macro-lib - the library of the useful macros for the xonsh shell: https://github.com/anki-code/xontrib-macro-lib
+* `xontrib-linuxbrew <https://github.com/eugenesvk/xontrib-linuxbrew>`_ to add Homebrew's shell environment to deepsh shell on Linux
+* Added xontrib-macro-lib - the library of the useful macros for the deepsh shell: https://github.com/anki-code/xontrib-macro-lib
 
 **Changed:**
 
@@ -1095,10 +1095,10 @@ v0.10.0
 * The group of environment variables around history moved to the "Interactive Prompt History" section.
 * Disabled completing subpaths for commands in ``jedi``.
 * Improved ``which`` output for non-simple aliases
-* New json history will be in XONSH_DATA_DIR/history_json directory.
+* New json history will be in DEEPSH_DATA_DIR/history_json directory.
 * Completers for ``and/or``, ``&&/||/|`` and environment variables are now non-exclusive.
-* Disabled ptk copying words/lines to clipboard on deletion (can be re-enabled with ``$XONSH_COPY_ON_DELETE``).
-* Separated between ``XONSH_DEBUG`` and ``XONSH_NO_AMALGAMATE``. Setting ``XONSH_DEBUG=1`` now acts like ``XONSH_DEBUG=2`` before (basic information like input transformation, command replacement) and ``XONSH_DEBUG=2`` like ``XONSH_DEBUG=1`` before (more debugging information presented, like PLY parsing messages).
+* Disabled ptk copying words/lines to clipboard on deletion (can be re-enabled with ``$DEEPSH_COPY_ON_DELETE``).
+* Separated between ``DEEPSH_DEBUG`` and ``DEEPSH_NO_AMALGAMATE``. Setting ``DEEPSH_DEBUG=1`` now acts like ``DEEPSH_DEBUG=2`` before (basic information like input transformation, command replacement) and ``DEEPSH_DEBUG=2`` like ``DEEPSH_DEBUG=1`` before (more debugging information presented, like PLY parsing messages).
 * Cleaned up available aliases for ``shell_type``
 * Speedup commands-cache by saving results between runs and use the last run's result
 * The ``completer add`` command after the non-exclusive completers.
@@ -1108,25 +1108,25 @@ v0.10.0
 **Fixed:**
 
 * handle importing/decoding user modules with a 'UTF-8 with BOM' encoding (#4160)
-* Fixed XONSH_HISTORY_FILE that has the actual path from the history backend now
+* Fixed DEEPSH_HISTORY_FILE that has the actual path from the history backend now
 * Annotated assignments (``x: int = 42``, ``x: int``).
-* Fixed xpip sudo behavior in xonsh AppImage.
+* Fixed xpip sudo behavior in deepsh AppImage.
 * Prevent cancelled future errors for async prompt ($ENABLE_ASYNC_PROMPT) fields from bubbling up (and destroying the prompt's formatting)
 * $() no longer silently captures stderr
 * Added catching callable argument and raising appropriate exception
 * Crashing command-not-found output for bad file names on linux.
 * Fixed error message when an empty command is run
 * Fixed @$ crash when no output is sent out by the command
-* Fixed xonsh crash when launched using `xonsh -c '$("")'`
-* now abbrevs callback will not remove word from ``buffer.text``. See https://github.com/xonsh/xonsh/issues/3642#issuecomment-793789741
+* Fixed deepsh crash when launched using `deepsh -c '$("")'`
+* now abbrevs callback will not remove word from ``buffer.text``. See https://github.com/deepsh/deepsh/issues/3642#issuecomment-793789741
 * Fixed the incorrect SyntaxError that was thrown when a subprocess command was preceded by a comment ending with a colon
 * Fixed the missing auto-indentation in readline and prompt_toolkit when a statement ending with a colon was followed by a comment
 * Fixed the incorrect auto-indentation in prompt_toolkit when a comment ended with a colon
-* Fixed JSON history garbage collection for XONSH_HISTORY_SIZE in seconds.
+* Fixed JSON history garbage collection for DEEPSH_HISTORY_SIZE in seconds.
 * Fixed ``skip`` completer (completes ``sudo``, ``which`` and other commands).
 * In a subprocess command, having whitespace in between the left bracket and the command no longer raises a SyntaxError.
 * Reduced history reading when run script or command. Potential speed increasing.
-* Fixed crash on statup if XONSH_COLOR_STYLE is set to something invalid.
+* Fixed crash on statup if DEEPSH_COLOR_STYLE is set to something invalid.
 * Fixed the colorize and/or keywords.
 * Functions can be used for $TITLE, the same way as for $PROMPT. (#4148)
 * wsl detection works on archlinux wsl2 now (and hopefully everywhere)
@@ -1167,13 +1167,13 @@ v0.9.27
 * Add new internal command "disown" to remove background jobs from the shell's job list
 * Python3.9 issues with subscriptor forms fixed.
 * added `xontrib-cd <https://github.com/eugenesvk/xontrib-cd>`_
-* Added **xontrib-history-encrypt** - new history backend that encrypt the xonsh shell commands history to prevent leaking sensitive data. If you like the idea give a star to the repository https://github.com/anki-code/xontrib-history-encrypt
+* Added **xontrib-history-encrypt** - new history backend that encrypt the deepsh shell commands history to prevent leaking sensitive data. If you like the idea give a star to the repository https://github.com/anki-code/xontrib-history-encrypt
 
 **Changed:**
 
 * New awesome landing on https://xon.sh - feel free to share and tweet!
 * History files (json, sqlite) now have 600 (rw only for user) permission by default.
-* PTK(python-prompt-toolkit) is no longer vendored with xonsh.
+* PTK(python-prompt-toolkit) is no longer vendored with deepsh.
 
 **Fixed:**
 
@@ -1202,7 +1202,7 @@ v0.9.26
 
 **Fixed:**
 
-* now xonsh stdout delegates ``isatty`` to wrapped io stream.
+* now deepsh stdout delegates ``isatty`` to wrapped io stream.
 
 **Authors:**
 
@@ -1222,28 +1222,28 @@ v0.9.25
 * added `xontrib-powerline2 <https://github.com/vaaaaanquish/xontrib-powerline2>`_
 * Add '``|``' and '``|=``' operators to the ``Aliases`` class.
 * Add tests to the merging functionality.
-* Add "back2dir" xontrib (https://github.com/anki-code/xontrib-back2dir) - back to the latest used directory when starting xonsh shell.
+* Add "back2dir" xontrib (https://github.com/anki-code/xontrib-back2dir) - back to the latest used directory when starting deepsh shell.
 * show code-coverage for PRs
 * Added ``CommandPipeline.raw_out`` and ``CommandPipeline.raw_err`` to get stdout/err as raw bytes.
 * The ``@()`` operator now supports ``bytes`` objects.
 * index for history's sqlite-DB
 * support passing style from RichCompleter to PTK's Completer
-* ``xonsh.cli_utils`` to create cli from functions easily.
-* Python API for completer command with ``xonsh.completer`` module functions.
+* ``deepsh.cli_utils`` to create cli from functions easily.
+* Python API for completer command with ``deepsh.completer`` module functions.
 * Added new environment variable ``$PROMPT_TOKENS_FORMATTER``.
     That can be used to set a callable that receives all tokens in the prompt template.
     It gives option to format the prompt with different prefix based on other tokens values.
     Enables users to implement something like [powerline](https://github.com/vaaaaanquish/xontrib-powerline2)
     without resorting to separate $PROMPT_FIELDS. Works with ``ASYNC_PROMPT`` as well.
-    Check the `PR <https://github.com/xonsh/xonsh/pull/3922>`_ for a snippet implementing powerline
+    Check the `PR <https://github.com/deepsh/deepsh/pull/3922>`_ for a snippet implementing powerline
 * PTK style rules can be defined in custom styles using the ``Token.PTK`` token prefix.
   For example ``custom_style["Token.PTK.CompletionMenu.Completion.Current"] = "bg:#ff0000 #fff"`` sets the ``completion-menu.completion.current`` PTK style to white on red.
-* Added new environment variable ``XONSH_STYLE_OVERRIDES``. It's a dictionary containing pygments/ptk style definitions that overrides the styles defined by ``XONSH_COLOR_STYLE``.
+* Added new environment variable ``DEEPSH_STYLE_OVERRIDES``. It's a dictionary containing pygments/ptk style definitions that overrides the styles defined by ``DEEPSH_COLOR_STYLE``.
   For example::
 
-    $XONSH_STYLE_OVERRIDES["Token.Literal.String.Single"] = "#00ff00"  # green 'strings' (pygments)
-    $XONSH_STYLE_OVERRIDES["completion-menu"] = "bg:#ffff00 #000"  # black on yellow completion (ptk)
-    $XONSH_STYLE_OVERRIDES["Token.PTK.CompletionMenu.Completion.Current"] = "bg:#ff0000 #fff" # current completion is white on red (ptk via pygments)
+    $DEEPSH_STYLE_OVERRIDES["Token.Literal.String.Single"] = "#00ff00"  # green 'strings' (pygments)
+    $DEEPSH_STYLE_OVERRIDES["completion-menu"] = "bg:#ffff00 #000"  # black on yellow completion (ptk)
+    $DEEPSH_STYLE_OVERRIDES["Token.PTK.CompletionMenu.Completion.Current"] = "bg:#ff0000 #fff" # current completion is white on red (ptk via pygments)
 * support PTK's clipboard integration if pyperclip is installed.
     So that some common emacs like
     `cut/copy <https://github.com/prompt-toolkit/python-prompt-toolkit/blob/master/examples/prompts/system-clipboard-integration.py>`_
@@ -1251,11 +1251,11 @@ v0.9.25
 * Added Python 3.9 to continuous integration.
 * ``open in google cloud shell`` button 🤩
 * Respect ignorespace present in $HISTCONTROL
-* ``_get_normalized_pstring_quote`` returns a consistent set of prefixes, and the quote, for all path-string variants e.g. inputs ``pr'`` and ``rp'`` both produce the tuple ``("pr", "'")``. This function is used by ``xonsh.completers.complete_path`` and ``xonsh.completers._path_from_partial_string``.
+* ``_get_normalized_pstring_quote`` returns a consistent set of prefixes, and the quote, for all path-string variants e.g. inputs ``pr'`` and ``rp'`` both produce the tuple ``("pr", "'")``. This function is used by ``deepsh.completers.complete_path`` and ``deepsh.completers._path_from_partial_string``.
 * Added warning about huge amount of commands in CommandsCache that could affect on start speed.
-* New ``xonsh.procs`` subpackage for handling subprocess mode.
+* New ``deepsh.procs`` subpackage for handling subprocess mode.
 * Environment variable ``$COMPLETION_MODE`` controls kind of TAB completion used with prompt-toolkit shell.
-  ``default``, the default, retains prior Xonsh behavior: first TAB displays the common prefix of matching completions,
+  ``default``, the default, retains prior Deepsh behavior: first TAB displays the common prefix of matching completions,
   next TAB selects the first or next available completion.
   ``menu-complete`` enables TAB behavior like ``readline`` command ``menu-complete``.  First TAB selects the first matching
   completion, subsequent TABs cycle through available completions till the last one.  Next TAB after that displays
@@ -1283,9 +1283,9 @@ v0.9.25
 * Using ``ujson`` (if installed) in LazyJSON to loading json history 15% faster.
 * use requirements.txt env in both CI/local/pre-commit checks
 * add caching to CI jobs to improve speed
-* The change that allows Nuitka build the xonsh binary.
-* Remove ``p``, ``rp`` and ``pr`` prefix from partial p-string used in ``xonsh.completers._path_from_partial_string``, such that ``ast.literal_eval`` does not raise ``SyntaxError``. ``pr`` and ``rp`` strings are now treated internally as raw strings, but the p-string quote is correctly returned.
-* Increment the prefix length when the prefix input to ``xonsh.completers.complete_path`` is a p-string. This preserves the length of the prefix for path-string variants.
+* The change that allows Nuitka build the deepsh binary.
+* Remove ``p``, ``rp`` and ``pr`` prefix from partial p-string used in ``deepsh.completers._path_from_partial_string``, such that ``ast.literal_eval`` does not raise ``SyntaxError``. ``pr`` and ``rp`` strings are now treated internally as raw strings, but the p-string quote is correctly returned.
+* Increment the prefix length when the prefix input to ``deepsh.completers.complete_path`` is a p-string. This preserves the length of the prefix for path-string variants.
 * Pygments debug messages about cache will be shoen only in debug mode.
 * ``ulimit`` builtin now operates on "soft" limits by default.
 * tests for vc-branch should accept both master and main
@@ -1296,17 +1296,17 @@ v0.9.25
 
 **Deprecated:**
 
-* ``PTK_STYLE_OVERRIDES`` has been deprecated, its function replaced by ``XONSH_STYLE_OVERRIDES``
-* The ``xonsh.proc`` module has been deprecated. Please use the new
-  ``xonsh.procs`` subpackage instead. Deprecation warnings related to this
+* ``PTK_STYLE_OVERRIDES`` has been deprecated, its function replaced by ``DEEPSH_STYLE_OVERRIDES``
+* The ``deepsh.proc`` module has been deprecated. Please use the new
+  ``deepsh.procs`` subpackage instead. Deprecation warnings related to this
   have been added.
 
 **Removed:**
 
 * The deprecated ``foreground`` decorator has been removed.
   Please use ``unthreadable`` instead.
-* ``xonsh.proc.unthreadable`` and ``xonsh.proc.uncapturable``
-  have been moved to ``xonsh.tools``. Please import from
+* ``deepsh.proc.unthreadable`` and ``deepsh.proc.uncapturable``
+  have been moved to ``deepsh.tools``. Please import from
   this module instead.
 
 **Fixed:**
@@ -1321,19 +1321,19 @@ v0.9.25
   pytest test_worker::<TAB>
 * Colorize ``and``/``or`` operators correctly like ``&&``/``||``
 * Speed of CommandsCache increased when aliases have multiple updates (i.e. init conda).
-* Now when loading RC files, xonsh will not fail to import modules located on
+* Now when loading RC files, deepsh will not fail to import modules located on
   the same folder.
 * Setting an alias with IO redirections (e.g ``ls | wc``) now works correctly.
-* PTK shell: ``window has no childres`` error while completion is triggered - https://github.com/xonsh/xonsh/issues/3963
-* make_xontrib - typerror - https://github.com/xonsh/xonsh/issues/3971
+* PTK shell: ``window has no childres`` error while completion is triggered - https://github.com/deepsh/deepsh/issues/3963
+* make_xontrib - typerror - https://github.com/deepsh/deepsh/issues/3971
 * Fix libc detection on FreeBSD
 * Fix uptime functionality on FreeBSD
 * Updated History Backend tutorial.
 * enabled flake8 warning on ambiguous names. it is fun naming variables in coded words until oneday it looks like encrypted.
-* Added ANSI fallback for ``xonsh.tools.print_color`` if shell is not yet initialized. Fixes #3840.
+* Added ANSI fallback for ``deepsh.tools.print_color`` if shell is not yet initialized. Fixes #3840.
 * ``./run-tests.xsh`` without arguments previously gave an esoteric error. It
   now prints help on how to run the tests.
-* The git customisation example in the .xonshrc docs uses the right module name
+* The git customisation example in the .deepshrc docs uses the right module name
 
 **Authors:**
 
@@ -1367,8 +1367,8 @@ v0.9.24
 
 **Added:**
 
-* Ability to register custom styles via ``xonsh.pyghooks.register_custom_style``
-* Add method of escaping an environment variable from expansion to the Bash to Xonsh Translation Guide.
+* Ability to register custom styles via ``deepsh.pyghooks.register_custom_style``
+* Add method of escaping an environment variable from expansion to the Bash to Deepsh Translation Guide.
 * added mypy to the project. many of the errors are ignored. but it is a start.
 * Added example of subproc calling to the tutorial.
 * New xontrib-sh (https://github.com/anki-code/xontrib-sh) to paste and run snippets from bash, zsh, fish.
@@ -1376,8 +1376,8 @@ v0.9.24
 **Changed:**
 
 * Now ``COMPLETIONS_CONFIRM`` is ``True`` by default.
-* ``xonsh.AppImage`` python version pinned to 3.8.
-* Cookiecutter template to creating new xontribs has many improvements (https://github.com/xonsh/xontrib-cookiecutter).
+* ``deepsh.AppImage`` python version pinned to 3.8.
+* Cookiecutter template to creating new xontribs has many improvements (https://github.com/deepsh/xontrib-cookiecutter).
 * Docs sections improvement.
 
 **Removed:**
@@ -1420,38 +1420,38 @@ v0.9.23
 * Use command_cache when finding available commands, to speedup command-not-found suggestions
 * Added Visual Studio Code (VSCode) extension and Vim syntax file to the Editors page.
 * Added ``exit(exit_code)`` function by default in not interactive mode. Now importing ``exit`` from ``sys`` is not needed.
-* Added Python syntax highlighting of xsh files on Github repo xonsh/xonsh
+* Added Python syntax highlighting of xsh files on Github repo deepsh/deepsh
 * history clear, history off and history on actions, for managing whether history in the current session is saved.
 * ValueErrors from environ.register now report the name of the bad env var
 * Add a new color ``DEFAULT`` that is used to designate the terminal's default color.
 * Add a new special color token ``RESET`` used to reset all attributes.
-* Add a new xonsh tool 'print_warning' that prints a traceback with a warning message.
-* Added `xontrib-onepath <https://github.com/anki-code/xontrib-onepath>`_ to associate files with apps in xonsh shell like in graphical OS.
-* Added ``print_color`` and ``printx`` functions to builtins as reference to ``xonsh.tools.print_color``.
+* Add a new deepsh tool 'print_warning' that prints a traceback with a warning message.
+* Added `xontrib-onepath <https://github.com/anki-code/xontrib-onepath>`_ to associate files with apps in deepsh shell like in graphical OS.
+* Added ``print_color`` and ``printx`` functions to builtins as reference to ``deepsh.tools.print_color``.
 * Added to xontrib whole_word_jumping: Shift+Delete hotkey to delete whole word.
 * Added "Advanced String Literals" to the "Tutorial".
-* ``xonfig jupyter-kernel`` new subcommand to generate xonsh kernel spec for jupyter.
-  Installing a new xonsh kernel for jupyter automatically removes any other one registered with jupyter,
+* ``xonfig jupyter-kernel`` new subcommand to generate deepsh kernel spec for jupyter.
+  Installing a new deepsh kernel for jupyter automatically removes any other one registered with jupyter,
   otherwise the new one might not be used.
 * Added xontrib ``powerline-binding`` (https://github.com/dyuri/xontrib-powerline-binding) - uses ``powerline`` to render the prompt.
 
 **Changed:**
 
-* Improved printing of xonsh ``--shell-type`` argument in help message.
-* "Bash to Xonsh Translation Guide" improvements.
+* Improved printing of deepsh ``--shell-type`` argument in help message.
+* "Bash to Deepsh Translation Guide" improvements.
 * More stable exception handling in the tab completer.
 * Changed sections order in docs
 * The ``path`` type in ``${...}.register`` was renamed to ``env_path`` as it should be and added
   new ``path`` type instead that represent ``pathlib.Path``. Now you can register typed environment
   variables that will be converted to ``Path``.
-* xonsh/environ.py: new rule: for "registered" environment variables (in ``DEFAULT_VARS`` or via ``env.register()``),
+* deepsh/environ.py: new rule: for "registered" environment variables (in ``DEFAULT_VARS`` or via ``env.register()``),
   if default is set to ``DefaultNotGiven``, then variable has no default and raises ``KeyError`` if it is not
-  actually defined in environment.  Likewise, ``"var" in __xonsh__.env`` will return False.
+  actually defined in environment.  Likewise, ``"var" in __deepsh__.env`` will return False.
 * Changed defaults for ANSICON, TERM and VIRTUAL_ENV to ``DefaultNotGiven``, so code can rationally test whether
-  the expected external program has defined these variables.  No need to do this for variables that xonsh
+  the expected external program has defined these variables.  No need to do this for variables that deepsh
   itself defines.
 * Moved internal uses of ``NO_COLOR`` to ``RESET``.
-* When retrieving the git status or other fields for building the prompt xonsh will run
+* When retrieving the git status or other fields for building the prompt deepsh will run
   the git commands with ``$GIT_OPTIONAL_LOCKS=0``.  For details on what this entails see
   the git documentation for
   `GIT_OPTIONAL_LOCKS <https://git-scm.com/docs/git#Documentation/git.txt-codeGITOPTIONALLOCKScode/>`_.
@@ -1460,7 +1460,7 @@ v0.9.23
   hitting TAB when in insert mode inserts TAB, as heretofore.  This more exactly follows behavior of readline ``menu-complete``.
   There is no configuration option for tailoring this behavior.
 * ``xonfig info`` displays whether jupyter detected in environment and
-  also path of xonsh jupyter kernel spec, if any.
+  also path of deepsh jupyter kernel spec, if any.
 * xontrib-argcomplete and xontrib-pipeliner description improvement.
 
 **Deprecated:**
@@ -1483,7 +1483,7 @@ v0.9.23
   failing due to this.
 * Fixed environment variables substitution: unknown variables stay unreplaced now (#3818).
 * Fixed xpg xontrib link
-* Fix crash when xonsh tries to run windows app execution aliases.
+* Fix crash when deepsh tries to run windows app execution aliases.
 * Setup wasn't consistently detecting jupyter in environment; ``python setup.py install`` worked, but
   ``pip install .`` wouldn't (because pip mucks with ``sys.path``),
   nor would install from wheel (because it doesn't run ``setup.py``).
@@ -1522,12 +1522,12 @@ v0.9.22
   conda packages.
 * Borrow shift-selection from prompt-toolkit. Shift-arrow (selects a letter) and control-shift-arrow (selects a word) should now be supported.
 * Documentation for keyboard shortcuts
-* Xonsh now supports bash-style variable assignments preceding
+* Deepsh now supports bash-style variable assignments preceding
   subprocess commands (e.g. ``$FOO="bar" bash -c r"echo $FOO"``).
 
 **Changed:**
 
-* Added the fastest way to run xonsh AppImage to the docs.
+* Added the fastest way to run deepsh AppImage to the docs.
 * ``command_not_found()`` is now a wrapper function that finds packages for missing
   commands in a variety of locations. This function now also takes an ``env`` argument
   for looking up values in the enviornment.
@@ -1538,7 +1538,7 @@ v0.9.22
 **Fixed:**
 
 * crash when starting wizard by ``xonfig wizard``
-  xonsh.environ: ensure get_docs(name).doc_default is str when name is not registered.
+  deepsh.environ: ensure get_docs(name).doc_default is str when name is not registered.
 * Fixed issue where xontribs were failing from ``AttributeError: '_MergedKeyBindings' object has no attribute 'add'``
 
 **Authors:**
@@ -1557,14 +1557,14 @@ v0.9.21
 
 **Added:**
 
-* ``xonsh-in-docker.py`` script now has ``--pytest`` parameter,
+* ``deepsh-in-docker.py`` script now has ``--pytest`` parameter,
   that automates pytest installation into the Docker container.
 * Setup extras tag '[full]' to install prompt-toolkit and pygments in one fell swoop.
-  Full feature install can be ``pip install xonsh[full]``.
+  Full feature install can be ``pip install deepsh[full]``.
 * Support for PEP 570 positional-only parameters.
 * Support for starred expressions within return statement
   (``return x, *my_list``).
-* Xonsh now runs in Python 3.9
+* Deepsh now runs in Python 3.9
 * ``vox`` xontrib now supports ``new --activate`` and ``deactivate --remove``
   to create + activate and deactivate + remove virtual environments in a single
   command.
@@ -1576,8 +1576,8 @@ v0.9.21
 
 **Fixed:**
 
-* Fixed incorrect reference to XONSH_HIST_SIZE instead of XONSH_HISTORY_SIZE
-* RST code-block:: xonshcon now works.
+* Fixed incorrect reference to DEEPSH_HIST_SIZE instead of DEEPSH_HISTORY_SIZE
+* RST code-block:: deepshcon now works.
 * Non-default parameters can not follow defaults anymore.
 * Fixed parser not emmiting errors in some cases.
 
@@ -1617,38 +1617,38 @@ v0.9.20
 * New ``Env.rawkeys()`` iterator for iterating over all keys in an environment,
   not just the string keys like with ``__iter__()``.
 * New landing page for https://xon.sh
-* Added xonsh AppImage to the GitHub release assets
-* xonsh now comes with a bulitin version of prompt-toolkit (3.0.5) which will be used as fall back if prompt_toolkit is not installed.
+* Added deepsh AppImage to the GitHub release assets
+* deepsh now comes with a bulitin version of prompt-toolkit (3.0.5) which will be used as fall back if prompt_toolkit is not installed.
 * Support for Python 3.8 PEP 572 assignment expressions (walrus operator).
 
 **Changed:**
 
-* custom startup scripts replaced by setup.py -generated (console) entrypoint scripts for both xonsh and xonsh-cat.
-  This means xonsh.bat and xonsh-cat.bat are replaced on Windows by xonsh.exe and xonsh-cat.exe, respectively.
+* custom startup scripts replaced by setup.py -generated (console) entrypoint scripts for both deepsh and deepsh-cat.
+  This means deepsh.bat and deepsh-cat.bat are replaced on Windows by deepsh.exe and deepsh-cat.exe, respectively.
 
 **Fixed:**
 
-* Iterating over ``${...}`` or ``__xonsh__.env`` yields only string
+* Iterating over ``${...}`` or ``__deepsh__.env`` yields only string
   values again.
 * List comprehensions do not ignore the second and subsequent ``if`` clauses
   in multi-if comprehension expressions any more.
-* Xonsh can now fully handle special Xonsh syntax within f-strings, including
+* Deepsh can now fully handle special Deepsh syntax within f-strings, including
   environmnent variables within ``${}`` operator and captured subprocess
   expansion within f-string expressions.
-* Avoid startup error on Windows when py.exe chooses wrong python interpreter to run xonsh.
+* Avoid startup error on Windows when py.exe chooses wrong python interpreter to run deepsh.
   When multiple interpreters are in PATH, 'py' will choose the first one (usually in the virtual environment),
   but 'py -3' finds the system-wide one, apparently by design.
 
-* For xonsh-cat, avoid parsing and processing first (0'th) argument when invoked directly from OS shell.
+* For deepsh-cat, avoid parsing and processing first (0'th) argument when invoked directly from OS shell.
 * Run control files are now read in with ``$THREAD_SUBPROCS`` off.
-  This prevents a weird error when starting xonsh from Bash (and
-  possibly other shells) where the top-level xonsh process would
+  This prevents a weird error when starting deepsh from Bash (and
+  possibly other shells) where the top-level deepsh process would
   be stopped and placed into the background during startup. It
   may be necessary to set ``$THREAD_SUBPROCS=False`` in downstream
-  xonsh scripts and modules.
+  deepsh scripts and modules.
 * Fixed installation issues where generated files (like the parser table and
   amalgamated modules) were not installed.
-* The xonsh test suite has been cleaned up. So no more failing test. Hopefully.
+* The deepsh test suite has been cleaned up. So no more failing test. Hopefully.
 * Addressed robustness issue with ``"locked"`` history key not
   being present at startup.
 * ``vox`` xontrib works again with the new environment defaults.
@@ -1676,14 +1676,14 @@ v0.9.19
 * JsonHistoryGC: display following warning when garbage collection would delete "too" much data and don't delete anything.
 
   "Warning: History garbage collection would discard more history ({size_over} {units}) than it would keep ({limit_size}).\n"
-  "Not removing any history for now. Either increase your limit ($XONSH_HISTORY_SIZE), or run ``history gc --force``.",
+  "Not removing any history for now. Either increase your limit ($DEEPSH_HISTORY_SIZE), or run ``history gc --force``.",
 
-  It is displayed when the amount of history on disk is more than double the limit configured (or defaulted) for $XONSH_HISTORY_SIZE.
+  It is displayed when the amount of history on disk is more than double the limit configured (or defaulted) for $DEEPSH_HISTORY_SIZE.
 * $LS_COLORS code 'mh' now recognized for (multi) hard-linked files.
 * $LS_COLORS code 'ca' now recognized for files with security capabilities (linux only).
 * CI step to run flake8 after pytest.
 * RichCompletion for completions with different display value, description and prefix_len.
-* Allow completer access to multiline document when available via ``xonsh.completers.tools.get_ptk_completer().current_document``.
+* Allow completer access to multiline document when available via ``deepsh.completers.tools.get_ptk_completer().current_document``.
 * ``abbrevs`` word expasion can now be reverted by pressing
   the space bar second time immediately after the previous
   word got expanded.
@@ -1693,26 +1693,26 @@ v0.9.19
 
 **Changed:**
 
-* Xonsh now launches subprocesses with their ``argv[0]`` argument containing
+* Deepsh now launches subprocesses with their ``argv[0]`` argument containing
   the command exactly as inserted by the user instead of setting it to the
   resolved path of the executable. This is for consistency with bash and other
   shells.
 * Added ability to register, deregister environment variables;
   centralized environment default variables
 * Added exit to the "Bash to xsh" article.
-* xonsh.main _failback_to_other_shells now tries user's login shell (in $SHELL) before trying system wide shells from /etc/shells.
-* The current working directory is now correctly obtained in line 501 of xonsh/parsers/base.py
+* deepsh.main _failback_to_other_shells now tries user's login shell (in $SHELL) before trying system wide shells from /etc/shells.
+* The current working directory is now correctly obtained in line 501 of deepsh/parsers/base.py
 * Garbage collection avoids deleting history and issues a warning instead if existing history is more than double the comfigured limit.
   This protects active users who might have accumulated a lot of history while a bug was preventing garbage collection.  The warning
-  will be displayed each time Xonsh is started until user takes action to reconcile the situation.
-* ``tests\test_integrations.py`` no longer runs with XONSH_DEBUG=1 (because new, debug-only progress messages from history were breaking it).
+  will be displayed each time Deepsh is started until user takes action to reconcile the situation.
+* ``tests\test_integrations.py`` no longer runs with DEEPSH_DEBUG=1 (because new, debug-only progress messages from history were breaking it).
 * Updated pytest_plugin for pytest 5.4 API, pip requirements for pytest>= 5.4
 * Major improvements to Jedi xontrib completer:
     * Use new Jedi API
     * Replace the existing python completer
     * Create rich completions with extra info
     * Use entire multiline document if available
-    * Complete xonsh special tokens
+    * Complete deepsh special tokens
     * Be aware of _ (last result)
     * Only show dunder attrs when prefix ends with '_'
 * Many files are starting to be formatted using ``pyupgrade --py36-plus``, in order to automatically update to newer
@@ -1728,9 +1728,9 @@ v0.9.19
 
 * Removed history replay
 * pytest-flake8 package from requirements\*.txt
-* Xonsh now relies exclusively on Setuptools for install.
+* Deepsh now relies exclusively on Setuptools for install.
 * Compatibility with Python 3.5 has been removed as well as all related code. In
-  particular xonsh.inspector does not defined ``getouterframes`` anymore, use
+  particular deepsh.inspector does not defined ``getouterframes`` anymore, use
   ``inspect.getouterframe`` directly.
 
 **Fixed:**
@@ -1740,13 +1740,13 @@ v0.9.19
 * Fixed help operator not displaying definition for callables.
 * JsonHistory.files(): Now once again enumerates history files from the directory.  This has been broken for about 2 years.
 * JsonHistory.run_gc(): Don't busy loop while waiting for history garbage collection to complete, sleep a bit instead.
-  This does much to keep Xonsh ptk_shell responsive when dealing with very large history on disk.
+  This does much to keep Deepsh ptk_shell responsive when dealing with very large history on disk.
 * Fixed JSON history indexing error.
 * Fixed syntax error in scripts containing line continuation syntax.
 * $LS_COLORS code 'fi' now used for "regular files", as it should have been all along. (was 'rs')
-  See (#3608)[https://github.com/xonsh/xonsh/issues/3608].
+  See (#3608)[https://github.com/deepsh/deepsh/issues/3608].
 * pyghooks.color_files now follows implememntation of ls --color closely.  Thanks @qwenger!
-  However, a few documented differences remain due to use in Xonsh.
+  However, a few documented differences remain due to use in Deepsh.
 
 * $LS_COLORS['ln'] = 'target' now works.  Also fixes #3578.
 * Fixed exit code for commands executed via ``-c`` (#3402)
@@ -1802,10 +1802,10 @@ v0.9.18
 **Changed:**
 
 * $SHELL_TYPE "prompt_toolkit" with any suffix creates the "prompt_toolkit" shell, requires package prompt-toolkit >= 2.0
-* Moved code from package xonsh.ptk2 to xonsh.ptk_shell (because it's the only one now); package xonsh.ptk2 redirects thence.
-* Added extremely simplified xonsh AppImage building process.
-* Added examples of usage $XONSH_TRACE_SUBPROC to the docs
-* Use UTF-8 encoding when writing .xonshrc with webconfig for Windows compatibility
+* Moved code from package deepsh.ptk2 to deepsh.ptk_shell (because it's the only one now); package deepsh.ptk2 redirects thence.
+* Added extremely simplified deepsh AppImage building process.
+* Added examples of usage $DEEPSH_TRACE_SUBPROC to the docs
+* Use UTF-8 encoding when writing .deepshrc with webconfig for Windows compatibility
 
 **Deprecated:**
 
@@ -1813,7 +1813,7 @@ v0.9.18
 
 **Removed:**
 
-* package xonsh.ptk
+* package deepsh.ptk
 
 **Fixed:**
 
@@ -1897,8 +1897,8 @@ v0.9.15
 
 **Added:**
 
-* Adds documentation for how to setup an emacs editing mode for xonsh.
-* New ``$XONSH_TRACE_SUBPROC`` environment variable.
+* Adds documentation for how to setup an emacs editing mode for deepsh.
+* New ``$DEEPSH_TRACE_SUBPROC`` environment variable.
 * Added ``-l``, ``-c`` and ``-a`` options to ``xexec``, works now like ``exec``
   in bash/zsh
 * **$HISTCONTROL** - *errordups* support for history-sqlite backend
@@ -1906,7 +1906,7 @@ v0.9.15
 **Changed:**
 
 * ``-l`` switch works like bash, loads environment in non-interactive shell
-* The xonsh pytest plugin no longer messes up the test order for pytest. Xsh test
+* The deepsh pytest plugin no longer messes up the test order for pytest. Xsh test
   are still executed first to avoid a bug were other tests would prevent ``test_*.xsh``
   files to run correctly.
 * New repo name for xxh
@@ -1919,7 +1919,7 @@ v0.9.15
 * Fixed issue where negative exit codes (such as those produced
   by core dumps) where treated as logical successes when chaining
   processes with other boolean expressions.
-* Fixed XONSH_TRACE_SUBPROC for pipeline command.
+* Fixed DEEPSH_TRACE_SUBPROC for pipeline command.
 * updated CONTRIBUTING.rst about running pylint for changed files
 
 **Authors:**
@@ -1942,9 +1942,9 @@ v0.9.14
 
 **Added:**
 
-* Added building process of standalone rootless AppImage for xonsh.
+* Added building process of standalone rootless AppImage for deepsh.
 * pyproject.toml -- so vscode can use black as python formatter interactively
-* The ``xonsh/interactive`` container has been added, in addition to the previous ``xonsh/xonsh`` and ``xonsh/action`` containers. See https://hub.docker.com/u/xonsh
+* The ``deepsh/interactive`` container has been added, in addition to the previous ``deepsh/deepsh`` and ``deepsh/action`` containers. See https://hub.docker.com/u/deepsh
 * New ``$THREAD_SUBPROCS`` environment variable allows you to
   specify whether threadable subprocesses should actually be
   run in a thread or not.  Default ``True``.
@@ -1953,19 +1953,19 @@ v0.9.14
 * file pyproject.toml containing config rules for black formatter consistent with flake8
 * New ``umask`` utility to view or set the file creation mask
 * New ``xonfig web`` command that launches a web UI (in your browser) that
-  allows users to configure their ``$XONSH_COLOR_STYLE``, ``$PROMPT``, and
+  allows users to configure their ``$DEEPSH_COLOR_STYLE``, ``$PROMPT``, and
   loaded xontribs in an interactive way. This is the prefered way to initialize
-  the ``~/.xonshrc`` file on a new system or for new users.  It supersedes the
+  the ``~/.deepshrc`` file on a new system or for new users.  It supersedes the
   old ``xonfig wizard`` command.
-* New ``xonsh.webconfig`` subpackage for creating and launching ``xonfig web``.
+* New ``deepsh.webconfig`` subpackage for creating and launching ``xonfig web``.
 * Added ``localtime`` entry to the ``$PROMPT_FIELDS`` dictionary, allowing users
   to easily place the current time in their prompt. This can be formatted with
   the ``time_format`` entry of ``$PROMPT_FIELDS``, which defaults to ``"%H:%M:%S"``.
-  These are implemented in the new ``xonsh.prompt.times`` module.
-* The ``html`` module in ``xonsh.lazyimps`` was added to lazily import
+  These are implemented in the new ``deepsh.prompt.times`` module.
+* The ``html`` module in ``deepsh.lazyimps`` was added to lazily import
   ``pygments.formatters.html``.
-* New ``xonsh.pyghooks.XonshHtmlFormatter`` class that enables HTML formatting of
-  xonsh color strings.
+* New ``deepsh.pyghooks.DeepshHtmlFormatter`` class that enables HTML formatting of
+  deepsh color strings.
 
 **Changed:**
 
@@ -1973,9 +1973,9 @@ v0.9.14
   Yet another approximation of ls -c file coloring behavior.
 * file setup.cfg to declare flake8 rules for all tools (not just pytest)
 * Moved python 3.8 parsing out of base parser
-* The ``xonsh.pyghooks.XonshLexer`` now inherits from ``Python3Lexer``,
+* The ``deepsh.pyghooks.DeepshLexer`` now inherits from ``Python3Lexer``,
   rather than ``PythonLexer``.
-* ``xonsh.pyghooks.XonshStyle`` now presents the ``highlight_color`` and
+* ``deepsh.pyghooks.DeepshStyle`` now presents the ``highlight_color`` and
   ``background_color`` from the underlying style correctly.
 
 **Removed:**
@@ -1984,7 +1984,7 @@ v0.9.14
 
 **Fixed:**
 
--  `[color] in .gitconfig (#3427) <https://github.com/xonsh/xonsh/issues/3427>`_ now stripped from {curr\_branch}
+-  `[color] in .gitconfig (#3427) <https://github.com/deepsh/deepsh/issues/3427>`_ now stripped from {curr\_branch}
 
   - `Before <https://i.imgur.com/EMhPdgU.png>`_
   - `After <https://i.imgur.com/sJiqgsb.png>`_
@@ -1994,13 +1994,13 @@ v0.9.14
 * Pressing ``Ctrl+Z`` no longer deadlocks the terminal,
   allowing further input from the user, even for threaded
   subprocesses.
-* ``XonshImportHook.get_source()`` now takes a dotted module name instead of a file path, as it should
+* ``DeepshImportHook.get_source()`` now takes a dotted module name instead of a file path, as it should
 * Fixed documentation on environment variable ``$PROMPT_REFRESH_INTERVAL``.
 * Using rmtree on windows no longer attempts to use invalid ``rm`` command
   and uses ``del`` instead.
 * Avoid crash in SubprocessSpec._run_binary() when command line has 2 real subprocesses piped together.
 * Fixed an issue on Windows where pressing ctrl-c could sometimes result
-  in a traceback if the process had already quit before being killed by xonsh.
+  in a traceback if the process had already quit before being killed by deepsh.
 * Modified base_shell._TeeStdBuf to feed bytes not str to console window under VS Code.
 * Command line with leading whitespace improperly formated (PTK2/PTK3).
 * Fix Ctrl-C event causing Atribute error on Windows (for reals this time).
@@ -2034,7 +2034,7 @@ v0.9.13
 **Changed:**
 
 * The ``$LS_COLORS`` environment variable will no longer raise exceptions when trying
-  to convert ANSI color sequences to xonsh color names.
+  to convert ANSI color sequences to deepsh color names.
 
 **Removed:**
 
@@ -2051,7 +2051,7 @@ v0.9.13
 * Fix Added OpenBSD as a platform
 
 * Fix Corrected aliases for OpenBSD to not include ``--color=auto`` and ``-v``
-* Fixed a regession with xonsh superhelp ``??`` operator and ``which -v`` which showed Pythons builtin
+* Fixed a regession with deepsh superhelp ``??`` operator and ``which -v`` which showed Pythons builtin
   doc strings.
 
 **Authors:**
@@ -2068,7 +2068,7 @@ v0.9.12
 **Added:**
 
 * Added ``autovox`` xontrib
-* ``xonsh.lib.itertools.as_iterable`` for making sure that strings are turned into iterables
+* ``deepsh.lib.itertools.as_iterable`` for making sure that strings are turned into iterables
 * The ``percol`` command no longer predicts as threadable.
 
 **Changed:**
@@ -2081,26 +2081,26 @@ v0.9.12
 **Fixed:**
 
 * Fixed missing ANSI color modifiers which causes traceback when they were used by ``$LS_COLORS``.
-* gray empty bottom bar when using $XONSH_UPDATE_PROMPT_ON_KEYPRESS
-* ``xonsh.lib.subprocess.check_output()`` now properly captures output.
+* gray empty bottom bar when using $DEEPSH_UPDATE_PROMPT_ON_KEYPRESS
+* ``deepsh.lib.subprocess.check_output()`` now properly captures output.
 * Correct ANSI colors for the default color scheme to stop suppressing the bold / italic / underline modifiers.
 * tab completion for cd correctly handles the CDPATH environment variable
 * On Windows, send ``CTRL_C_EVENT`` to subprocesses instead of ``SIGINT``.
-* ``xonsh`` will return a non-zero exit code if it is run in file mode and
+* ``deepsh`` will return a non-zero exit code if it is run in file mode and
   cannot find the file specified, e.g.
 
   .. code-block::
 
-     $ xonsh thisfiledoesntexist.xsh
-     xonsh: thisfiledoesntexist.xsh: No such file or directory.
+     $ deepsh thisfiledoesntexist.xsh
+     deepsh: thisfiledoesntexist.xsh: No such file or directory.
      $ _.returncode
      1
 * Fixed issue with Jedi xontrib incorrectly raising errors
   during tab completion.
 * Defining functions inside of the shell no longer crashes on Python 3.8.
-* The encoding for xonsh script are now always assumed to be utf-8, even on
+* The encoding for deepsh script are now always assumed to be utf-8, even on
   Windows where the default encoding can be different. This allows for writing
-  real unicode characters in the xonsh script files.
+  real unicode characters in the deepsh script files.
 
 **Authors:**
 
@@ -2189,21 +2189,21 @@ v0.9.9
 
 **Changed:**
 
-* Changed ``XonshSession.link_builtins`` to set a ``DynamicAccessProxy`` for each ``builtin`` link
+* Changed ``DeepshSession.link_builtins`` to set a ``DynamicAccessProxy`` for each ``builtin`` link
 * ``events`` is now unlinked from ``builtins``
 
 **Removed:**
 
 * Removed ``DeprecationWarningProxy``; no longer needed
-* Removed ``load_proxies`` and ``unload_proxies``; moved functionality to ``XonshSession.link_builtins``, ``XonshSession.unlink_builtins``, respectively.
-* Removed deprecated ``builtin.__xonsh_*__`` alises, please use ``builtins.__xonsh__.*`` instead.
+* Removed ``load_proxies`` and ``unload_proxies``; moved functionality to ``DeepshSession.link_builtins``, ``DeepshSession.unlink_builtins``, respectively.
+* Removed deprecated ``builtin.__deepsh_*__`` alises, please use ``builtins.__deepsh__.*`` instead.
 
 **Fixed:**
 
 * Added proxied ``__dir__`` method to ``DynamicAccessProxy`` to restore
   tab-completion for objects that use the proxy (especially ``events``)
 * Avoid displaying finished tasks in title.
-* ``inspect.getsource`` now works correctly and the ``__xonsh__.execer`` resets
+* ``inspect.getsource`` now works correctly and the ``__deepsh__.execer`` resets
   ``<filename>`` correctly.  This was causing several very strange buggy
   behaviors.
 * Hitting ``Enter`` while ``$VI_MODE=True`` now executes the current code block
@@ -2253,7 +2253,7 @@ v0.9.7
 
 **Fixed:**
 
-* Updated py-bash-completion that is vended with xonsh to v0.2.6 which
+* Updated py-bash-completion that is vended with deepsh to v0.2.6 which
   includes a fix completion which uses a subshell environment and a
   fix for string index error in stripped prefix.
 * Removed obsolte "Alt+." keybinding in xontrib-bashisms that was causing built-in binding to malfunction.
@@ -2279,8 +2279,8 @@ v0.9.6
 * Fixed issue where the prompt-toolkit2 shell could not display and
   would end up in an infinite error loop if ``$MULTILINE_PROMPT``
   was a suitably "false" value, such as ``None`` or an empty string.
-* Fixed issue where setting ``$XONSH_STDERR_PREFIX`` and ``$XONSH_STDERR_POSTFIX``
-  and running a command in the ``xonshrc`` file would throw an error.
+* Fixed issue where setting ``$DEEPSH_STDERR_PREFIX`` and ``$DEEPSH_STDERR_POSTFIX``
+  and running a command in the ``deepshrc`` file would throw an error.
 
 **Authors:**
 
@@ -2321,7 +2321,7 @@ v0.9.4
 
 **Changed:**
 
-* Xonsh now does not attempt to expand raw strings, so now::
+* Deepsh now does not attempt to expand raw strings, so now::
 
     $ echo "$HOME"
     /home/user
@@ -2382,7 +2382,7 @@ v0.9.2
 **Fixed:**
 
 * Updated setup.py to require Python 3.4 using the ``python_requires`` keyword.
-  This rectifies issues with pip installing xonsh. Python 3.4 support will
+  This rectifies issues with pip installing deepsh. Python 3.4 support will
   be removed on the following release.
 
 **Authors:**
@@ -2420,7 +2420,7 @@ v0.9.0
   implemented.
 * asciinema (terminal recorder) added in not threadable commands.
 * tput added in not threadable commands.
-* New ``color_tools.KNOWN_XONSH_COLORS`` frozenset.
+* New ``color_tools.KNOWN_DEEPSH_COLORS`` frozenset.
 * New ``pyghooks.PYGMENTS_MODIFIERS`` mapping from color modifier names to
   pygments colors.
 * New ``pyghooks.color_name_to_pygments_code()`` function for converting
@@ -2462,7 +2462,7 @@ v0.9.0
 * Fixed crash while parsing invalid ANSI color code
 * fix causing infinite loop when doing ``cat`` empty file
 * Fixed issue which occurs when user doesn't have access to parent directory and
-  xonsh scan all parents directory to find if we are in a Hg repository.
+  deepsh scan all parents directory to find if we are in a Hg repository.
 * Fixed issue with pygments-cache not properly generating a cache the first
   time when using prompt-toolkit when using ``ptk2``.
   This was due to a lingering lazy import of ``pkg_resources``
@@ -2471,7 +2471,7 @@ v0.9.0
 * Fixed a "'NoneType' object is not iterable" bug when looking up ``stty``
   in command cache.
 * The release tarball now includes all test files.
-* Arguments passed to python in 'scripts/xonsh' and in 'scripts/xonsh-cat' are
+* Arguments passed to python in 'scripts/deepsh' and in 'scripts/deepsh-cat' are
   now passed by a portable hack in sh, not anymore by /usr/bin/env.
 
 **Authors:**
@@ -2501,8 +2501,8 @@ v0.8.12
   SLOWBLINK, FASTBLINK, INVERT, CONCEAL, and STRIKETHROUGH.
 * New ``ansi_tools.ansi_color_name_to_escape_code()`` function for
   converting a color name to an ANSI escape code.
-* ``color_tools.RE_XONSH_COLOR`` is a regular expression for matching
-  xonsh color names.
+* ``color_tools.RE_DEEPSH_COLOR`` is a regular expression for matching
+  deepsh color names.
 * ``color_tools.iscolor()`` is a simple function for testing whether a
   string is a valid color name or not.
 * The ``tools.all_permutations()`` function yields all possible permutations
@@ -2538,17 +2538,17 @@ v0.8.11
 
 **Added:**
 
-* New ``xonsh.color_tools.short_to_ints()`` function for directly
+* New ``deepsh.color_tools.short_to_ints()`` function for directly
   converting a short (0 - 256) color into a 3-tuple of ints
   representing its RGB value.
-* New ``xonsh.ansi_colors.ansi_reverse_style()`` function for
+* New ``deepsh.ansi_colors.ansi_reverse_style()`` function for
   converting a mapping of color names to ANSI escape codes into
   a mapping from escape codes into color names. This is not a
   round-trippable operation.
-* New ``xonsh.ansi_colors.ansi_color_escape_code_to_name()`` function
-  for converting an ANSI color escape code into the closest xonsh
+* New ``deepsh.ansi_colors.ansi_color_escape_code_to_name()`` function
+  for converting an ANSI color escape code into the closest deepsh
   color name for a given style.
-* New ``xonsh.events.EventManager.exists()`` method enables checking
+* New ``deepsh.events.EventManager.exists()`` method enables checking
   whether events actually exist without making the event if it
   doesn't exist.
 * New command-specific event categories called ``on_pre_spec_run_<cmd-name>``
@@ -2556,17 +2556,17 @@ v0.8.11
   ``SubpocSpec.run()`` is called.  This allows for command specific
   events to be executed.  For example, ``on_pre_spec_run_ls`` would
   be run prior to an invocation of ``ls``.
-* New ``xonsh.environ.LsColors`` class for managing the ``$LS_COLORS``
+* New ``deepsh.environ.LsColors`` class for managing the ``$LS_COLORS``
   environment variable. This ensures that the ``ls`` command respects the
-  ``$XONSH_COLOR_STYLE`` setting. An instance of this class is added to the
+  ``$DEEPSH_COLOR_STYLE`` setting. An instance of this class is added to the
   environment when either the ``$LS_COLORS`` class is first accessed or
   the ``ls`` command is executed.
 * The ``on_pre_spec_run_ls`` event is initialized with a default handler
   that ensures that ``$LS_COLORS`` is set in the actual environment prior
   to running an ``ls`` command.
-* New ``xonsh.tools.detype()`` function that simply calls an object's own
+* New ``deepsh.tools.detype()`` function that simply calls an object's own
   ``detype()`` method in order to detype it.
-* New ``xonsh.tools.always_none()`` function that simply returns ``None``.
+* New ``deepsh.tools.always_none()`` function that simply returns ``None``.
 * New ``Env.set_ensurer()`` method for setting an ensurer on an environment.
 
 **Changed:**
@@ -2584,15 +2584,15 @@ v0.8.11
   subprocess environments via the ``Env.detype()`` function.
 * The ``Env.detype()`` method has been updated to respect the new
   ``None`` types when detyping.
-* The ``xonsh.tools.expandvars()`` function has been updated to respect
+* The ``deepsh.tools.expandvars()`` function has been updated to respect
   the new ``None`` types when detyping.
-* The ``xonsh.xonfig.make_xonfig_wizard()`` function has been updated to respect
+* The ``deepsh.xonfig.make_xonfig_wizard()`` function has been updated to respect
   the new ``None`` types when detyping.
 * Event handlers may now be added and discarded during event firing for
   normal events.  Such modifications will not be applied until the
   current firing operation is concluded. Thus you won't see newly added
   events fired.
-* xonsh now uses its own vendored version of ply. Any installed versions will no longer be used. This reflects that ply is no
+* deepsh now uses its own vendored version of ply. Any installed versions will no longer be used. This reflects that ply is no
   longer distributed as an installable package.
 * Updated to use ply version 3.11.
 * Reverted change in ``give_to_terminal`` to restore working version of
@@ -2600,9 +2600,9 @@ v0.8.11
 
 **Deprecated:**
 
-* The ``xonsh.color_tools.make_pallete()`` function is no
+* The ``deepsh.color_tools.make_pallete()`` function is no
   longer deprecated, as it is actually needed in other parts of
-  xonsh still, such as ``pyghooks``.
+  deepsh still, such as ``pyghooks``.
 
 **Removed:**
 
@@ -2612,7 +2612,7 @@ v0.8.11
 
 * Resolved issues where macro functions were not able to properly
   accept single-line statements in ``exec`` and ``single`` mode.
-* Minor fixes to ``xonsh.events.debug_level()``.
+* Minor fixes to ``deepsh.events.debug_level()``.
 * Fixed a regression where some interactive commands were not waited for
   properly for long enough.
 * Fixed environments not showing in the prompt when using Anaconda Python.
@@ -2631,7 +2631,7 @@ v0.8.10
 
 **Added:**
 
-* New ``xonsh.aliases.partial_eval_alias()`` function and related classes
+* New ``deepsh.aliases.partial_eval_alias()`` function and related classes
   for dispatching and evaluating partial alias applications for callable
   aliases.
 
@@ -2640,12 +2640,12 @@ v0.8.10
 * Subprocesses will no longer close file descriptors automatically.
   This was causing issues with other commands that expected file
   descriptors to remain open, such as ``make``.
-* The ``xonsh.Aliases.eval_alias()`` method updated to use
-  ``xonsh.aliases.partial_eval_alias()``.
+* The ``deepsh.Aliases.eval_alias()`` method updated to use
+  ``deepsh.aliases.partial_eval_alias()``.
 
 **Fixed:**
 
-* Fixed ``xonsh.completers.base.complete_base()`` to no longer throw an
+* Fixed ``deepsh.completers.base.complete_base()`` to no longer throw an
   error caused by ``complete_python()`` sometimes returning a tuple.
   This fixes cases such as ``ls &&<TAB>``.
 * Fixed regression with line continuations in implicit subprocess mode within
@@ -2654,8 +2654,8 @@ v0.8.10
   terminal to close. This was problematic for certain command
   pipelines. For example, ``pv /dev/urandom | head`` now works.
 * Prevents recursive errors from being raised when there is no child process
-  in ``xonsh.procs.jobs.wait_for_active_job()``.
-* Tweaked ``xonsh.completers.commands.complete_skipper()`` to insert a space following
+  in ``deepsh.procs.jobs.wait_for_active_job()``.
+* Tweaked ``deepsh.completers.commands.complete_skipper()`` to insert a space following
   certain tokens (``&&``, ``||``, ``|``, ``and``, ``or``) to avoid overwriting existing tokens
   with completer output.
 * Fixed bug with evaluating recursive aliases that did not implement
@@ -2691,7 +2691,7 @@ v0.8.9
 * ``env_name`` prompt field now looks up the pre- and post-fix characters,
   rather than relying on hard-coded values.
 * Some minor ``history show`` efficiency improvements.
-* If we are on wsl, avoid to use xonsh_preexec_fn when pipe.
+* If we are on wsl, avoid to use deepsh_preexec_fn when pipe.
 
 **Fixed:**
 
@@ -2735,7 +2735,7 @@ v0.8.7
 
 **Added:**
 
-* New xonsh syntax ``pf`` strings -- combining path strings with f-strings.
+* New deepsh syntax ``pf`` strings -- combining path strings with f-strings.
 
   Usage:
 
@@ -2763,7 +2763,7 @@ v0.8.6
 
 **Added:**
 
-* Doco about how to update xonsh and how to set and unset environment variables
+* Doco about how to update deepsh and how to set and unset environment variables
 
 
 **Fixed:**
@@ -2797,9 +2797,9 @@ v0.8.5
 
             python3 -m pip install xontrib-base16-shell
 
-    2. Add on ``~/.xonshrc``
+    2. Add on ``~/.deepshrc``
 
-       .. code:: xonsh
+       .. code:: deepsh
             :number-lines:
 
             $BASE16_SHELL = $HOME + "/.config/base16-shell/"
@@ -2815,11 +2815,11 @@ v0.8.5
 * New ``DumbShell`` class that kicks in whenever ``$TERM == "dumb"``.
   This usually happens in emacs. Currently, this class inherits from
   the ``ReadlineShell`` but adds some light customization to make
-  sure that xonsh looks good in the resultant terminal emulator.
+  sure that deepsh looks good in the resultant terminal emulator.
 * Aliases from foreign shells (e.g. Bash) that are more than single expressions,
   or contain sub-shell executions, are now evaluated and run in the foreign shell.
-  Previously, xonsh would attempt to translate the alias from sh-lang into
-  xonsh. These restrictions have been removed.  For example, the following now
+  Previously, deepsh would attempt to translate the alias from sh-lang into
+  deepsh. These restrictions have been removed.  For example, the following now
   works:
 
   .. code-block:: sh
@@ -2868,17 +2868,17 @@ v0.8.4
 
 * Added the possibility of arbitrary paths to the help strings in ``vox activate`` and
   ``vox remove``; also updated the documentation accordingly.
-* New ``xonsh.aliases.ExecAlias`` class enables multi-statement aliases.
-* New ``xonsh.ast.isexpression()`` function will return a boolean of whether
-  code is a simple xonsh expression or not.
+* New ``deepsh.aliases.ExecAlias`` class enables multi-statement aliases.
+* New ``deepsh.ast.isexpression()`` function will return a boolean of whether
+  code is a simple deepsh expression or not.
 * Added top-level ``run-tests.xsh`` script for safely running the test suite.
 
 
 **Changed:**
 
 * String aliases are no longer split with ``shlex.split()``, but instead use
-  ``xonsh.lexer.Lexer.split()``.
-* Update xonsh/prompt/cwd.py _collapsed_pwd to print 2 chars if a directory begins with "."
+  ``deepsh.lexer.Lexer.split()``.
+* Update deepsh/prompt/cwd.py _collapsed_pwd to print 2 chars if a directory begins with "."
 * test which determines whether a directory is a virtualenv
 
   previously it used to check the existence of 'pyvenv.cfg'
@@ -2908,13 +2908,13 @@ v0.8.3
 
 **Added:**
 
-* Dociumentation paragrapgh about gow to run xonsh in Emacs shell
+* Dociumentation paragrapgh about gow to run deepsh in Emacs shell
 
 
 **Changed:**
 
 * Updated what pip requirements are needed to build the documnetaion
-* ``$XONSH_TRACEBACK_LOGFILE`` now beside strings also accepts ``os.PathLike``
+* ``$DEEPSH_TRACEBACK_LOGFILE`` now beside strings also accepts ``os.PathLike``
   objects.
 * Updated vended version of ``ply`` to 3.11
 * Deprecation warnings now print from stacklevel 3.
@@ -2925,7 +2925,7 @@ v0.8.3
 * Annotation assignment statements (e.g. ``x : int = 42``) are now supported.
 * Fixed error output wording for fg and bg commands
 * Flake8 errors
-* xonsh can now properly parse import statements with trailing comma within
+* deepsh can now properly parse import statements with trailing comma within
   parentheses, e.g.::
 
     from x import (y, z,)
@@ -2942,12 +2942,12 @@ v0.8.2
 **Changed:**
 
 * Now there is only a single instance of ``string.Formatter()`` in the
-  code base, which is called ``xonsh.tools.FORMATTER``.
+  code base, which is called ``deepsh.tools.FORMATTER``.
 
 
 **Fixed:**
 
-* f-strings (``f"{expr}"``) are now fully capable of executing xonsh expressions.
+* f-strings (``f"{expr}"``) are now fully capable of executing deepsh expressions.
   The one exception to this is that ``![cmd]`` and ``!(cmd)`` don't work because
   the ``!`` character interferes with Python string formatting. If you need to
   run subprocesses inside of f-strings, use ``$[cmd]`` and ``$(cmd)`` instead.
@@ -2978,10 +2978,10 @@ v0.8.1
 
 * Removed ``fish`` from list of supported foreign shells in the wizard.
 * Circle CI config updated to use a pinned version of ``black`` (18.9b0)
-* Pytest plugin now uses ``xonsh.main.setup()`` to setup test environment.
+* Pytest plugin now uses ``deepsh.main.setup()`` to setup test environment.
 * Linux platform discovery will no longer use ``platform.linux_distribution()``
   on Python >=3.6.6. due to pending deprecation warning.
-* Updated Linux Guide as Xonsh is now available in Arch Linux official repositories.
+* Updated Linux Guide as Deepsh is now available in Arch Linux official repositories.
 
 
 **Fixed:**
@@ -3024,16 +3024,16 @@ v0.8.0
 
 **Changed:**
 
-* All ``__xonsh_*__`` builtins have been migrated to a ``XonshSession`` instance at
-  ``__xonsh__``. E.g. ``__xonsh_env__`` is now ``__xonsh__.env``.
-* Other xonsh-specific builtins (such as ``XonshError``) have been proxied to
-  the ``__xonsh__`` session object as well.
+* All ``__deepsh_*__`` builtins have been migrated to a ``DeepshSession`` instance at
+  ``__deepsh__``. E.g. ``__deepsh_env__`` is now ``__deepsh__.env``.
+* Other deepsh-specific builtins (such as ``DeepshError``) have been proxied to
+  the ``__deepsh__`` session object as well.
 
 
 **Deprecated:**
 
-* All ``__xonsh_*__`` builtins are deprected. Instead, the corresponding
-  ``__xonsh__.*`` accessor should be used. The existing ``__xonsh_*__`` accessors
+* All ``__deepsh_*__`` builtins are deprected. Instead, the corresponding
+  ``__deepsh__.*`` accessor should be used. The existing ``__deepsh_*__`` accessors
   still work, but issue annoying warnings.
 
 
@@ -3085,7 +3085,7 @@ v0.8.0
     ...
     >>> get_completions('ls /tmp/a*')
     ({'/tmp/abc '}, 7)
-* The ``xonsh.main.setup()`` function now correctly passes the
+* The ``deepsh.main.setup()`` function now correctly passes the
   ``shell_type`` argument to the shell instance.
 * try_subproc_toks now works for subprocs with trailing and leading whitespace
 
@@ -3094,12 +3094,12 @@ v0.8.0
   .. code-block:: sh
 
     $ true && false || echo a
-    xonsh: For full traceback set: $XONSH_SHOW_TRACEBACK = True
+    deepsh: For full traceback set: $DEEPSH_SHOW_TRACEBACK = True
     NameError: name 'false' is not defined
 
     $ echo; echo && echo a
 
-    xonsh: For full traceback set: $XONSH_SHOW_TRACEBACK = True
+    deepsh: For full traceback set: $DEEPSH_SHOW_TRACEBACK = True
     NameError: name 'echo' is not defined
 
   Now, the commands are parsed as expected:
@@ -3137,7 +3137,7 @@ v0.7.10
 
 **Fixed:**
 
-* The xonsh ``xonfig wizard`` would crash if an unknown foreign shell was
+* The deepsh ``xonfig wizard`` would crash if an unknown foreign shell was
   provided. This has been fixed.
 * The ``hg split`` command will now predict as unthreadable.
 * Fixed path completer crash on attempted f-string completion
@@ -3175,7 +3175,7 @@ v0.7.9
   "hidden" files which start with a literal ``.``. Set this
   variable to ``True`` to get this matching behavior.
   Cooresponding API changes have been made to
-  ``xonsh.tools.globpath()`` and ``xonsh.tools.iglobpath()``
+  ``deepsh.tools.globpath()`` and ``deepsh.tools.iglobpath()``
 * New environment variable ``$FOREIGN_ALIASES_SUPPRESS_SKIP_MESSAGE``
   enables the removal of skipping foreign alias messages.
 * New ``--suppress-skip-message`` command line option for skipping
@@ -3197,7 +3197,7 @@ v0.7.8
 
 **Added:**
 
-* ``xonsh.lib.collections.ChainDB``, a chain map which merges mergable fields
+* ``deepsh.lib.collections.ChainDB``, a chain map which merges mergable fields
 
 
 **Fixed:**
@@ -3214,8 +3214,8 @@ v0.7.7
 
 **Added:**
 
-* A xontrib which adds support for autojump to xonsh
-* Added new env-var ``XONSH_HISTORY_MATCH_ANYWHERE``. If set to ``True`` then
+* A xontrib which adds support for autojump to deepsh
+* Added new env-var ``DEEPSH_HISTORY_MATCH_ANYWHERE``. If set to ``True`` then
   up-arrow history matching will match existing history entries with the search
   term located anywhere, not just at the beginning of the line. Default value is
   ``False``
@@ -3260,7 +3260,7 @@ v0.7.6
 
 **Changed:**
 
-* xonsh/environ.py
+* deepsh/environ.py
   Exceptions are caught in the code executed under Env.swap()
 
 
@@ -3270,7 +3270,7 @@ v0.7.6
 * Fixed a potential crash (``AssertionError: wrong color format``) on Python 3.5 and prompt_toolkit 1.
 * The ``completer`` command now correctly finds completion functions
   when nested inside of other functions.
-* Fixed a crash when using the ``$XONSH_STDERR_PREFIX/POSTFIX`` with
+* Fixed a crash when using the ``$DEEPSH_STDERR_PREFIX/POSTFIX`` with
   prompt_toolkit and Pygments 2.2.
 
 
@@ -3295,15 +3295,15 @@ v0.7.4
 
 **Added:**
 
-* New ``xonsh-cat`` command line utility, which is a xonsh replacement
+* New ``deepsh-cat`` command line utility, which is a deepsh replacement
   for the standard UNIX ``cat`` command.
-* The new ``xonsh.xoreutils.cat.cat_main()`` enables the ``xonsh.xoreutils.cat``
+* The new ``deepsh.xoreutils.cat.cat_main()`` enables the ``deepsh.xoreutils.cat``
   module to be run as a command line utility.
 * New ``CommandsCache.is_only_functional_alias()`` and
   ``CommandsCache.lazy_is_only_functional_alias()`` methods for determining if
   if a command name is only implemented as a function, and thus has no
   underlying binary command to execute.
-* ``xonsh.xontribs.xontribs_load()`` is a new first-class API for loading
+* ``deepsh.xontribs.xontribs_load()`` is a new first-class API for loading
   xontribs via a Python function.
 * ``$COMPLETIONS_DISPLAY`` now supports readline-like behavior on
   prompt-toolkit v2.
@@ -3311,13 +3311,13 @@ v0.7.4
 
 **Changed:**
 
-* The xonsh Jupyter kernel now will properly redirect the output of commands
+* The deepsh Jupyter kernel now will properly redirect the output of commands
   such as ``git log``, ``man``, ``less`` and other paged commands to the client.
   This is done by setting ``$PAGER = 'cat'``. If ``cat`` is not available
-  on the system, ``xonsh-cat`` is used instead.
-* The ``setup()`` function for starting up a working xonsh has ``aliases``,
+  on the system, ``deepsh-cat`` is used instead.
+* The ``setup()`` function for starting up a working deepsh has ``aliases``,
   ``xontribs``, and ``threadable_predictors`` as new additional keyword
-  arguments for customizing the loading of xonsh.
+  arguments for customizing the loading of deepsh.
 
 
 **Fixed:**
@@ -3340,13 +3340,13 @@ v0.7.3
 
 **Added:**
 
-* Add the ``PROMPT_TOOLKIT_COLOR_DEPTH`` environment to xonsh default environment.
+* Add the ``PROMPT_TOOLKIT_COLOR_DEPTH`` environment to deepsh default environment.
   Possible values are ``DEPTH_1_BIT``/``MONOCHROME``,
   ``DEPTH_4_BIT``/``ANSI_COLORS_ONLY``, ``DEPTH_8_BIT``/``DEFAULT``, or ``DEPTH_24_BIT``/``TRUE_COLOR``.
   Note: not all terminals support all color depths.
 * New way to fix unreadable default terminal colors on Windows 10. Windows 10
   now supports true color in the terminal, so if prompt toolkit 2 is
-  installed Xonsh will use a style with hard coded colors instead of the
+  installed Deepsh will use a style with hard coded colors instead of the
   default terminal colors. This will give the same color experience as on linux an mac.
   The behaviour can be disabled with ``$INTENSIFY_COLORS_ON_WIN``
   environment variable.
@@ -3370,7 +3370,7 @@ v0.7.3
 
 * New ansi-color names fixes the problem with darker colors using prompt_toolkit 2 on windows.
 * Fixed a problem with the color styles on prompt toolkit 2. The default pygment
-  style is no longer merged into style selected in xonsh.
+  style is no longer merged into style selected in deepsh.
 * The JupyterKernel has been fixed from a rather broken state.
 
 
@@ -3400,7 +3400,7 @@ v0.7.1
 **Added:**
 
 * Added feature to aliases.
-* ``xonsh.lib.os.rmtree()`` an rmtree which works on windows properly (even with
+* ``deepsh.lib.os.rmtree()`` an rmtree which works on windows properly (even with
   git)
 
 
@@ -3444,7 +3444,7 @@ v0.7.0
 * Support for ``prompt_toolkit 2.0``
 * The ``--shell-type`` (``$SHELL_TYPE``) may now be specified using
   shortcuts, such as ``rl`` for ``readline`` and ``ptk2`` for
-  ``prompt_toolkit2``. See ``xonsh --help`` for a full listing
+  ``prompt_toolkit2``. See ``deepsh --help`` for a full listing
   of available aliases.
 
 
@@ -3460,12 +3460,12 @@ v0.6.10
 
 **Added:**
 
-* ``xonsh.lib.subprocess.check_output`` as a ``check_output`` drop in
+* ``deepsh.lib.subprocess.check_output`` as a ``check_output`` drop in
 
 
 **Fixed:**
 
-* ``xonsh.lib.subprocess.run`` doesn't change dirs unless asked
+* ``deepsh.lib.subprocess.run`` doesn't change dirs unless asked
 
 
 
@@ -3475,10 +3475,10 @@ v0.6.9
 
 **Added:**
 
-* New xonsh standard library ``xonsh.lib`` subpackage
-* ``xonsh.lib.os.indir`` a context manager for temporarily entering into a directory
-* ``xonsh.lib.subprocess.run`` and ``xonsh.lib.subprocess.check_call``
-  subprocess stubs using ``xonsh`` as the backend
+* New deepsh standard library ``deepsh.lib`` subpackage
+* ``deepsh.lib.os.indir`` a context manager for temporarily entering into a directory
+* ``deepsh.lib.subprocess.run`` and ``deepsh.lib.subprocess.check_call``
+  subprocess stubs using ``deepsh`` as the backend
 
 
 **Fixed:**
@@ -3487,7 +3487,7 @@ v0.6.9
 * Fixed issue with incorrect strip lengths for prefixes with quotes in them
 * Fixed bash script to also consider leading double quotes and not just single
   quotes
-* Launching xonsh with prompt_toolkit version 2.x no longer fails, and instead fallsback to readline shell. This is a patch for until prompt_toolkit 2.x support is fully implemented. See PR #2570
+* Launching deepsh with prompt_toolkit version 2.x no longer fails, and instead fallsback to readline shell. This is a patch for until prompt_toolkit 2.x support is fully implemented. See PR #2570
 
 
 
@@ -3516,15 +3516,15 @@ v0.6.7
 
 **Changed:**
 
-* Xonsh live example has been re-added back to the documentation.
+* Deepsh live example has been re-added back to the documentation.
 
 
 **Fixed:**
 
-* Fixed issue where xonsh would fail to properly return the terminal prompt
+* Fixed issue where deepsh would fail to properly return the terminal prompt
   (and eat up 100% CPU) after a failed subprocess command in interactive mode
   if ``$RAISE_SUBPROC_ERROR = True``.
-* ``xonsh.tokenize.tok_name`` no longer mutates the standard library ``tokenize.tok_name``.
+* ``deepsh.tokenize.tok_name`` no longer mutates the standard library ``tokenize.tok_name``.
   A copy is made on import instead.
 
 
@@ -3537,7 +3537,7 @@ v0.6.6
 
 * A multipurpose add method to EnvPath. For example:
 
-  .. code-block:: xonshcon
+  .. code-block:: deepshcon
 
     >>> $PATH
     EnvPath(
@@ -3584,7 +3584,7 @@ v0.6.5
 
 * Fixed issue with ``xonfig wizard`` writer failing to write valid run control
   files for environment variables that are containter types. In particular,
-  the storage of ``$XONSH_HISTORY_SIZE`` has been fixed.
+  the storage of ``$DEEPSH_HISTORY_SIZE`` has been fixed.
 
 
 
@@ -3602,7 +3602,7 @@ v0.6.4
 
 * Fixed issues with readline completer tab completing entries
   with spaces.
-* Fixed ``xonsh.tools.columnize()`` bug the prevented single-row
+* Fixed ``deepsh.tools.columnize()`` bug the prevented single-row
   input from being columnized correctly.
 * Now honor ASYNC and AWAIT as keywords in tokenizer on
   Python 3.7.
@@ -3617,12 +3617,12 @@ v0.6.3
 
 * Docs for using ``@(<expr>)`` as a way to run commands and a gotcha about
   list of strings vs single string expressions.
-* Ubuntu versions which xonsh is packaged for (with xonsh versions)
+* Ubuntu versions which deepsh is packaged for (with deepsh versions)
 
 
 **Changed:**
 
-* When reporting errors without a traceback (i.e. ``$XONSH_SHOW_TRACEBACK = False``) and the error is a ``XonshError``
+* When reporting errors without a traceback (i.e. ``$DEEPSH_SHOW_TRACEBACK = False``) and the error is a ``DeepshError``
   the exception type is not longer printed.
 * ``CommandPipeline.proc`` may now be ``None``, to accomodate when the process
   fails to even start (i.e. a missing command or incorrect permisions).
@@ -3633,10 +3633,10 @@ v0.6.3
 * The ``curl`` command will now be run in a thread, which prevents documents that
   do not end in a newline from writing over the next prompt and vice versa.
 * Fix bug on Windows when ``PATHEXT`` environment variable did not exist.
-  This also fixes building the xonsh documentation on Windows.
+  This also fixes building the deepsh documentation on Windows.
 * Fixed a bug in the `free_cwd <http://xon.sh/xontribs.html#free-cwd>`__ Windows Xontrib, which caused the prompt to error if the current directory is
   deleted/renamed from an other process.
-* Fixed issue with ``$XONSH_SHOW_TRACEBACK`` not being respected in subprocess
+* Fixed issue with ``$DEEPSH_SHOW_TRACEBACK`` not being respected in subprocess
   mode when the command could not be found or had incorrect permissions.
 
 
@@ -3647,28 +3647,28 @@ v0.6.2
 
 **Added:**
 
-* Release tarballs now include licenses and minimal documentation for xonsh and ply
+* Release tarballs now include licenses and minimal documentation for deepsh and ply
 * Wizard now has a ``FileInserter`` node that allows blocks to be
   inserted and replaced inside of a file. This adheres to conversion
   rules fordumping as provided on this node.
-* New ``xonsh.wizard.StateVisitor.flatten()`` method for flattening the
+* New ``deepsh.wizard.StateVisitor.flatten()`` method for flattening the
   current state.
 
 
 **Changed:**
 
-* The xonsh startup wizard will only be triggered if no xonshrc files exist
-  and the file ``~/.local/config/xonsh/no-wizard`` is not present.
-* The ``xonfig wizard`` command will now run write out to the xonshrc file.
+* The deepsh startup wizard will only be triggered if no deepshrc files exist
+  and the file ``~/.local/config/deepsh/no-wizard`` is not present.
+* The ``xonfig wizard`` command will now run write out to the deepshrc file.
 * Wizard nodes ``Save`` and ``Load`` had their names changed to ``SaveJSON``
   and ``LoadJSON``.
 
 
 **Removed:**
 
-* Static configuration is dead (``config.json``), long live run control (``xonshrc``)!
+* Static configuration is dead (``config.json``), long live run control (``deepshrc``)!
 * The following evironment variables have been removed as they are no longer needed:
-  ``$LOADED_CONFIG`` and ``$XONSHCONFIG``.
+  ``$LOADED_CONFIG`` and ``$DEEPSHCONFIG``.
 * Many support functions for static configuration have also been removed.
 
 
@@ -3685,7 +3685,7 @@ v0.6.1
 **Added:**
 
 * Support for MSYS2.
-* New ``xonsh.main.setup()`` function for starting up xonsh in 3rd party
+* New ``deepsh.main.setup()`` function for starting up deepsh in 3rd party
   packages.
 
 
@@ -3693,8 +3693,8 @@ v0.6.1
 
 * Updated CircleCI to use circle version 2.0
 * Replaced StopIteration with return in CommandPipeline.iterraw.
-* Xonsh run control now also looks for the XDG-compliant file
-  ``~/.config/xonsh/rc.xsh`` at startup.
+* Deepsh run control now also looks for the XDG-compliant file
+  ``~/.config/deepsh/rc.xsh`` at startup.
 
 
 **Fixed:**
@@ -3703,14 +3703,14 @@ v0.6.1
 * cat from xoreutils now outputs in configured encoding
 * Fixed hanging issue with pipelines whose middle processes exit before the
   first or last process.
-* Fixed issue where xonsh would deduplicate spaces from bash autocompletions.
+* Fixed issue where deepsh would deduplicate spaces from bash autocompletions.
 * Fixed failing redirections from stderr to stdout when the command
   being executed was a callable alias.
 * Ensure that the ``free_cwd`` contrib can only be active on pure Windows.
 * Made an exceptional case in ``iglobpath()`` more robust when Python globbing
   fails for due to strange scrandir issue.
 * Unexpected process suspension on Cygwin and MSYS2.
-* ``$XONSH_APPEND_NEWLINE`` will now default to True when in interactive mode.
+* ``$DEEPSH_APPEND_NEWLINE`` will now default to True when in interactive mode.
 * Fixed issue with uncalled lambdas being run in subproc mode.
 * Lambda nodes not have proper line and column numbers in AST.
 * Properly throw ``SyntaxError`` when no kwargs are defined
@@ -3718,7 +3718,7 @@ v0.6.1
   ``TypeError: 'NoneType' object is not iterable``.
 * Addressed issue where encoding and errors were None when teeing output.
 * Commands like ``git c`` would complete to ``git 'checkout '`` because git adds an extra space
-  to the end of the completion, which was being captured in the completion. Xonsh now fixes the git issue
+  to the end of the completion, which was being captured in the completion. Deepsh now fixes the git issue
   while retaining all whitespace when there is other internal whitespace.
 
 
@@ -3733,24 +3733,24 @@ v0.6.0
 * New ``$AUTO_SUGGEST_IN_COMPLETIONS`` environment variable that enables/disables
   whether the auto-suggestion result appears in the tab completions.
 * Added ``__add__()`` and ``__radd__()`` methods to ``EnvPath``.
-* Xonsh now supports f-strings, as in Python v3.6+.
+* Deepsh now supports f-strings, as in Python v3.6+.
 * Added ``ipython`` as unthreadable in command cache threadabilty predictors.
 * Added ``whole_word_jumping`` xontrib
-* Added ``$XONSH_APPEND_NEWLINE`` environment variable
+* Added ``$DEEPSH_APPEND_NEWLINE`` environment variable
 * Support for PEP 515: Underscores in Numeric Literals
-*  ``xonsh.color_tools.make_palette()``
+*  ``deepsh.color_tools.make_palette()``
 
    Simple rename of the pre-existing
-   ``xonsh.color_tools.make_pallete()`` function.
+   ``deepsh.color_tools.make_pallete()`` function.
 
-*  ``xonsh.tools.decorator()`` function/method decorator.
+*  ``deepsh.tools.decorator()`` function/method decorator.
 
    This allows for an API function to be annotated with a
    decorator that documents deprecation, while also tying in
    functionality that will warn a user that the function has
    been deprecated, and, raise an ``AssertionError`` if the
    function has passed its expiry date.
-* New xontrib ``schedule`` (Xonsh Task Scheduler)
+* New xontrib ``schedule`` (Deepsh Task Scheduler)
 
 
 **Changed:**
@@ -3761,15 +3761,15 @@ v0.6.0
 * Moved the lazy ``pkg_resources`` package back to its original
   place. The will hopefully address some of the slowdown issues
   experiances on some platforms.
-* When xonsh is used to run an ``xsh`` script, the ``xonshrc`` is not loaded
+* When deepsh is used to run an ``xsh`` script, the ``deepshrc`` is not loaded
 * Change in the behavior of the default predictor with binary analysis. The pattern ``libgpm`` is use, assuming when ``gpm`` is used the program is not threadable. This change solves issues with programs as ``links``.
 * Error messages added to the ``source`` command if it is used with a language
-  that is not xonsh or Python.
+  that is not deepsh or Python.
 
 
 **Deprecated:**
 
-*  ``xonsh.color_tools.make_pallette()``
+*  ``deepsh.color_tools.make_pallette()``
 
    Deprecated in release 0.5.10 and will be removed in release 0.6.0.
 
@@ -3796,9 +3796,9 @@ v0.6.0
 *  Numerous spelling errors in documentation, docstrings/comments, text
    strings and local variable names.
 
-*  Spelling error in the ``xonsh.color_tools.make_pallete()`` public
+*  Spelling error in the ``deepsh.color_tools.make_pallete()`` public
    function declaration. This was fixed by renaming the function to
-   ``xonsh.color_tools.make_palette()`` while maintaining a binding
+   ``deepsh.color_tools.make_palette()`` while maintaining a binding
    of ``make_pallete()`` to the new ``make_palette()`` in case users
    are already used to this API.
 * Fixed issue with starting triple quote strings being run as a command.
@@ -3847,7 +3847,7 @@ v0.5.10
 * New ``free_cwd`` xontrib for Windows, which prevent the current directory from being locked when the prompt is shown.
   This allows the other programs or Windows explorer to delete the current or parent directory. This is accomplished by
   resetting the CWD to the users home directory temporarily while the prompt is displayed. The directory is still locked
-  while any commands are processed so xonsh still can't remove it own working directory.
+  while any commands are processed so deepsh still can't remove it own working directory.
 
 
 **Changed:**
@@ -3862,13 +3862,13 @@ v0.5.10
 
 **Fixed:**
 
-* Fixed the ``--rc`` option so it now runs xonsh with the specified rc file
+* Fixed the ``--rc`` option so it now runs deepsh with the specified rc file
 * ``@$`` operator now functions properly when returned command is an alias
 * Correct line continuation would not work on Windows if the line continuations were used
-  in the ``xonshrc`` file.
-* Fixed a regression in the Windows ``sudo`` command, that allows users to run elevated commands in xonsh.
+  in the ``deepshrc`` file.
+* Fixed a regression in the Windows ``sudo`` command, that allows users to run elevated commands in deepsh.
 * Fix echo command from xoreutils.
-* Fixed a bug on Windows which meant xonsh wasn't using PATH environment variable but instead relying on a default
+* Fixed a bug on Windows which meant deepsh wasn't using PATH environment variable but instead relying on a default
   value from the windows registry.
 
 
@@ -3905,7 +3905,7 @@ v0.5.8
 
 **Changed:**
 
-* The ``xonsh.platform.os_environ`` wrapper is  now case-insensitive and
+* The ``deepsh.platform.os_environ`` wrapper is  now case-insensitive and
   case-preserving on Windows.
 * The private ``_TeeStd`` class will no longer attempt to write to a
   standard buffer after the tee has been 'closed' and the standard
@@ -3922,7 +3922,7 @@ v0.5.8
 * Fixed a regression on Windows where caused ``which`` reported that the
   ``PATH`` environment variable could not be found.
 * Fixed issue with foregrounding jobs that were started in the background.
-* Fixed that ``Ctrl-C`` crashes xonsh after running an invalid command.
+* Fixed that ``Ctrl-C`` crashes deepsh after running an invalid command.
 * Fixed an potential ``ProcessLookupError`` issue, see #2288.
 
 
@@ -3949,13 +3949,13 @@ v0.5.7
 * Sourcing foreign shells now have the ``--show`` option, which
   lets you see when script will be run, and the ``--dryrun``
   option which prevents the source from actually taking place.
-  Xonsh's foreign shell API also added these keyword arguments.
-* Subprocess mode now supports subshells. Place any xonsh
+  Deepsh's foreign shell API also added these keyword arguments.
+* Subprocess mode now supports subshells. Place any deepsh
   code between two parentheses, e.g. ``(cmd)``, to run
-  this command in a separate xonsh subprocess.
+  this command in a separate deepsh subprocess.
 * Foreign shell aliases now have the ability to take extra arguments,
   if needed.
-* Xonsh will issue a warning message when the current working
+* Deepsh will issue a warning message when the current working
   directory has been remove out from under it and not replaced
   prior to running the next command.
 * Line continuation backslashes are respected on Windows in the PTK shell if
@@ -3963,7 +3963,7 @@ v0.5.7
 * Added ``ponysay`` as a command which will usually not run in a
   threaded mode in the commands cache.
 * New ``jsonutils`` module available for serializing special
-  xonsh objects to JSON.
+  deepsh objects to JSON.
 
 
 **Changed:**
@@ -3979,12 +3979,12 @@ v0.5.7
 * The interactive prompt will now catch ``SystemExit`` and, instead
   of exiting the session, will refresh the prompt. This is the same
   process as for keyboard interrupts.
-* Xonsh no longer launches the wizard for new users. Instead a welcome screen is
+* Deepsh no longer launches the wizard for new users. Instead a welcome screen is
   shown which says how to launch the wizard.
 * Added Windows ``expanduser()``-like function which prevents
   the expansion of ``~`` that are not followed by a path
   separator.
-* Collecting xonsh history files was reported to have random runtime
+* Collecting deepsh history files was reported to have random runtime
   OSError failures. This exception is now handled, just in case. The
   The exception will still be printed in debug mode.
 * ``Shell.stype`` has been renamed to ``Shell.shell_type``.
@@ -3996,23 +3996,23 @@ v0.5.7
 * ``prompt.vc.get_hg_branch`` now uses ``os.scandir`` to walk up the filetree
   looking for a ``.hg`` directory. This results in (generally) faster branch
   resolution compared to the subprocess call to ``hg root``.
-* Xonsh's script and code caches will are now invalidated whenever the
-  xonsh version changes for a given Python version.
+* Deepsh's script and code caches will are now invalidated whenever the
+  deepsh version changes for a given Python version.
 * Autowrapping of subprocess globs has been improved to cover
   more cases that are ambiguous with Python syntax.
 * Job control info when foregrounding or backgrounding jobs will now
-  only be displayed when xonsh is in interactive mode.
+  only be displayed when deepsh is in interactive mode.
 * Enabled virtual terminal processing in the prompt-toolkit shell for Windows.
 
 
 **Fixed:**
 
 * 3rd party pygments styles (like solorized or monokailight) are now
-  able to be used in xonsh. These styles are dynamically created upon
-  first use, rather than being lazily loaded by xonsh.
+  able to be used in deepsh. These styles are dynamically created upon
+  first use, rather than being lazily loaded by deepsh.
 * On Windows, ``os.environ`` is case insensitive. This would potentially
   change the case of environment variables set into the environment.
-  Xonsh now uses ``nt.environ``, the case sensitive counterpart, to avoid
+  Deepsh now uses ``nt.environ``, the case sensitive counterpart, to avoid
   these issues on Windows.
 * Fix how ``$PWD`` is managed in order to work with symlinks gracefully
 * ``history replay`` no longer barfs on ``style_name`` when setting up the
@@ -4025,14 +4025,14 @@ v0.5.7
 * Null bytes handed to Popen are now automatically escaped prior
   to running a subprocess. This prevents Popen from issuing
   embedded null byte exceptions.
-* Xonsh will no longer crash is the current working directory is
+* Deepsh will no longer crash is the current working directory is
   removed out from under it.
 * Multiline strings can now be written in subprocess mode.
 * PTK completions will now correctly deduplicate autosuggest completions
   and display completions values based on the cursor position.
 * Fixed bug where trailing backspaces on Windows paths could be interpreted
   as line continuations characters. Now line continuation characters must be
-  preceded by a space on Windows. This only applies to xonsh in interactive
+  preceded by a space on Windows. This only applies to deepsh in interactive
   mode to ensure  scripts are portable.
 * Importing ``*.xsh`` files will now respect the encoding listed in
   that file and properly fallback to UTF-8. This behaviour follows
@@ -4046,16 +4046,16 @@ v0.5.6
 **Added:**
 
 * New core utility function aliases (written in pure Python) are now
-  available in ``xonsh.xoreutils``. These include: ``cat``, ``echo``,
+  available in ``deepsh.xoreutils``. These include: ``cat``, ``echo``,
   ``pwd``, ``tee``, ``tty``, and ``yes``. These are not enabled by default.
   Use the new ``coreutils`` xontrib to load them.
 * CircleCI test post codecov run
 * The ``trace`` will automatically disable color printing when
   stdout is not a TTY or stdout is captured.
 * New ``jedi`` xontrib enables jedi-based tab completions when it is loaded.
-  This supersedes xonsh's default Python-mode completer.
+  This supersedes deepsh's default Python-mode completer.
 * The lexer has a new ``split()`` method which splits strings
-  according to xonsh's rules for whitespace and quotes.
+  according to deepsh's rules for whitespace and quotes.
 * New events for hooking into the Python import process are now available.
   You can now provide a handler for:
 
@@ -4072,8 +4072,8 @@ v0.5.6
 * The prompt toolkit shell's first completion will now be the
   current token from the auto-suggestion, if available.
 * Sourcing foreign shells will now safely skip applying aliases
-  with the same name as existing xonsh aliases by default.
-  This prevents accidentally overwriting important xonsh standard
+  with the same name as existing deepsh aliases by default.
+  This prevents accidentally overwriting important deepsh standard
   aliases, such as ``cd``.
 
 
@@ -4102,10 +4102,10 @@ v0.5.6
 * The ``trace`` utility will now correctly color output and not
   print extraneous newlines when called in a script.
 * The ``@$(cmd)`` operator now correctly splits strings according to
-  xonsh semantics, rather than just on whitespace using ``str.split()``.
+  deepsh semantics, rather than just on whitespace using ``str.split()``.
 * The ``mpl`` xontrib has been updated to improve matplotlib
   handling. If ``xontrib load mpl`` is run before matplotlib
-  is imported and xonsh is in interactive mode, matplotlib
+  is imported and deepsh is in interactive mode, matplotlib
   will automatically enter interactive mode as well. Additionally,
   ``pyplot.show()`` is patched in interactive mode to be non-blocking.
   If a non-blocking show fails to draw the figure for some reason,
@@ -4124,7 +4124,7 @@ v0.5.5
 **Added:**
 
 * New ``--rc`` command line option allows users to specify paths to run control
-  files from the command line. This includes both xonsh-based and JSON-based
+  files from the command line. This includes both deepsh-based and JSON-based
   configuration.
 * New ``$UPDATE_COMPLETIONS_ON_KEYPRESS`` controls whether or not completions
   will automatically display and update while typing. This feature is only
@@ -4133,17 +4133,17 @@ v0.5.5
 
 **Changed:**
 
-* Xonsh scripts now report ``__file__`` and ``__name__`` when run as scripts
+* Deepsh scripts now report ``__file__`` and ``__name__`` when run as scripts
   or sourced. These variables have the same meaning as they do in Python
   scripts.
-* ``$XONSHRC`` and related configuration variables now accept JSON-based
+* ``$DEEPSHRC`` and related configuration variables now accept JSON-based
   static configuration file names as elements. This unifies the two methods
   of run control to a single entry point and loading system.
-* The ``xonsh.shell.Shell()`` class now requires that an Execer instance
+* The ``deepsh.shell.Shell()`` class now requires that an Execer instance
   be explicitly provided to its init method. This class is no longer
   responsible for creating an execer an its dependencies.
 * Moved decorators ``unthreadable``, ``uncapturable`` from
-  ``xonsh.proc`` to ``xonsh.tools``.
+  ``deepsh.proc`` to ``deepsh.tools``.
 * Some refactorings on jobs control.
 
 
@@ -4155,9 +4155,9 @@ v0.5.5
 
 **Removed:**
 
-* ``xonsh.environ.DEFAULT_XONSHRC`` has been removed due to deprecation.
+* ``deepsh.environ.DEFAULT_DEEPSHRC`` has been removed due to deprecation.
   For this value, please check the environment instead, or call
-  ``xonsh.environ.default_xonshrc(env)``.
+  ``deepsh.environ.default_deepshrc(env)``.
 
 
 **Fixed:**
@@ -4169,7 +4169,7 @@ v0.5.5
   captured with the ``$(cmd)`` operator.
 * The ``ProcProxy`` class (unthreadable aliases) was not being executed and would
   hang if the alias was capturable. This has been fixed.
-* Fixed a ``tcsetattr: Interrupted system call`` issue when run xonsh scripts.
+* Fixed a ``tcsetattr: Interrupted system call`` issue when run deepsh scripts.
 * Fixed issue with ``ValueError`` being thrown from ``inspect.signature()``
   when called on C-extension callables in tab completer.
 * Fixed issue that ``ls | less`` crashes on Mac.
@@ -4182,16 +4182,16 @@ v0.5.4
 
 **Added:**
 
-* Add alias ``xip`` ("kip") so that xonsh's Python environment (whatever that is) can be modified.
+* Add alias ``xip`` ("kip") so that deepsh's Python environment (whatever that is) can be modified.
 * HistoryEntry, a SimpleNamespace object that represents a command in history.
-* ``xonsh.completers.bash_completion`` module
-* Added option to report timing information of xonsh startup times. Start xonsh
+* ``deepsh.completers.bash_completion`` module
+* Added option to report timing information of deepsh startup times. Start deepsh
   with the ``--timings`` flag to use the feature.
 * The Python tab completer will now complete the argument names of functions
   and other callables.
-* Uptime module added to ``xonsh.xoreutils``. This can report the system
+* Uptime module added to ``deepsh.xoreutils``. This can report the system
   boot time and up time.
-* The environment variable ``XONSH_HISTORY_BACKEND`` now also supports a
+* The environment variable ``DEEPSH_HISTORY_BACKEND`` now also supports a
   value of class type or a History Backend instance.
 * ``on_envvar_new`` event that fires after a new envvar is created.
 * ``on_envvar_change`` event that fires after an envvar is changed.
@@ -4200,8 +4200,8 @@ v0.5.4
 **Changed:**
 
 * history indexing api to be more simple, now returns HistoryEntry.
-* Decoupled ``bash_completion`` from xonsh project and added shim back to
-  xonsh.
+* Decoupled ``bash_completion`` from deepsh project and added shim back to
+  deepsh.
 * The JSON history backend will now unlock history files that were created
   prior to the last reboot.
 
@@ -4211,13 +4211,13 @@ v0.5.4
 * Fixed broken bash completions on Windows if 'Windows Subsystem for Linux' is installed.
 * Readline history would try to read the first element of history prior to
   actually loading any history. This caused an exception to be raised on
-  Windows at xonsh startup when using pyreadline.
+  Windows at deepsh startup when using pyreadline.
 * Fixed issue with readline tab completer overwriting initial prefix in
   some instances.
 * Fixed issue wherein if ``git`` or (presumably) ``hg`` are aliased, then branch
   information no longer appears in the ``$PROMPT``
 * Fixed an issue with commands that background themselves (such as
-  ``gpg-connect-agent``) not being able to be run from within xonshrc.
+  ``gpg-connect-agent``) not being able to be run from within deepshrc.
 
 
 
@@ -4239,8 +4239,8 @@ v0.5.3
 
 **Changed:**
 
-* The ``Block`` and ``Functor`` context managers from ``xonsh.contexts`` have been
-  rewritten to use xonsh's macro capabilities. You must now enter these via the
+* The ``Block`` and ``Functor`` context managers from ``deepsh.contexts`` have been
+  rewritten to use deepsh's macro capabilities. You must now enter these via the
   ``with!`` statement, e.g. ``with! Block(): pass``.
 * The ``distributed`` xontrib now needs to use the ``with!`` statement, since it
   relies on ``Functor``.
@@ -4261,7 +4261,7 @@ v0.5.3
 
 **Removed:**
 
-* ``XonshBlockError`` has been removed, since it no longer serves a purpose.
+* ``DeepshBlockError`` has been removed, since it no longer serves a purpose.
 
 
 **Fixed:**
@@ -4269,18 +4269,18 @@ v0.5.3
 * ``PopenThread`` will now re-issue SIGINT to the main thread when it is
   received.
 * Fixed an issue that using sqlite history backend does not kill unfinished
-  jobs when quitting xonsh with a second "exit".
-* Fixed an issue that xonsh would fail over to external shells when
+  jobs when quitting deepsh with a second "exit".
+* Fixed an issue that deepsh would fail over to external shells when
   running .xsh script which raises exceptions.
 * Fixed an issue with ``openpty()`` returning non-unix line endings in its buffer.
-  This was causing git and ssh to fail when xonsh was used as the login shell on the
+  This was causing git and ssh to fail when deepsh was used as the login shell on the
   server. See https://mail.python.org/pipermail/python-list/2013-June/650460.html for
   more details.
 * Restored the ability to ^Z and ``fg`` processes on posix platforms.
 * CommandPipelines were not guaranteed to have been ended when the return code
   was requested. This has been fixed.
 * Introduce path expansion in ``is_writable_file`` to fix
-  ``$XONSH_TRACEBACK_LOGFILE=~/xonsh.log``.
+  ``$DEEPSH_TRACEBACK_LOGFILE=~/deepsh.log``.
 * Backgrounding a running process (^Z) now restores ECHO mode to the terminal
   in cases where the subprocess doesn't properly restore itself. A major instance
   of this behaviour is Python's interactive interpreter.
@@ -4328,7 +4328,7 @@ v0.5.1
 
 **Fixed:**
 
-* Fixed xonfig raising error when xonsh is not installed from source.
+* Fixed xonfig raising error when deepsh is not installed from source.
 
 
 
@@ -4340,20 +4340,20 @@ v0.5.0
 
 * $XONTRIB_MPL_MINIMAL environment variable can be set to change if plots are minimalist or as-seen
 * xontrib-mpl now supports iTerm2 inline image display if iterm2_tools python package is installed
-* Xonsh now will fallback to other shells if encountered errors when
+* Deepsh now will fallback to other shells if encountered errors when
   starting up.
 * Added entry to customization faq re: ``dirs`` alias (#1452)
 * Added entry to customization faq re: tab completion selection (#1725)
 * Added entry to customization faq re: libgcc core dump (#1160)
 * Section about quoting in the tutorial.
 * The ``$VC_HG_SHOW_BRANCH`` environment variable to control whether to hide the hg branch in the prompt.
-* xonfig now contains the latest git commit date if xonsh installed
+* xonfig now contains the latest git commit date if deepsh installed
   from source.
 * Alt+Enter will execute a multiline code block irrespective of cursor position
 * Windows now has the ability to read output asynchronously from
   the console.
 * Use `doctr <https://drdoctr.github.io/doctr/>`_ to deploy dev docs to github pages
-* New ``xonsh.proc.uncapturable()`` decorator for declaring that function
+* New ``deepsh.proc.uncapturable()`` decorator for declaring that function
   aliases should not be run in a captured subprocess.
 * New history backend sqlite.
 * Prompt user to install xontrib package if they try to load an uninstalled
@@ -4361,7 +4361,7 @@ v0.5.0
 * Callable aliases may now take a final ``spec`` argument, which is the
   corresponding ``SubprocSpec`` instance.
 * New ``bashisms`` xontrib provides additional Bash-like syntax, such as ``!!``.
-  This xontrib only affects the command line, and not xonsh scripts.
+  This xontrib only affects the command line, and not deepsh scripts.
 * Tests that create testing repos (git, hg)
 * New subprocess specification class ``SubprocSpec`` is used for specifying
   and manipulating subprocess classes prior to execution.
@@ -4371,7 +4371,7 @@ v0.5.0
   in the pipeline. Instances may be iterated and stream lines from the
   stdout buffer. These pipelines read from the stdout & stderr streams in a
   non-blocking manner.
-* ``$XONSH_STORE_STDOUT`` is now available on all platforms!
+* ``$DEEPSH_STORE_STDOUT`` is now available on all platforms!
 * The ``CommandsCache`` now has the ability to predict whether or not a
   command must be run in the foreground using ``Popen`` or may use a
   background thread and can use ``PopenThread``.
@@ -4381,7 +4381,7 @@ v0.5.0
   ``f(args, stdin=None, stdout=None, stderr=None)``.
 * Uncaptured subprocesses now receive a PTY file handle for stdout and
   stderr.
-* New ``$XONSH_PROC_FREQUENCY`` environment variable that specifies how long
+* New ``$DEEPSH_PROC_FREQUENCY`` environment variable that specifies how long
   loops in the subprocess framework should sleep. This may be adjusted from
   its default value to improved performance and mitigate "leaky" pipes on
   slower machines.
@@ -4393,17 +4393,17 @@ v0.5.0
 * Backticks for regex or glob searches now support an additional modifier
   ``p``, which causes them to return Path objects instead of strings.
 * New ``BOTTOM_TOOLBAR`` environment variable to control a bottom toolbar as specified in prompt-toolkit
-* New ``$XONSH_STDERR_PREFIX`` and ``$XONSH_STDERR_POSTFIX`` environment
+* New ``$DEEPSH_STDERR_PREFIX`` and ``$DEEPSH_STDERR_POSTFIX`` environment
   variables allow the user to print a prompt-like string before and after
   all stderr that is seen. For example, say that you would like stderr
   to appear on a red background, you might set
-  ``$XONSH_STDERR_PREFIX = "{BACKGROUND_RED}"`` and
-  ``$XONSH_STDERR_PREFIX = "{NO_COLOR}"``.
-* New ``xonsh.pyghooks.XonshTerminal256Formatter`` class patches
-  the pygments formatter to understand xonsh color token semantics.
+  ``$DEEPSH_STDERR_PREFIX = "{BACKGROUND_RED}"`` and
+  ``$DEEPSH_STDERR_PREFIX = "{NO_COLOR}"``.
+* New ``deepsh.pyghooks.DeepshTerminal256Formatter`` class patches
+  the pygments formatter to understand deepsh color token semantics.
 * Load events are now available
 * New events added: ``on_post_init``, ``on_pre_cmdloop``, ``on_pre_rc``, ``on_post_rc``, ``on_ptk_create``
-* Completion for ``xonsh`` builtin functions ``xontrib`` and ``xonfig``
+* Completion for ``deepsh`` builtin functions ``xontrib`` and ``xonfig``
 * Added a general customization FAQ page to the docs to collect various
   tips/tricks/fixes for common issues/requests
 * ``test_single_command`` and ``test_redirect_out_to_file`` tests in ``test_integrations``
@@ -4419,7 +4419,7 @@ v0.5.0
   to set colors that follow the terminal color schemes. Currently, this requires
   prompt_toolkit master (>1.0.8) and pygments master (2.2) to work correctly.
 * ``vox activate`` now accepts relative directories.
-* Updated the effectivity of ``$XONSH_DEBUG`` on debug messages.
+* Updated the effectivity of ``$DEEPSH_DEBUG`` on debug messages.
 * Better documentation on how to get nice colors in Windows' default console
 * All custom prompt_toolkit key binding filters now declared with the
   ``@Condition`` decorator
@@ -4465,11 +4465,11 @@ v0.5.0
     * vim
     * vimpager
     * xo
-    * xonsh
+    * deepsh
     * zsh
 * The ``run_subproc()`` function has been replaced with a new implementation.
 * Piping between processes now uses OS pipes.
-* ``$XONSH_STORE_STDIN`` now uses ``os.pread()`` rather than ``tee`` and a new
+* ``$DEEPSH_STORE_STDIN`` now uses ``os.pread()`` rather than ``tee`` and a new
   file.
 * The implementation of the ``foreground()`` decorator has been moved to
   ``unthreadable()``.
@@ -4519,7 +4519,7 @@ v0.5.0
 * May now Ctrl-C out of an infinite loop with a subprocess, such as
   ```while True: sleep 1``.
 * Fix for stdin redirects.
-* Backgrounding works with ``$XONSH_STORE_STDOUT``
+* Backgrounding works with ``$DEEPSH_STORE_STDOUT``
 * ``PopenThread`` blocks its thread from finishing until command has completed
   or process is suspended.
 * Added a minimum time buffer time for command pipelines to check for
@@ -4534,11 +4534,11 @@ v0.5.0
   streamed.
 * Aliases that begin with a comma now complete correctly (no spurious comma)
 * Use ``python3`` in shebang lines for compatibility with distros that still use Python 2 as the default Python
-* STDOUT is only stored when ``$XONSH_STORE_STDOUT=True``
+* STDOUT is only stored when ``$DEEPSH_STORE_STDOUT=True``
 * Fixed issue with alias redirections to files throwing an OSError because
   the function ProcProxies were not being waited upon.
 * Fixed issue with callable aliases that happen to call sys.exit() or
-  raise SystemExit taking out the whole xonsh process.
+  raise SystemExit taking out the whole deepsh process.
 * Safely flushes file handles on threaded buffers.
 * Proper default value and documentation for ``$BASH_COMPLETIONS``
 * Fixed readline completer issues on paths with spaces
@@ -4567,20 +4567,20 @@ v0.4.7
 
 * Define alias for 'echo' on startup for Windows only.
 * New coredev `AstraLuma <https://github.com/AstraLuma>`_ added
-* ``which -a`` now searches in ``__xonsh_ctx__`` too
+* ``which -a`` now searches in ``__deepsh_ctx__`` too
 * Info about the xontrib cookiecutter template on xontrib tutorial
-* xonsh's optional dependencies may now be installed with the pip extras ``ptk``, ``proctitle``, ``linux``, ``mac``, and ``win``.
+* deepsh's optional dependencies may now be installed with the pip extras ``ptk``, ``proctitle``, ``linux``, ``mac``, and ``win``.
 * Env ``help`` method to format and print the vardocs for an envvar
 * test_news fails if no empty line before a category
 * more info on test_news failures
 * Added ``on_precommand`` and ``on_postcommand`` `events </events.html>`_
 * New ``FORMATTER_DICT`` entry ``gitstatus`` to provides informative git status
 * FOREIGN_ALIASES_OVERRIDE envvar to control whether foreign aliases should
-  override xonsh aliases with the same name.
+  override deepsh aliases with the same name.
 
-* Warning on tutorial about foreign aliases being ignored if a xonsh alias
+* Warning on tutorial about foreign aliases being ignored if a deepsh alias
   exist with the same name if not FOREIGN_ALIASES_OVERRIDE.
-* The prompt-toolkit shell now auto-inserts matching parentheses, brackets, and quotes. Enabled via the ``XONSH_AUTOPAIR`` environment variable
+* The prompt-toolkit shell now auto-inserts matching parentheses, brackets, and quotes. Enabled via the ``DEEPSH_AUTOPAIR`` environment variable
 * Better syntax highlights in prompt-toolkit, including valid command / path highlighting, macro syntax highlighting, and more
 * More info on tutorial about history interaction
 * Entry on bash_to_xsh
@@ -4591,16 +4591,16 @@ v0.4.7
 **Changed:**
 
 * Devguide reflects the current process of releasing through ``release.xsh``
-* moved ``which`` from ``xonsh.aliases`` into ``xoreutils.which``
-* ``xonsh.prompt.gitstatus.gitstatus`` now returns a namedtuple
+* moved ``which`` from ``deepsh.aliases`` into ``xoreutils.which``
+* ``deepsh.prompt.gitstatus.gitstatus`` now returns a namedtuple
 
-* implementation of ``xonsh.prompt.vc_branch.get_git_branch`` and
-  ``xonsh.prompt.vc_branch.git_dirty_working_directory`` to use 'git status --procelain'
-* moved prompt formatting specific functions from ``xonsh.environ``
-  to ``xonsh.prompt.base``
-* All prompt formatter functions moved to ``xonsh.prompt`` subpackage
+* implementation of ``deepsh.prompt.vc_branch.get_git_branch`` and
+  ``deepsh.prompt.vc_branch.git_dirty_working_directory`` to use 'git status --procelain'
+* moved prompt formatting specific functions from ``deepsh.environ``
+  to ``deepsh.prompt.base``
+* All prompt formatter functions moved to ``deepsh.prompt`` subpackage
 * Printing the message about foreign aliases being ignored happens only
-  if XONSH_DEBUG is set.
+  if DEEPSH_DEBUG is set.
 * Use ``SetConsoleTitleW()`` on Windows instead of a process call.
 * Tutorial to reflect the current history command argument functionality
 * Macro function arguments now default to ``str``, rather than ``eval``,
@@ -4622,7 +4622,7 @@ v0.4.7
 * Parser would fail on nested, captured suprocess macros. Now, it works,
   hooray!?
 * now fires chdir event if OS change in working directory is detected.
-* ``xonsh.prompt.vc_branch.git_dirty_working_directory``
+* ``deepsh.prompt.vc_branch.git_dirty_working_directory``
    uses ``porcelain`` option instead of using the bytestring
    ``nothing to commit`` to find out if a git directory is dirty
 * Fix bug where know commands where not highlighted on windows.
@@ -4639,7 +4639,7 @@ v0.4.7
 * whole prompt turning useless when one formatting function raises an exception
 * Fix completion after alias expansion
 * Fix hard crash when foreign shell functions fails to run. #1715
-* Bug where non-default locations for ``XDG_DATA_HOME`` and ``XONSH_DATA_DIR``
+* Bug where non-default locations for ``XDG_DATA_HOME`` and ``DEEPSH_DATA_DIR``
   would not expand ``~`` into the home directory
 * Auto quote path completions if path contains 'and' or 'or'
 
@@ -4674,9 +4674,9 @@ v0.4.6
 
 **Changed:**
 
-* ``create_module`` implementation on XonshImportHook
+* ``create_module`` implementation on DeepshImportHook
 * Results of the ``bash`` tab completer are now properly escaped (quoted) when necessary.
-* Foreign aliases that match xonsh builtin aliases are now ignored with a warning.
+* Foreign aliases that match deepsh builtin aliases are now ignored with a warning.
 * ``prompt_toolkit`` completions now only show the rightmost portion
   of a given completion in the dropdown
 * The value of ``'none'`` is no longer allowed for ``$SHELL_TYPE`` just during the initial
@@ -4697,7 +4697,7 @@ v0.4.6
   to it are popped.
 
 * And ``dirstack`` suppresses this temporary drive mapping funky jive if registry entry
-  ``HKCU\software\microsoft\command processor\DisableUNCCheck`` (or HKLM\...) is a DWORD value 1.  This allows Xonsh
+  ``HKCU\software\microsoft\command processor\DisableUNCCheck`` (or HKLM\...) is a DWORD value 1.  This allows Deepsh
   to show the actual UNC path in your prompt string and *also* allows subprocess commands invoking `CMD.EXE` to run in
   the expected working directory. See https://support.microsoft.com/en-us/kb/156276 to satisfy any lingering curiosity.
 * ``lazy_locate_binary`` handles binary on different drive letter than current working directory (on Windows).
@@ -4705,7 +4705,7 @@ v0.4.6
 * New implementation of bash completer with better performance and compatibility.
 * ``$COMPLETIONS_BRACKETS`` is now available to determine whether or not to
   include opening brackets in Python completions
-* ``xonsh.bat`` tries to use `pylauncher <https://www.python.org/dev/peps/pep-0397/>`_ when available.
+* ``deepsh.bat`` tries to use `pylauncher <https://www.python.org/dev/peps/pep-0397/>`_ when available.
 
 
 **Removed:**
@@ -4717,7 +4717,7 @@ v0.4.6
 
 **Fixed:**
 
-* xonsh modules imported now have the __file__ attribute
+* deepsh modules imported now have the __file__ attribute
 * Context sensitive AST transformer was not adding argument names to the
   local scope. This would then enable extraneous subprocess mode wrapping
   for expressions whose leftmost name was function argument. This has been
@@ -4727,7 +4727,7 @@ v0.4.6
 * Correctly preserve arguments given to xon.sh, in case there are quoted ones.
 * Environment variables in subprocess mode were not being expanded
   unless they were in a sting. They are now expanded properly.
-* Fixed a bug that prevented xonsh from running scripts with code caching disabled.
+* Fixed a bug that prevented deepsh from running scripts with code caching disabled.
 * Text of instructions to download missing program now does not get off and
   appears in whole.
 * Fix some test problems when win_unicode_console was installed on windows.
@@ -4743,7 +4743,7 @@ v0.4.6
 * fix parsing for tuple of tuples (like `(),()`)
 * ``sys.stdin``, ``sys.stdout``, ``sys.stderr`` no longer complete with
   opening square brackets
-* xonsh now properly handles syntax error messages arising from using values in inappropriate contexts (e.g., ``del 7``).
+* deepsh now properly handles syntax error messages arising from using values in inappropriate contexts (e.g., ``del 7``).
 
 
 v0.4.5
@@ -4758,23 +4758,23 @@ v0.4.5
   to numerate the commands.
 * The ``exec`` command is now a first class alias that acts the same way as in
   sh-based languages. It replaces the current process with the command and
-  argument that follows it. This allows xonsh to be used as a default shell
+  argument that follows it. This allows deepsh to be used as a default shell
   while maintaining functionality with SSH, gdb, and other third party programs
   that assume the default shell supports raw ``exec command [args]`` syntax.
 
   This feature introduces some ambiguity between exec-as-a-subprocess and
   exec-as-a-function (the inescapable Python builtin). Though the two pieces of
   syntax do not overlap, they perform very different operations. Please see
-  the xonsh FAQ for more information on trade-offs and mitigation strategies.
+  the deepsh FAQ for more information on trade-offs and mitigation strategies.
 * ``which -v`` now calls superhelp, which will print highlighted source.
 * Added xontribs:
   * `z (Tracks your most used directories, based on 'frecency'.) <https://github.com/AstraLuma/xontrib-z>`_
 * amalgamate.py now supports relative imports.
 * ``history show`` args ``-t``, ``-f``, ``-T`` ``+T`` to filter commands by timestamp
 
-* ``ensure_timestamp`` in xonsh.tools to try and convert an object to a timestamp a.k.a float
+* ``ensure_timestamp`` in deepsh.tools to try and convert an object to a timestamp a.k.a float
 
-* ``$XONSH_DATETIME_FORMAT`` envvar, the default format to be used with ``datetime.datetime.strptime()``
+* ``$DEEPSH_DATETIME_FORMAT`` envvar, the default format to be used with ``datetime.datetime.strptime()``
 * ``xon.sh`` script now sets ``$LANG=C.UTF8`` in the event that no encoding
   is detected.
 * amalgamate.py now properly handles ``from __future__`` imports.
@@ -4783,7 +4783,7 @@ v0.4.5
 **Changed:**
 
 * ``_hist_show`` now uses ``_hist_get`` to print out the commands.
-* ``xonsh.completers`` sub-package is now fully lazy.
+* ``deepsh.completers`` sub-package is now fully lazy.
 * The vox xontrib now takes flags very similar to Python's venv tool. Use
   ``vox --help <command>`` to learn more.
 * Xontribs may now define ``__all__`` as a module top-level to limit what gets exported to the shell context
@@ -4798,13 +4798,13 @@ v0.4.5
 * moved all parameter checking in ``_hist_get``
 
 * ``_hist_show`` to handle numeration and timestamp printing of commands
-* ``xonsh.imphooks`` does not install the import hooks automatically, you now
+* ``deepsh.imphooks`` does not install the import hooks automatically, you now
   need to explicitly call the  `install_hook()` method defined in this module.
-  For example: ``from xonsh.imphooks import install_hook; install_hook()``. The
+  For example: ``from deepsh.imphooks import install_hook; install_hook()``. The
   ``install_hook`` method can safely be called several times. If you need
-  compatibility with previous versions of Xonsh you can use the following::
+  compatibility with previous versions of Deepsh you can use the following::
 
-    from xonsh import imphooks
+    from deepsh import imphooks
     getattr(imphooks, 'install_hook', lambda:None)()
 * xonfig command now dumps more encoding related settings.
 
@@ -4814,15 +4814,15 @@ v0.4.5
 * Anaconda Build is shutting down so we can no longer build conda development packages.
   All references to these packages are removed from the documentation.
 * Removed conda build recipe since the it is no longer used for Anaconda Build.
-  The recipe used to build xonsh on conda-forge can be found here:
-  https://github.com/conda-forge/xonsh-feedstock/blob/master/recipe/meta.yaml
+  The recipe used to build deepsh on conda-forge can be found here:
+  https://github.com/conda-forge/deepsh-feedstock/blob/master/recipe/meta.yaml
 
 
 **Fixed:**
 
 * ``_zsh_hist_parser`` not parsing history files without timestamps.
 * Fixed amalgamation of aliased imports that are already in ``sys.modules``.
-* Xonsh will no longer fail to start in directories where the user doesn't have
+* Deepsh will no longer fail to start in directories where the user doesn't have
   read access.
 * Fixed parser error line number exception from being raised while trying to
   raise a SyntaxError.
@@ -4834,8 +4834,8 @@ v0.4.5
 * Version number reported by bundled PLY
 * ``xonfig`` no longer breaks if PLY is externally installed and version 3.8
 * LazyObject supports set union
-* Fixed error with not sourcing files with ``$XONSH_ENCODING`` and
-  ``$XONSH_ENCODING_ERRORS``.
+* Fixed error with not sourcing files with ``$DEEPSH_ENCODING`` and
+  ``$DEEPSH_ENCODING_ERRORS``.
 * ``$IGNOREEOF`` envrionment variable now works properly in the
   prompt-toolkit shell.
 * Completions in ``jupyter_kernel.py`` now use updated completion framework
@@ -4870,10 +4870,10 @@ v0.4.4
   ``curr_branch`` will be prepended with a space (``{}`` is a placeholder for
   the value itself). The format string after ``:`` is applied only if the value
   is not ``None``.
-* ``xonsh.completers`` subpackage is now amalgamated.
+* ``deepsh.completers`` subpackage is now amalgamated.
 * amalgamate.py will now warn if the same name is defined across multiple
   different files.
-* xonsh_builtins, xonsh_execer fixtures in conftest.py
+* deepsh_builtins, deepsh_execer fixtures in conftest.py
 * Docs on how to tweak the Windows ConHost for a better color scheme.
 * Docs: how to fix Thunar's "Open Terminal Here" action.
 * A new API class was added to Vox: ``xontrib.voxapi.Vox``. This allows programmatic access to the virtual environment machinery for other xontribs. See the API documentation for details.
@@ -4883,16 +4883,16 @@ v0.4.4
 **Changed:**
 
 * amalgamate now works on Python 2 and allows relative imports.
-* Top-level xonsh package now more lazy.
+* Top-level deepsh package now more lazy.
 * Show conda environment name in prompt in parentheses similar what conda does.
 * Implementation of expandvars now uses regex
 * Because of the addition of "optional items" to the prompt format string, the
-  functions ``xonsh.environ.current_branch``, ``xonsh.environ.env_name`` and
+  functions ``deepsh.environ.current_branch``, ``deepsh.environ.env_name`` and
   formatter dict items ``curr_branch``, ``current_job``, ``env_name`` are
   no longer padded with a separator.
 * many test cases to use fixtures and parametrization
-* Public interface in ``xonsh.ansi_colors`` module now has ``ansi_``
-  prefix to prevent name conflicts with other parts of xonsh.
+* Public interface in ``deepsh.ansi_colors`` module now has ``ansi_``
+  prefix to prevent name conflicts with other parts of deepsh.
 * Vox was moved to xontrib. Behaves exactly the same as before, just need to add it to your xontribs.
 * is_int_as_str and is_slice_as_str are now reimplemented in EAFP style
 
@@ -4906,7 +4906,7 @@ v0.4.4
 **Removed:**
 
 * _is_in_env, _get_env_string functions on tools
-* ``xonsh.environ.format_prompt`` has been dropped; ``partial_format_prompt``
+* ``deepsh.environ.format_prompt`` has been dropped; ``partial_format_prompt``
   can be used instead.
 * for loops and yield statements in test cases, unused imports
 * is_int_or_slice
@@ -4914,15 +4914,15 @@ v0.4.4
 
 **Fixed:**
 
-* Fixed bug on Windows preventing xonsh from changing the console title.
-* Unrecognized ``$XONSH_COLOR_STYLE`` values don't crash terminal.
+* Fixed bug on Windows preventing deepsh from changing the console title.
+* Unrecognized ``$DEEPSH_COLOR_STYLE`` values don't crash terminal.
 * Writing the window title will no longer accidentally answer interactive
   questions, eg ``rm -i`` now works as expected.
 * more matching cases for envvar reference
 * Certain linux VTE terminals would not start new tabs in the previous CWD.
   This may now be rectified by adding ``{vte_new_tab_cwd}`` somewhere to the
   prompt.
-* Unqualified usage of Unstorable in xonsh setup wizard that was causing the
+* Unqualified usage of Unstorable in deepsh setup wizard that was causing the
   wizard to crash and burn
 * Bare ``except:`` was replaced with ``except Exception`` to prevent
   accidentally catching utility exceptions such as KeyboardInterrupt, which
@@ -4933,7 +4933,7 @@ v0.4.4
 * Fixed multiple definition of ``pygments``.
 * Fixed multiple definition of ``tokenize``.
 * redundant and 'leaky' tests in nose
-* Fix bug that prevented disabling $INTENSIFY_COLORS_ON_WIN in ``xonshrc``
+* Fix bug that prevented disabling $INTENSIFY_COLORS_ON_WIN in ``deepshrc``
 * ``LazyJSON`` will now hide failures to close, and instead rely on reference
   counting if something goes wrong.
 * Fixed maximum recursion error with color styles.
@@ -4951,7 +4951,7 @@ v0.4.3
 
 * The results of glob expressions are sorted if ``$GLOB_SORTED`` is set.
 * LazyObjects will now load themselves on ``__getitem__()``
-* New tools in ``xonsh.lazyasd`` module for loading modules in background
+* New tools in ``deepsh.lazyasd`` module for loading modules in background
   threads.
 
 
@@ -4968,7 +4968,7 @@ v0.4.3
 
 **Removed:**
 
-* Removed the ``xonsh.built_ins.ENV`` global instance of the Env class.
+* Removed the ``deepsh.built_ins.ENV`` global instance of the Env class.
 
 
 **Fixed:**
@@ -5023,7 +5023,7 @@ v0.4.0
 
 **Added:**
 
-* A new class, ``xonsh.tools.EnvPath`` has been added. This class implements a
+* A new class, ``deepsh.tools.EnvPath`` has been added. This class implements a
   ``MutableSequence`` object and overrides the ``__getitem__`` method so that
   when its entries are requested (either explicitly or implicitly), variable
   and user expansion is performed, and relative paths are resolved.
@@ -5035,7 +5035,7 @@ v0.4.0
   non-package imports lazy, and adds hooks into the ``__init__.py``.
   This helps makes initial imports of modules fast and decreases startup time.
   Packages and sub-packages must be amalgamated separately.
-* New lazy and self-destructive module ``xonsh.lazyasd`` adds a suite of
+* New lazy and self-destructive module ``deepsh.lazyasd`` adds a suite of
   classes for delayed creation of objects.
 
     - A ``LazyObject`` won't be created until it has an attribute accessed.
@@ -5046,18 +5046,18 @@ v0.4.0
   by name in the context that they were handed, thus dereferencing themselves.
   This is useful for global variables that may be expensive to create,
   should only be created once, and may not be used in any particular session.
-* New ``xon.sh`` script added for launching xonsh from a sh environment.
-  This should be used if the normal ``xonsh`` script does not work for
+* New ``xon.sh`` script added for launching deepsh from a sh environment.
+  This should be used if the normal ``deepsh`` script does not work for
   some reason.
 * Normal globbing is now available in Python mode via ``g````
 * Backticks were expanded to allow searching using arbitrary functions, via
   ``@<func>````
-* ``xonsh.platform`` now has a new ``PATH_DEFAULT`` variable.
+* ``deepsh.platform`` now has a new ``PATH_DEFAULT`` variable.
 * Tab completers can now raise ``StopIteration`` to prevent consideration of
   remaining completers.
 * Added tab completer for the ``completer`` alias.
 * New ``Block`` and ``Functor`` context managers are now available as
-  part of the ``xonsh.contexts`` module.
+  part of the ``deepsh.contexts`` module.
 * ``Block`` provides support for turning a context body into a non-executing
   list of string lines. This is implement via a syntax tree transformation.
   This is useful for creating remote execution tools that seek to prevent
@@ -5073,28 +5073,28 @@ v0.4.0
 * New lazy methods added to CommandsCache allowing for testing and inspection
   without the possibility of recomputing the cache.
 * ``!(command)`` is now usefully iterable, yielding lines of stdout
-* Added XonshCalledProcessError, which includes the relevant CompletedCommand.
+* Added DeepshCalledProcessError, which includes the relevant CompletedCommand.
   Also handles differences between Py3.4 and 3.5 in CalledProcessError
 * Tab completion of paths now includes zsh-style path expansion (subsequence
   matching), toggleable with ``$SUBSEQUENCE_PATH_COMPLETION``
 * Tab completion of paths now includes "fuzzy" matches that are accurate to
   within a few characters, toggleable with ``$FUZZY_PATH_COMPLETION``
-* Provide ``$XONSH_SOURCE`` for scripts in the environment variables pointing to
+* Provide ``$DEEPSH_SOURCE`` for scripts in the environment variables pointing to
   the currently running script's path
 * Arguments '+' and '-' for the ``fg`` command (job control)
-* Provide ``$XONSH_SOURCE`` for scripts in the environment variables pointing to
+* Provide ``$DEEPSH_SOURCE`` for scripts in the environment variables pointing to
   the currently running script's path
 * ``!(command)`` is now usefully iterable, yielding lines of stdout
-* Added XonshCalledProcessError, which includes the relevant CompletedCommand.
+* Added DeepshCalledProcessError, which includes the relevant CompletedCommand.
   Also handles differences between Py3.4 and 3.5 in CalledProcessError
-* XonshError and XonshCalledProcessError are now in builtins:
+* DeepshError and DeepshCalledProcessError are now in builtins:
 
   - ``history session``
-  - ``history xonsh``
+  - ``history deepsh``
   - ``history all``
   - ``history zsh``
   - ``history bash``
-  - ``__xonsh_history__.show()``
+  - ``__deepsh_history__.show()``
 
 * New ``pathsep_to_set()`` and ``set_to_pathsep()`` functions convert to/from
   ``os.pathsep`` separated strings to a set of strings.
@@ -5108,14 +5108,14 @@ v0.4.0
   can be resolved properly.
 * In ``VI_MODE``, the ``v`` key will enter character selection mode, not open
   the editor.  ``Ctrl-X Ctrl-E`` will still open an editor in any mode
-* ``$XONSH_DEBUG`` will now suppress amalgamated imports. This usually needs to be
-  set in the calling environment or prior to *any* xonsh imports.
-* Restructured ``xonsh.platform`` to be fully lazy.
-* Restructured ``xonsh.ansi_colors`` to be fully lazy.
-* Ensured the ``pygments`` and ``xonsh.pyghooks`` are not imported until
+* ``$DEEPSH_DEBUG`` will now suppress amalgamated imports. This usually needs to be
+  set in the calling environment or prior to *any* deepsh imports.
+* Restructured ``deepsh.platform`` to be fully lazy.
+* Restructured ``deepsh.ansi_colors`` to be fully lazy.
+* Ensured the ``pygments`` and ``deepsh.pyghooks`` are not imported until
   actually needed.
 * Yacc parser is now loaded in a background thread.
-* Cleaned up argument parsing in ``xonsh.main.premain`` by removing the
+* Cleaned up argument parsing in ``deepsh.main.premain`` by removing the
   ``undo_args`` hack.
 * Now complains on invalid arguments.
 * ``Env`` now guarantees that the ``$PATH`` is available and mutable when
@@ -5123,16 +5123,16 @@ v0.4.0
 * On Windows the ``PROMPT`` environment variable is reset to `$P$G` before
   sourcing ``*.bat`` files.
 * On Windows the ``PROMPT`` environment variable is reset to `$P$G` before starting
-  subprocesses. This prevents the unformatted xonsh ``PROMPT`` template from showing up
+  subprocesses. This prevents the unformatted deepsh ``PROMPT`` template from showing up
   when running batch files with ``ECHO ON```
 * ``@()`` now passes through functions as well as strings, which allows for the
   use of anonymous aliases and aliases not explicitly added to the ``aliases``
   mapping.
 * Functions in ``Execer`` now take ``transform`` kwarg instead of
   ``wrap_subproc``.
-* Provide ``$XONSH_SOURCE`` for scripts in the environment variables pointing to
+* Provide ``$DEEPSH_SOURCE`` for scripts in the environment variables pointing to
   the currently running script's path
-* XonshError and XonshCalledProcessError are now in builtins
+* DeepshError and DeepshCalledProcessError are now in builtins
 * ``__repr__`` on the environment only shows a short representation of the
   object instead of printing the whole environment dictionary
 * More informative prompt when configuring foreign shells in the wizard.
@@ -5152,30 +5152,30 @@ v0.4.0
   configuration. This was done to increase stock startup times. This
   behaviour can be recovered by adding ``{"shell": "bash"}`` to your
   ``"foreign_shells"`` in your config.json file. For more details,
-  see http://xon.sh/xonshconfig.html#foreign-shells
+  see http://xon.sh/deepshconfig.html#foreign-shells
 * ``ensure_git()`` and ``ensure_hg()`` decorators removed.
 * ``call_hg_command()`` function removed.
 
 
 **Fixed:**
 
-* Issue where ``xonsh`` did not expand user and environment variables in
+* Issue where ``deepsh`` did not expand user and environment variables in
   ``$PATH``, forcing the user to add absolute paths.
 * Fixed a problem with aliases not always being found.
 * Fixed issue where input was directed to the last process in a pipeline,
   rather than the first.
 * Bug where xonfig wizard can't find ENV docs
-* Fixed ``xonsh.environ.locate_binary()`` to handle PATH variable are given as a tuple.
+* Fixed ``deepsh.environ.locate_binary()`` to handle PATH variable are given as a tuple.
 * Fixed missing completions for ``cd`` and ```rmdir`` when directories had spaces
   in their names.
-* Bug preventing `xonsh` executable being installed on macOS.
+* Bug preventing `deepsh` executable being installed on macOS.
 * Strip leading space in commands passed using the "-c" switch
 * Fixed xonfig wizard failing on Windows due to colon in created filename.
 * Ensured that the prompt_toolkit shell functions, even without a ``completer``
   attribute.
 * Fixed crash resulting from malformed ``$PROMPT`` or ``$TITLE``.
-* xonsh no longer backgrounds itself after every command on Cygwin.
-* Fixed an issue about ``os.killpg()`` on Cygwin which caused xonsh to crash
+* deepsh no longer backgrounds itself after every command on Cygwin.
+* Fixed an issue about ``os.killpg()`` on Cygwin which caused deepsh to crash
   occasionally
 * Fix crash on startup when Bash Windows Subsystem for Linux is on the Path.
 * Fixed issue with setting and signaling process groups on Linux when the first
@@ -5183,7 +5183,7 @@ v0.4.0
 * Fixed ``_list_completers`` such that it does not throw a ValueError if no completer is registered.
 * Fixed ``_list_completers`` such that it does not throw an AttributeError if a completer has no docstring.
 * Bug that caused command line argument ``--config-path`` to be ignored.
-* Bug that caused xonsh to break on startup when prompt-toolkit < 1.0.0.
+* Bug that caused deepsh to break on startup when prompt-toolkit < 1.0.0.
 
 
 v0.3.4
@@ -5202,7 +5202,7 @@ v0.3.4
 **Fixed:**
 
 * Fixed an issue whereby attempting to delete a literal value (e.g., ``del 7``)
-  in the prompt_toolkit shell would cause xonsh to crash.
+  in the prompt_toolkit shell would cause deepsh to crash.
 * Fixed broken behavior when using ``cd ..`` to move into a nonexistent
   directory.
 * Partial workaround for Cygwin where ``pthread_sigmask`` appears to be missing
@@ -5228,7 +5228,7 @@ v0.3.3
   be controlled via new environment variables ``$COLOR_INPUT``,
   ``$COLOR_RESULTS``, and ``$PRETTY_PRINT_RESULTS``.
 
-* In interactive mode, if there are stopped or background jobs, Xonsh prompts
+* In interactive mode, if there are stopped or background jobs, Deepsh prompts
   for confirmations rather than just killing all jobs and exiting.
 
 **Changed:**
@@ -5257,12 +5257,12 @@ v0.3.3
 * Fixed crashed bash-completer when bash is not available on Windows
 * Fixed bug on Windows where tab-completion for executables would return all files.
 * Fixed bug on Windows which caused the bash $PROMPT variable to be used when no
-  no $PROMPT variable was set in .xonshrc
+  no $PROMPT variable was set in .deepshrc
 * Improved start-up times by caching information about bash completion
   functions
 * The --shell-type CLI flag now takes precedence over $SHELL_TYPE specified in
-  .xonshrc
-* Fixed an issue about ``os.killpg()`` on OS X which caused xonsh crash with
+  .deepshrc
+* Fixed an issue about ``os.killpg()`` on OS X which caused deepsh crash with
   occasionally.
 
 
@@ -5286,12 +5286,12 @@ v0.3.1
 * Added comma literals to subproc mode.
 * ``@$(cmd)`` has been added as a subprocess-mode operator, which replaces in
   the subprocess command itself with the result of running ``cmd``.
-* New ``showcmd`` alias for displaying how xonsh interprets subprocess mode
+* New ``showcmd`` alias for displaying how deepsh interprets subprocess mode
   commands and arguments.
 * Added ``$DYNAMIC_CWD_WIDTH`` to allow the adjusting of the current working
   directory width in the prompt.
-* Added ``$XONSH_DEBUG`` environment variable to help with debugging.
-* The ``${...}`` shortcut for ``__xonsh_env__`` now returns appropriate
+* Added ``$DEEPSH_DEBUG`` environment variable to help with debugging.
+* The ``${...}`` shortcut for ``__deepsh_env__`` now returns appropriate
   completion options
 
 **Changed:**
@@ -5321,7 +5321,7 @@ v0.3.1
 * ``$MULTILINE_PROMPT`` now allows colors, as originally intended.
 * Rectified install issue with Jupyter hook when installing with pyenv,
   Jupyter install hook now respects ``--prefix`` argument.
-* Fixed issue with the xonsh.ply subpackage not being installed.
+* Fixed issue with the deepsh.ply subpackage not being installed.
 * Fixed a parsing bug whereby a trailing ``&`` on a line was being ignored
   (processes were unable to be started in the background)
 
@@ -5334,38 +5334,38 @@ v0.3.0
 * ``and``, ``or``, ``&&``, ``||`` have been added as subprocess logical operators,
   by popular demand!
 * Subprocesses may be negated with ``not`` and grouped together with parentheses.
-* New framework for writing xonsh extensions, called ``xontribs``.
+* New framework for writing deepsh extensions, called ``xontribs``.
 * Added a new shell type ``'none'``, used to avoid importing ``readline`` or
   ``prompt_toolkit`` when running scripts or running a single command.
 * New: `sudo` functionality on Windows through an alias
 * Automatically enhance colors for readability in the default terminal (cmd.exe)
   on Windows. This functionality can be enabled/disabled with the
   $INTENSIFY_COLORS_ON_WIN environment variable.
-* Added ``Ellipsis`` lookup to ``__xonsh_env__`` to allow environment variable checks, e.g. ``'HOME' in ${...}``
-* Added an option to update ``os.environ`` every time the xonsh environment changes.
+* Added ``Ellipsis`` lookup to ``__deepsh_env__`` to allow environment variable checks, e.g. ``'HOME' in ${...}``
+* Added an option to update ``os.environ`` every time the deepsh environment changes.
   This is disabled by default but can be enabled by setting ``$UPDATE_OS_ENVIRON`` to
   True.
-* Added Windows 'cmd.exe' as a foreign shell. This gives xonsh the ability to source
+* Added Windows 'cmd.exe' as a foreign shell. This gives deepsh the ability to source
   Windows Batch files (.bat and .cmd). Calling ``source-cmd script.bat`` or the
   alias ``source-bat script.bat`` will call the bat file and changes to the
-  environment variables will be reflected in xonsh.
+  environment variables will be reflected in deepsh.
 * Added an alias for the conda environment activate/deactivate batch scripts when
   running the Anaconda python distribution on Windows.
-* Added a menu entry to launch xonsh when installing xonsh from a conda package
+* Added a menu entry to launch deepsh when installing deepsh from a conda package
 * Added a new ``which`` alias that supports both regular ``which`` and also searches
-  through xonsh aliases. A pure python implementation of ``which`` is used. Thanks
+  through deepsh aliases. A pure python implementation of ``which`` is used. Thanks
   to Trent Mick. https://github.com/trentm/which/
 * Added support for prompt toolkit v1.0.0.
-* Added ``$XONSH_CACHE_SCRIPTS`` and ``$XONSH_CACHE_EVERYTHING`` environment
+* Added ``$DEEPSH_CACHE_SCRIPTS`` and ``$DEEPSH_CACHE_EVERYTHING`` environment
   variables to control caching of scripts and interactive commands.  These can
   also be controlled by command line options ``--no-script-cache`` and
-  ``--cache-everything`` when starting xonsh.
+  ``--cache-everything`` when starting deepsh.
 * Added a workaround to allow ctrl-c to interrupt reverse incremental search in
   the readline shell
 
 **Changed:**
 
-* Running scripts through xonsh (or running a single command with ``-c``) no
+* Running scripts through deepsh (or running a single command with ``-c``) no
   longer runs the user's rc file, unless the ``--login`` option is specified.
   Also avoids loading aliases and environments from foreign shells, as well as
   loading bash completions.
@@ -5379,7 +5379,7 @@ v0.3.0
 * Foreign shells now allow for setting exit-on-error commands before and after
   all other commands via the ``seterrprevcmd`` and ``seterrpostcmd`` arguments.
   Sensinble defaults are provided for existing shells.
-* PLY is no longer a external dependency but is bundled in xonsh/ply. Xonsh can
+* PLY is no longer a external dependency but is bundled in deepsh/ply. Deepsh can
   therefore run without any external dependencies, although having prompt-toolkit
   recommended.
 * Provide better user feedback when running ``which`` in a platform that doesn't
@@ -5411,7 +5411,7 @@ v0.3.0
 * Fixed PermissionError when running commands in directories without read permissions
 * Prevent Windows fixups from overriding environment vars in static config
 * Fixed Optional Github project status to reflect added/removed files via git_dirty_working_directory()
-* Fixed xonsh.exe launcher on Windows, when Python install directory has a space in it
+* Fixed deepsh.exe launcher on Windows, when Python install directory has a space in it
 * Fixed `$CDPATH` to support `~` and environments variables in its items
 
 
@@ -5423,16 +5423,16 @@ v0.2.7
 
 * Added new valid ``$SHELL_TYPE`` called ``'best'``. This selects the best value
   for the concrete shell type based on the availability on the user's machine.
-* New environment variable ``$XONSH_COLOR_STYLE`` will set the color mapping
-  for all of xonsh.
-* New ``XonshStyle`` pygments style will determine the appropriate color
-  mapping based on ``$XONSH_COLOR_STYLE``.  The associated ``xonsh_style_proxy()``
-  is intended for wrapping ``XonshStyle`` when actually being used by
+* New environment variable ``$DEEPSH_COLOR_STYLE`` will set the color mapping
+  for all of deepsh.
+* New ``DeepshStyle`` pygments style will determine the appropriate color
+  mapping based on ``$DEEPSH_COLOR_STYLE``.  The associated ``deepsh_style_proxy()``
+  is intended for wrapping ``DeepshStyle`` when actually being used by
   pygments.
-* The functions ``print_color()`` and ``format_color()`` found in ``xonsh.tools``
+* The functions ``print_color()`` and ``format_color()`` found in ``deepsh.tools``
   dispatch to the approriate shell color handling and may be used from
   anywhere.
-* ``xonsh.tools.HAVE_PYGMENTS`` flag now denotes if pygments is installed and
+* ``deepsh.tools.HAVE_PYGMENTS`` flag now denotes if pygments is installed and
   available on the users system.
 * The ``ansi_colors`` module is now available for handling ANSI color codes.
 * ``?`` and ``??`` operator output now has colored titles, like in IPython.
@@ -5454,7 +5454,7 @@ v0.2.7
   formatting and printing.
 * Prompt coloring, history diffing, and tracing uses new color handling
   capabilities.
-* New ``Token.Color`` token for xonsh color names, e.g. we now use
+* New ``Token.Color`` token for deepsh color names, e.g. we now use
   ``Token.Color.RED`` rather than ``Token.RED``.
 * Untracked files in git are ignored when determining if a git workdir is
   is dirty. This affects the coloring of the branch label.
@@ -5465,9 +5465,9 @@ v0.2.7
 
 **Removed:**
 
-* The ``xonsh.tools.TERM_COLORS`` mapping has been axed, along with all
+* The ``deepsh.tools.TERM_COLORS`` mapping has been axed, along with all
   references to it. This may cause a problem if you were using a raw color code
-  in your xonshrc file from ``$FORMATTER_DICT``. To fix, simply remove these
+  in your deepshrc file from ``$FORMATTER_DICT``. To fix, simply remove these
   references.
 
 **Fixed:**
@@ -5487,7 +5487,7 @@ v0.2.6
   of source code lines prior to their execution. This is useful for debugging scripts.
 * New ability to force callable alias functions to be run in the foreground, i.e.
   the main thread from which the function was called. This is useful for debuggers
-  and profilers which may require such access. Use the ``xonsh.proc.foreground``
+  and profilers which may require such access. Use the ``deepsh.proc.foreground``
   decorator on an alias function to flag it. ``ForegroundProcProxy`` and
   ``SimpleForegroundProcProxy`` classes have been added to support this feature.
   Normally, forcing a foreground alias is not needed.
@@ -5496,8 +5496,8 @@ v0.2.6
   CalledProcessError will be raised. This is useful in scripts that should
   fail at the first error.
 * If the ``setproctitle`` package is installed, the process title will be
-  set to ``'xonsh'`` rather than the path to the Python interpreter.
-* zsh foreign shell interface now supported natively in xonsh, like with Bash.
+  set to ``'deepsh'`` rather than the path to the Python interpreter.
+* zsh foreign shell interface now supported natively in deepsh, like with Bash.
   New ``source-zsh`` alias allows easy access to zsh scripts and functions.
 * Vox virtual environment manager added.
 
@@ -5546,9 +5546,9 @@ v0.2.5
 
 **Removed:**
 
-* Removed ``xonsh.ptk.shortcuts.Prompter.create_prompt_layout()`` and
-  ``xonsh.ptk.shortcuts.Prompter.create_prompt_application()`` methods
-  to reduce portion of xonsh that forks prompt-toolkit. This may require
+* Removed ``deepsh.ptk.shortcuts.Prompter.create_prompt_layout()`` and
+  ``deepsh.ptk.shortcuts.Prompter.create_prompt_application()`` methods
+  to reduce portion of deepsh that forks prompt-toolkit. This may require
   users to upgrade to prompt-toolkit v0.57+.
 
 **Fixed:**
@@ -5587,7 +5587,7 @@ v0.1.0
 * Uses BASH completion for subprocess commands
 * Regular expression filename globbing
 * Its own PLY-based lexer and parser
-* xonsh code parses into a Python AST
+* deepsh code parses into a Python AST
 * You can do all the normal Python things, like arithmetic and importing
 * Captured and uncaptured subprocesses
 * Pipes, redirection, and non-blocking subprocess syntax support

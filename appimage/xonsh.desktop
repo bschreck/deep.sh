@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=xonsh
-Exec=xonsh
-Comment=Xonsh on Python {{ python-fullversion }}
+Name=deepsh
+Exec=deepsh
+Comment=Deepsh on Python {{ python-fullversion }}
 Icon=python
 Categories=System;
 Terminal=true

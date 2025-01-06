@@ -1,4 +1,4 @@
-#!/usr/bin/env xonsh
+#!/usr/bin/env deepsh
 res = True
 script = """import os
 path = "/proc/{}/cmdline".format(os.getpid())

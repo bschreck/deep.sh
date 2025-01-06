@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from xonsh.prompt import gitstatus
-from xonsh.prompt.base import _format_value
+from deepsh.prompt import gitstatus
+from deepsh.prompt.base import _format_value
 
 
 @pytest.fixture(autouse=True)

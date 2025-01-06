@@ -13,8 +13,8 @@ PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -T -v -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-DOCREPONAME = xonsh-docs
-DOCREPOURL  = git@github.com:xonsh/xonsh-docs.git
+DOCREPONAME = deepsh-docs
+DOCREPOURL  = git@github.com:deepsh/deepsh-docs.git
 DOCREPOBRANCH = gh-pages
 
 .PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest

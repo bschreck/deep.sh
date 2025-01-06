@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 import pytest
 
-from xonsh.commands_cache import (
+from deepsh.commands_cache import (
     SHELL_PREDICTOR_PARSER,
     CaseInsensitiveDict,
     CommandsCache,
@@ -16,15 +16,15 @@ from xonsh.commands_cache import (
     predict_shell,
     predict_true,
 )
-from xonsh.platform import ON_WINDOWS
-from xonsh.pytest.tools import skip_if_on_windows
+from deepsh.platform import ON_WINDOWS
+from deepsh.pytest.tools import skip_if_on_windows
 
 PATHEXT_ENV = {"PATHEXT": [".COM", ".EXE", ".BAT"]}
 
 
 def test_commands_cache_lazy(xession):
     cc = xession.commands_cache
-    assert not cc.lazyin("xonsh")
+    assert not cc.lazyin("deepsh")
     assert 0 == len(list(cc.lazyiter()))
     assert 0 == cc.lazylen()
 

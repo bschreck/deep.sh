@@ -3,15 +3,15 @@
 ************************************
 Tutorial: Events
 ************************************
-What's the best way to keep informed in xonsh? Subscribe to an event!
+What's the best way to keep informed in deepsh? Subscribe to an event!
 
 Overview
 ========
-Simply, events are a way for various pieces of xonsh to tell each other what's going on. They're
+Simply, events are a way for various pieces of deepsh to tell each other what's going on. They're
 fired when something of note happens, eg the current directory changes or just before a command is
 executed.
 
-While xonsh has its own event system, it is not dissimilar to other event systems. If you do know
+While deepsh has its own event system, it is not dissimilar to other event systems. If you do know
 events, this should be easy to understand. If not, then this document is extra for you.
 
 Show me the code!

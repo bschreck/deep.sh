@@ -3,17 +3,17 @@
 Helpful Links
 =============
 
-* `GitHub Repository <https://github.com/xonsh/xonsh>`_: `releases <https://github.com/xonsh/xonsh/releases>`_, `changelog <https://github.com/xonsh/xonsh/blob/main/CHANGELOG.rst>`_
-* GitHub topics: `xonsh <https://github.com/topics/xonsh>`_ and `xontrib <https://github.com/topics/xontrib>`_
-* `DockerHub images <https://hub.docker.com/u/xonsh>`_
-* `Cookiecutter template to creating xontribs <https://github.com/xonsh/xontrib-cookiecutter>`_
+* `GitHub Repository <https://github.com/deepsh/deepsh>`_: `releases <https://github.com/deepsh/deepsh/releases>`_, `changelog <https://github.com/deepsh/deepsh/blob/main/CHANGELOG.rst>`_
+* GitHub topics: `deepsh <https://github.com/topics/deepsh>`_ and `xontrib <https://github.com/topics/xontrib>`_
+* `DockerHub images <https://hub.docker.com/u/deepsh>`_
+* `Cookiecutter template to creating xontribs <https://github.com/deepsh/xontrib-cookiecutter>`_
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
 
 .. raw:: html
 
-    <a href="https://github.com/xonsh/xonsh" class='github-fork-ribbon' title='Fork me on GitHub'>Fork me on GitHub</a>
+    <a href="https://github.com/deepsh/deepsh" class='github-fork-ribbon' title='Fork me on GitHub'>Fork me on GitHub</a>
 
     <style>
     /*!

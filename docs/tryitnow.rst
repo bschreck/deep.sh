@@ -1,6 +1,6 @@
 Try It Now!
 ===========
-Try out xonsh right here in the browser. Just press the "Run This"
+Try out deepsh right here in the browser. Just press the "Run This"
 button below!
 
 .. raw:: html
@@ -11,7 +11,7 @@ button below!
         node: document.getElementById('tryitnow'),
           flags: {
             placeholder: "<img src=\"_static/better_colors_windows.png\">",
-            serverUrl: "https://runthis.xonsh.org:80",
+            serverUrl: "https://runthis.deepsh.org:80",
         }
       });
     </script>

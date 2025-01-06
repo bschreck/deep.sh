@@ -7,36 +7,36 @@ Tutorial: Programmable Tab-Completion
 Overview
 ================================
 
-As with many other shells, xonsh ships with the ability to complete
+As with many other shells, deepsh ships with the ability to complete
 partially-specified arguments upon hitting the "tab" key.
 
 In Python-mode, pressing the "tab" key will complete based on the variable
-names in the current builtins, globals, and locals, as well as xonsh language
+names in the current builtins, globals, and locals, as well as deepsh language
 keywords & operators, files & directories, and environment variable names. In
-subprocess-mode, xonsh additionally completes based on the names of any
+subprocess-mode, deepsh additionally completes based on the names of any
 executable files on your $PATH, alias keys, and full Bash completion for the
 commands themselves.
 
-xonsh also provides a mechanism by which the results of a tab completion can be
+deepsh also provides a mechanism by which the results of a tab completion can be
 customized (i.e., new completions can be generated, or a subset of the built-in
 completions can be ignored).
 
-This page details the internal structure of xonsh's completion system and
+This page details the internal structure of deepsh's completion system and
 includes instructions for implementing new tab completion functions.
 
 
 Structure
 ==========
 
-xonsh's built-in completers live in the ``xonsh.completers`` package, and they
-are managed through an instance of ``OrderedDict`` (``__xonsh__.completers``)
+deepsh's built-in completers live in the ``deepsh.completers`` package, and they
+are managed through an instance of ``OrderedDict`` (``__deepsh__.completers``)
 that maps unique identifiers to completion functions.
 
 The completers are divided to **exclusive** completers and **non-exclusive** completers.
 Non-exclusive completers are used for completions that are relevant but don't cover the whole completions needed
 (e.g. completions for the built-in commands ``and``/``or``).
 
-When the "tab" key is pressed, xonsh loops over the completion functions in
+When the "tab" key is pressed, deepsh loops over the completion functions in
 order, calling each one in turn and collecting its output until it reaches an **exclusive** one that returns a non-empty
 set of completions for the current line. The collected completions are then displayed to the
 user.
@@ -54,7 +54,7 @@ checked.
 Writing a New Completer
 =======================
 
-Completers are implemented as Python functions that take a :class:`Completion Context <xonsh.parsers.completion_context.CompletionContext>` object.
+Completers are implemented as Python functions that take a :class:`Completion Context <deepsh.parsers.completion_context.CompletionContext>` object.
 Examples for the context object:
 
 .. code-block:: python
@@ -87,12 +87,12 @@ Examples for the context object:
     )
 
 .. note::
-    Xonsh still supports legacy completers - see `Legacy Completers Support`_.
+    Deepsh still supports legacy completers - see `Legacy Completers Support`_.
     For backwards-compatibility, contextual completers need to be marked (as seen in the examples).
 
 This function should return a python set of possible completions for ``command.prefix``
 in the current context.  If the completer should not be used in this case, it
-should return ``None`` or an empty set, which will cause xonsh to move on and
+should return ``None`` or an empty set, which will cause deepsh to move on and
 try to use the next completer.
 
 Occasionally, completers will need to return a match that does not actually
@@ -108,12 +108,12 @@ The docstring of a completer should contain a brief description of its
 functionality, which will be displayed by ``completer list``.
 
 Some simple examples follow.  For more examples, see the source code of the completers
-xonsh actually uses, in the ``xonsh.completers`` module.
+deepsh actually uses, in the ``deepsh.completers`` module.
 
 .. code-block:: python
 
     # Helper decorators for completers:
-    from xonsh.completers.tools import *
+    from deepsh.completers.tools import *
 
     @contextual_completer
     def dummy_completer(context):
@@ -166,12 +166,12 @@ xonsh actually uses, in the ``xonsh.completers`` module.
         if command.arg_index == 1 and 'carcolh'.startswith(command.prefix):
             return {'snail'}, len('lou ') + len(command.prefix)
 
-To understand how xonsh uses completers and their return values try
-to set :ref:`$XONSH_TRACE_COMPLETIONS <xonsh_trace_completions>` to ``True``:
+To understand how deepsh uses completers and their return values try
+to set :ref:`$DEEPSH_TRACE_COMPLETIONS <deepsh_trace_completions>` to ``True``:
 
 .. code-block:: console
 
-    >>> $XONSH_TRACE_COMPLETIONS = True
+    >>> $DEEPSH_TRACE_COMPLETIONS = True
     >>> pip c<TAB>
     TRACE COMPLETIONS: Getting completions with context:
     CompletionContext(command=CommandContext(args=(CommandArg(value='pip', opening_quote='', closing_quote=''),), arg_index=1, prefix='c', suffix='', opening_quote='', closing_quote='', is_after_closing_quote=False, subcmd_opening=''), python=PythonContext('pip c', 5, is_sub_expression=False))
@@ -186,7 +186,7 @@ Registering a Completer
 =======================
 
 Once you have created a completion function, you can add it to the list of
-active completers via the ``completer add`` command or ``xonsh.completers.completer.add_one_completer`` function::
+active completers via the ``completer add`` command or ``deepsh.completers.completer.add_one_completer`` function::
 
     Usage:
         completer add NAME FUNC [POS]
@@ -205,7 +205,7 @@ active completers via the ``completer add`` command or ``xonsh.completers.comple
 
 If ``POS`` is not provided, it defaults to ``"end"``.
 
-.. note:: It is also possible to manipulate ``__xonsh__.completers`` directly,
+.. note:: It is also possible to manipulate ``__deepsh__.completers`` directly,
           but this is the preferred method.
 
 Removing a Completer
@@ -218,7 +218,7 @@ with the completer you wish to remove.
 Advanced Completions
 ====================
 
-To provide further control over the completion, a completer can return a :class:`RichCompletion <xonsh.completers.tools.RichCompletion>` object.
+To provide further control over the completion, a completer can return a :class:`RichCompletion <deepsh.completers.tools.RichCompletion>` object.
 Using this class, you can:
 
 * Provide a specific prefix length per completion (via ``prefix_len``)
@@ -256,8 +256,8 @@ So if you want to change/remove the quotes from a string, the following complete
 Legacy Completers Support
 =========================
 
-Before completion context was introduced, xonsh had a different readline-like completion API.
-While this legacy API is not recommended, xonsh still supports it.
+Before completion context was introduced, deepsh had a different readline-like completion API.
+While this legacy API is not recommended, deepsh still supports it.
 
 .. warning::
     The legacy completers are less robust than the contextual system in many situations, for example:
@@ -266,7 +266,7 @@ While this legacy API is not recommended, xonsh still supports it.
 
     * ``ls 'a file<TAB>`` completes with the prefix ``file`` (instead of ``a file``)
 
-    See `Completion Context PR <https://github.com/xonsh/xonsh/pull/4017>`_ for more information.
+    See `Completion Context PR <https://github.com/deepsh/deepsh/pull/4017>`_ for more information.
 
 Legacy completers are python functions that aren't marked by ``@contextual_completer`` and receive the following arguments:
 

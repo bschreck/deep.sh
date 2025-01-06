@@ -7,14 +7,14 @@ from tempfile import TemporaryDirectory
 
 import pytest
 
-from xonsh.environ import LsColors
-from xonsh.platform import ON_WINDOWS
-from xonsh.pyghooks import (
+from deepsh.environ import LsColors
+from deepsh.platform import ON_WINDOWS
+from deepsh.pyghooks import (
     XSH,
     Color,
     Token,
-    XonshLexer,
-    XonshStyle,
+    DeepshLexer,
+    DeepshStyle,
     code_by_name,
     color_file,
     color_name_to_pygments_code,
@@ -26,7 +26,7 @@ from xonsh.pyghooks import (
 
 @pytest.fixture
 def xs_LS_COLORS(xession, os_env, monkeypatch):
-    """Xonsh environment including LS_COLORS"""
+    """Deepsh environment including LS_COLORS"""
 
     # original env is needed on windows. since it will skip enhanced coloring
     # for some emulators
@@ -39,7 +39,7 @@ def xs_LS_COLORS(xession, os_env, monkeypatch):
     xession.env["INTENSIFY_COLORS_ON_WIN"] = False
 
     xession.shell.shell_type = "prompt_toolkit"
-    xession.shell.shell.styler = XonshStyle()  # default style
+    xession.shell.shell.styler = DeepshStyle()  # default style
 
     yield xession
 
@@ -147,9 +147,9 @@ def test_code_by_name(name, exp):
     ],
 )
 def test_color_token_by_name(in_tuple, exp_ct, exp_ansi_colors, xs_LS_COLORS):
-    from xonsh.pyghooks import XonshStyle, color_token_by_name
+    from deepsh.pyghooks import DeepshStyle, color_token_by_name
 
-    xs = XonshStyle()
+    xs = DeepshStyle()
     styles = xs.styles
     ct = color_token_by_name(in_tuple, styles)
     ansi_colors = styles[ct]  # if keyerror, ct was not cached
@@ -157,11 +157,11 @@ def test_color_token_by_name(in_tuple, exp_ct, exp_ansi_colors, xs_LS_COLORS):
     assert ansi_colors == exp_ansi_colors, "color token mapped to correct color string"
 
 
-def test_XonshStyle_init_file_color_tokens(xs_LS_COLORS, monkeypatch):
+def test_DeepshStyle_init_file_color_tokens(xs_LS_COLORS, monkeypatch):
     keys = list(file_color_tokens)
     for n in keys:
         monkeypatch.delitem(file_color_tokens, n)
-    xs = XonshStyle()
+    xs = DeepshStyle()
     assert xs.styles
     assert isinstance(file_color_tokens, dict)
     assert set(file_color_tokens.keys()) == set(xs_LS_COLORS.env["LS_COLORS"].keys())
@@ -328,14 +328,14 @@ def test_colorize_file_symlink(key, file_path, colorizable_files, xs_LS_COLORS):
     assert color_key == tar_color_key, "File classified as expected kind, via symlink"
 
 
-import xonsh.lib.lazyimps
+import deepsh.lib.lazyimps
 
 
 def test_colorize_file_ca(xs_LS_COLORS, monkeypatch):
     def mock_os_listxattr(*args, **kwards):
         return ["security.capability"]
 
-    monkeypatch.setattr(xonsh.pyghooks, "os_listxattr", mock_os_listxattr)
+    monkeypatch.setattr(deepsh.pyghooks, "os_listxattr", mock_os_listxattr)
 
     with TemporaryDirectory() as tmpdir:
         file_path = tmpdir + "/cap_file"
@@ -392,13 +392,13 @@ def test_register_custom_pygments_style(name, styles, refrules):
         assert style.styles[rule] == color
 
 
-def test_can_use_xonsh_lexer_without_xession(xession, monkeypatch):
-    # When Xonsh is used as a library and simply for its lexer plugin, the
+def test_can_use_deepsh_lexer_without_xession(xession, monkeypatch):
+    # When Deepsh is used as a library and simply for its lexer plugin, the
     # xession's env can be unset, so test that it can yield tokens without
     # that env being set.
     monkeypatch.setattr(xession, "env", None)
 
     assert XSH.env is None
-    lexer = XonshLexer()
+    lexer = DeepshLexer()
     assert XSH.env is not None
     list(lexer.get_tokens_unprocessed("  some text"))

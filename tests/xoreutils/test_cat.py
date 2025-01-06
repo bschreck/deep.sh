@@ -3,14 +3,14 @@ import os
 
 import pytest
 
-from xonsh.platform import DEFAULT_ENCODING
-from xonsh.xoreutils import cat
+from deepsh.platform import DEFAULT_ENCODING
+from deepsh.xoreutils import cat
 
 
 @pytest.fixture
 def cat_env_fixture(xession):
     with xession.env.swap(
-        XONSH_ENCODING=DEFAULT_ENCODING, XONSH_ENCODING_ERRORS="surrogateescape"
+        DEEPSH_ENCODING=DEFAULT_ENCODING, DEEPSH_ENCODING_ERRORS="surrogateescape"
     ):
         yield xession
 

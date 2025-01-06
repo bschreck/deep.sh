@@ -1,6 +1,6 @@
 <!---
 
-Thanks for opening a PR on xonsh!
+Thanks for opening a PR on deepsh!
 
 Please do this:
 
@@ -12,4 +12,5 @@ Please do this:
 -->
 
 ## For community
-⬇️  **Please click the 👍 reaction instead of leaving a `+1` or 👍  comment**
+
+⬇️ **Please click the 👍 reaction instead of leaving a `+1` or 👍 comment**

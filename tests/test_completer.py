@@ -1,14 +1,14 @@
-"""Tests for the base completer's logic (xonsh/completer.py)"""
+"""Tests for the base completer's logic (deepsh/completer.py)"""
 
 import pytest
 
-from xonsh.completer import Completer
-from xonsh.completers.tools import (
+from deepsh.completer import Completer
+from deepsh.completers.tools import (
     RichCompletion,
     contextual_command_completer,
     non_exclusive_completer,
 )
-from xonsh.parsers.completion_context import CommandContext
+from deepsh.parsers.completion_context import CommandContext
 
 
 @pytest.fixture(scope="session")
@@ -45,7 +45,7 @@ def test_sanity(completer, completers_mock):
 
 
 def test_cursor_after_closing_quote(completer, completers_mock):
-    """See ``Completer.complete`` in ``xonsh/completer.py``"""
+    """See ``Completer.complete`` in ``deepsh/completer.py``"""
 
     @contextual_command_completer
     def comp(context: CommandContext):

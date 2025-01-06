@@ -6,7 +6,7 @@ Config Files and Settings
     :titlesonly:
     :maxdepth: 2
 
-    xonshrc
+    deepshrc
     customization
     envvars
     aliases

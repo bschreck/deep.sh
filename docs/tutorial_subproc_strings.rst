@@ -3,9 +3,9 @@
 ************************************
 Tutorial: Subprocess Strings
 ************************************
-Strings in xonsh follow two simple rules:
+Strings in deepsh follow two simple rules:
 
-1. Strings in xonsh are always parsed in the same way, and
+1. Strings in deepsh are always parsed in the same way, and
 2. Python always wins!
 
 Together these rules mean that **even strings in subprocess mode are treated
@@ -13,7 +13,7 @@ like Python strings!** This will (help) preserve your sanity.
 
 No Escape
 =========
-Xonsh strings are exactly like Python strings everywhere. Xonsh uses
+Deepsh strings are exactly like Python strings everywhere. Deepsh uses
 exactly the same escape characters that Python does; no more and no less.
 This is different from other shells, which have a different set of escape
 sequences than Python has.  Notably, many sh-langs allow you to escape
@@ -27,10 +27,10 @@ spaces with ``"\ "`` (backslash-space).
     A Single Argument
 
 In the above example, since the spaces are escaped, the ``echo`` command
-only receves a single argument. Xonsh does not allow this. If you were
-to try this in xonsh, you'd see:
+only receves a single argument. Deepsh does not allow this. If you were
+to try this in deepsh, you'd see:
 
-**xonsh**
+**deepsh**
 
 .. code-block:: bash
 
@@ -38,10 +38,10 @@ to try this in xonsh, you'd see:
     Actually\ Three\ Arguments
 
 In this example, echo recives three arguments:: ``"Actually\\"``, ``"Three\\"``,
-and ``"Arguments"``. Instead, xonsh requires you to use quotes in order to
+and ``"Arguments"``. Instead, deepsh requires you to use quotes in order to
 pass in a single argument:
 
-**xonsh** or **bash**
+**deepsh** or **bash**
 
 .. code-block:: bash
 
@@ -69,7 +69,7 @@ On this last point, if you don't already know about
 these allow all input following an ``!`` to be treated as a single argument.
 For example,
 
-**xonsh**
+**deepsh**
 
 .. code-block:: bash
 
@@ -90,12 +90,12 @@ In sh-langs, internal quote characters are removed. For instance:
     $ echo --key="value"
     --key=value
 
-Xonsh considers this behavior suboptimal. Instead, xonsh treats these
+Deepsh considers this behavior suboptimal. Instead, deepsh treats these
 arguments as if they were surrounded in another, outer level of
-quotation (``'foo"bar"baz'``). Xonsh will keep the quotation marks
+quotation (``'foo"bar"baz'``). Deepsh will keep the quotation marks
 when leading and trailing quotes are not matched.
 
-**xonsh**
+**deepsh**
 
 .. code-block:: bash
 
@@ -108,7 +108,7 @@ when leading and trailing quotes are not matched.
 You can think of these being equivalent to,
 
 
-**xonsh**
+**deepsh**
 
 .. code-block:: bash
 
@@ -118,8 +118,8 @@ You can think of these being equivalent to,
     $ echo '--key="value"'
     --key="value"
 
-This is yet another major point of departure for xonsh from traditional
-shells. However, the xonsh subprocess string handling is
+This is yet another major point of departure for deepsh from traditional
+shells. However, the deepsh subprocess string handling is
 consistent and predictable.
 
 Further Reading
@@ -127,5 +127,5 @@ Further Reading
 For deeper details on the great string debate, please feel free to read
 and comment at:
 
-* `To Quote or Not Quote <https://github.com/xonsh/xonsh/issues/1432>`_
-* `Quote removal in subprocess mode does not behave as expected <https://github.com/xonsh/xonsh/issues/621>`_
+* `To Quote or Not Quote <https://github.com/deepsh/deepsh/issues/1432>`_
+* `Quote removal in subprocess mode does not behave as expected <https://github.com/deepsh/deepsh/issues/621>`_

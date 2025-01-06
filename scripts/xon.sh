@@ -7,4 +7,4 @@ if [ -z "${LC_ALL+x}" ] && [ -z "${LC_CTYPE+x}" ] && \
 fi
 
 # run python
-exec python3 -u -m xonsh "$@"
+exec python3 -u -m deepsh "$@"

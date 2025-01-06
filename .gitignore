@@ -7,10 +7,10 @@
 lexer_table.py
 parser_table.py
 parser_test_table.py
-xonsh/lexer_table.py
-xonsh/parser_table.py
-xonsh/completion_parser_table.py
-xonsh/parsers/completion_parser_table.py
+deepsh/lexer_table.py
+deepsh/parser_table.py
+deepsh/completion_parser_table.py
+deepsh/parsers/completion_parser_table.py
 tests/lexer_table.py
 tests/parser_table.py
 tests/lexer_test_table.py
@@ -18,12 +18,12 @@ tests/parser_test_table.py
 tests/testfile
 build/
 dist/
-xonsh.egg-info/
+deepsh.egg-info/
 docs/_build/
 docs/envvarsbody
 docs/xontribsbody
 docs/eventsbody
-xonsh/dev.githash
+deepsh/dev.githash
 xontrib/__init__.py
 
 # temporary files from vim and emacs
@@ -66,15 +66,15 @@ tags
 # Rever
 rever/
 # Allow the lib
-!/xonsh/lib
+!/deepsh/lib
 
 
 # Allow tests/bin
 !/tests/bin
 
 # elm
-xonsh/webconfig/elm-stuff/
-xonsh/webconfig/js/app.js
+deepsh/webconfig/elm-stuff/
+deepsh/webconfig/js/app.js
 
 # VS Code
 .vscode/

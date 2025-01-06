@@ -1,4 +1,4 @@
-"""Tests the xonsh history."""
+"""Tests the deepsh history."""
 
 # pylint: disable=protected-access
 import itertools
@@ -8,9 +8,9 @@ import sys
 
 import pytest
 
-from xonsh.history.main import history_main
-from xonsh.history.sqlite import SqliteHistory, _xh_sqlite_get_conn
-from xonsh.platform import ON_WINDOWS
+from deepsh.history.main import history_main
+from deepsh.history.sqlite import SqliteHistory, _xh_sqlite_get_conn
+from deepsh.platform import ON_WINDOWS
 
 hist_file_count = itertools.count(0)
 
@@ -23,7 +23,7 @@ skipwin311 = pytest.mark.skipif(
 @pytest.fixture
 def hist(tmpdir):
     h = SqliteHistory(
-        filename=tmpdir / f"xonsh-HISTORY-TEST{next(hist_file_count)}.sqlite",
+        filename=tmpdir / f"deepsh-HISTORY-TEST{next(hist_file_count)}.sqlite",
         sessionid=str(tmpdir / "SESSIONID"),
         gc=False,
     )
@@ -251,7 +251,7 @@ def test_histcontrol_erase_dup(hist, xession):
 )
 def test_history_getitem(index, exp, hist, xession):
     xession.env["HISTCONTROL"] = set()
-    xession.env["XONSH_STORE_STDOUT"] = True
+    xession.env["DEEPSH_STORE_STDOUT"] = True
     attrs = ("inp", "out", "rtn", "ts")
 
     for ts, cmd in enumerate(CMDS):  # populate the shell history
@@ -270,7 +270,7 @@ def test_history_getitem(index, exp, hist, xession):
 @skipwin311
 def test_hist_clear_cmd(hist, xession, capsys, tmpdir):
     """Verify that the CLI history clear command works."""
-    xession.env.update({"XONSH_DATA_DIR": str(tmpdir)})
+    xession.env.update({"DEEPSH_DATA_DIR": str(tmpdir)})
     xession.history = hist
     xession.env["HISTCONTROL"] = set()
 
@@ -290,7 +290,7 @@ def test_hist_clear_cmd(hist, xession, capsys, tmpdir):
 @skipwin311
 def test_hist_off_cmd(hist, xession, capsys, tmpdir):
     """Verify that the CLI history off command works."""
-    xession.env.update({"XONSH_DATA_DIR": str(tmpdir)})
+    xession.env.update({"DEEPSH_DATA_DIR": str(tmpdir)})
     xession.history = hist
     xession.env["HISTCONTROL"] = set()
 
@@ -315,7 +315,7 @@ def test_hist_off_cmd(hist, xession, capsys, tmpdir):
 @skipwin311
 def test_hist_on_cmd(hist, xession, capsys, tmpdir):
     """Verify that the CLI history on command works."""
-    xession.env.update({"XONSH_DATA_DIR": str(tmpdir)})
+    xession.env.update({"DEEPSH_DATA_DIR": str(tmpdir)})
     xession.history = hist
     xession.env["HISTCONTROL"] = set()
 

@@ -1,6 +1,6 @@
 import pytest
 
-from xonsh.completers._aliases import complete_aliases
+from deepsh.completers._aliases import complete_aliases
 
 
 @pytest.fixture

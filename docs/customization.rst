@@ -1,33 +1,33 @@
 ==============================
-Updating and customizing xonsh
+Updating and customizing deepsh
 ==============================
 
-Updating xonsh
+Updating deepsh
 ==============
 
-How to update xonsh depend on the install method.
+How to update deepsh depend on the install method.
 
-**xonsh installed via pip**
+**deepsh installed via pip**
 
 If you have installed via pip (possibly into a virtual environment),
-then you can update xonsh from within itself with the following
+then you can update deepsh from within itself with the following
 command:
 
 .. code-block:: console
 
-   @ xpip install --upgrade xonsh
+   @ xpip install --upgrade deepsh
 
-``xpip`` (note the "x" at the  beginning of ``xpip``) is a predefined alias pointing to the ``pip`` command associated with the Python executable running this xonsh.
+``xpip`` (note the "x" at the  beginning of ``xpip``) is a predefined alias pointing to the ``pip`` command associated with the Python executable running this deepsh.
 
-**xonsh installed via a package manager**
+**deepsh installed via a package manager**
 
-If you have installed via a package manager, it is recommended to update xonsh through the  package manager's appropriate command. For example, on macOS if you have installed via homebrew, you should update like this:
+If you have installed via a package manager, it is recommended to update deepsh through the  package manager's appropriate command. For example, on macOS if you have installed via homebrew, you should update like this:
 
 .. code-block:: console
 
-   $ brew upgrade xonsh
+   $ brew upgrade deepsh
 
-Customizing xonsh - How do I...
+Customizing deepsh - How do I...
 ===============================
 
 .. _change_theme:
@@ -51,25 +51,25 @@ To set a new theme, do
 
 .. code-block:: console
 
-   @ $XONSH_COLOR_STYLE='<theme name>'
+   @ $DEEPSH_COLOR_STYLE='<theme name>'
 
 Registering custom styles
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you aren't happy with the styles provided by us (and ``pygments``), you can create and register custom styles.
 
-To do so, add something similar to your ``.xonshrc``:
+To do so, add something similar to your ``.deepshrc``:
 
 .. code-block:: python
 
-   from xonsh.tools import register_custom_style
+   from deepsh.tools import register_custom_style
    mystyle = {
        "Literal.String.Single": "#ff88aa",
        "Literal.String.Double": "#ff4488",
        "RED": "#008800",
    }
    register_custom_style("mystyle", mystyle, base="monokai")
-   $XONSH_COLOR_STYLE="mystyle"
+   $DEEPSH_COLOR_STYLE="mystyle"
 
 You can check ``xonfig colors`` for the token names. The ``base`` style will be used as a fallback for styles you don't set - pick one from ``xonfig styles`` (``default`` is used if omitted).
 
@@ -78,7 +78,7 @@ You can check ``xonfig colors`` for the token names. The ``base`` style will be 
 ...import python modules from a local directory?
 ------------------------------------------------
 
-The modules available for import in a given ``xonsh`` session depend on what's
+The modules available for import in a given ``deepsh`` session depend on what's
 available in ``sys.path``. If you want to be able to import a module that
 resides in the current directory, ensure that there is an empty string as the
 first element of your ``sys.path``
@@ -90,29 +90,29 @@ first element of your ``sys.path``
 
 .. _default_shell:
 
-...set ``xonsh`` as my default shell?
+...set ``deepsh`` as my default shell?
 -------------------------------------
 
-If you want to use xonsh as your default shell, you will first have
-to add xonsh to ``/etc/shells``.
+If you want to use deepsh as your default shell, you will first have
+to add deepsh to ``/etc/shells``.
 
-First ensure that xonsh is on your ``$PATH``
-
-.. code-block:: console
-
-    $ which xonsh
-
-Then, as root, add xonsh to the shell list
+First ensure that deepsh is on your ``$PATH``
 
 .. code-block:: console
 
-   # which xonsh >> /etc/shells
+    $ which deepsh
+
+Then, as root, add deepsh to the shell list
+
+.. code-block:: console
+
+   # which deepsh >> /etc/shells
 
 To change shells, run
 
 .. code-block:: console
 
-   $ chsh -s $(which xonsh)
+   $ chsh -s $(which deepsh)
 
 You will have to log out and log back in before the changes take effect.
 
@@ -127,24 +127,24 @@ default, ENTER will also execute the current line. If you would prefer to not
 automatically execute the line (say, if you're constructing a long pathname),
 you can set
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    $COMPLETIONS_CONFIRM=True
 
-in your ``xonshrc``
+in your ``deepshrc``
 
 .. _add_args_builtin_alias:
 
-...add a default argument to a builtin ``xonsh`` alias?
+...add a default argument to a builtin ``deepsh`` alias?
 -------------------------------------------------------
 
 If you want to add a default argument to a builtin alias like ``dirs`` the
 standard alias definition method will fail. In order to handle this case you can
-use the following solution in your ``xonshrc``:
+use the following solution in your ``deepshrc``:
 
 .. code-block:: python
 
-   from xonsh.dirstack import dirs
+   from deepsh.dirstack import dirs
 
    def _verbose_dirs(args, stdin=None):
        return dirs(['-v'] + args, stdin=stdin)
@@ -161,7 +161,7 @@ If you use Gnome Terminal or another VTE terminal and it doesn't start new tabs
 in the CWD of the original TAB, this is because of a custom VTE interface. To
 fix this, please add ``{vte_new_tab_cwd}`` somewhere to you prompt:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     $PROMPT = '{vte_new_tab_cwd}' + $PROMPT
 
@@ -178,30 +178,30 @@ you can try to replace a command for this action by the following:
 
 .. code-block:: sh
 
-    exo-open --working-directory %f --launch TerminalEmulator xonsh --shell-type=best
+    exo-open --working-directory %f --launch TerminalEmulator deepsh --shell-type=best
 
 In order to do this, go to ``Edit > Configure custom actions...``,
 then choose ``Open Terminal Here`` and click on ``Edit currently selected action`` button.
 
 .. _unicode_troubles:
 
-...use utf-8 characters in xonsh?
+...use utf-8 characters in deepsh?
 ---------------------------------
 
-If you are unable to use utf-8 (ie. non-ascii) characters in xonsh. For example if you get the following output
+If you are unable to use utf-8 (ie. non-ascii) characters in deepsh. For example if you get the following output
 
 .. code-block:: console
 
     @ echo "ßðđ"
-    xonsh: For full traceback set: $XONSH_SHOW_TRACEBACK = True
+    deepsh: For full traceback set: $DEEPSH_SHOW_TRACEBACK = True
     UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-2: ordinal not in range(128)
 
 The problem might be:
 
 - Your locale is not set to utf-8, to check this you can set the content of the
   environment variable ``LC_TYPE``
-- Your locale is correctly set but **after** xonsh started. This is typically
-  the case if you set your ``LC_TYPE`` inside your `xonshrc <xonshrc.rst>`_ and xonsh is
+- Your locale is correctly set but **after** deepsh started. This is typically
+  the case if you set your ``LC_TYPE`` inside your `deepshrc <deepshrc.rst>`_ and deepsh is
   your default/login shell. To fix this you should see the documentation of your
   operating system to know how to correctly setup environment variables before
   the shell start (``~/.pam_environment`` for example)
@@ -212,9 +212,9 @@ The problem might be:
 ---------------------------------
 
 On certain flavors of Linux you may periodically encounter this error message
-when starting ``xonsh``:
+when starting ``deepsh``:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    libgcc_s.so.1 must be installed for pthread_cancel to work
    Aborted (core dumped)
@@ -224,14 +224,14 @@ This is due to an upstream Python problem and can be fixed by setting
 
 .. code-block:: bash
 
-   $ env LD_PRELOAD=libgcc_s.so.1 xonsh
+   $ env LD_PRELOAD=libgcc_s.so.1 deepsh
 
 ...color my man pages?
 ----------------------
 You can add add `man page color support`_ using ``less`` environment
 variables:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     # Coloured man page support
     # using 'less' env vars (format is '\E[<brightness>;<colour>m')
@@ -246,9 +246,9 @@ variables:
 .. _man page color support:
     https://wiki.archlinux.org/index.php/Color_output_in_console#less
 
-.. _xonsh_inside_emacs:
+.. _deepsh_inside_emacs:
 
-...use xonsh inside Emacs?
+...use deepsh inside Emacs?
 ----------------------------------
 
 see `emacs <editors.html>`_.
@@ -256,4 +256,4 @@ see `emacs <editors.html>`_.
 See also
 ========
 
- * `Q&A in the xonsh repository <https://github.com/xonsh/xonsh/discussions>`_
+ * `Q&A in the deepsh repository <https://github.com/deepsh/deepsh/discussions>`_

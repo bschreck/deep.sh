@@ -13,8 +13,8 @@ aliases['qa'] = _quit_awesome
 
 # some customization options, see https://xon.sh/envvars.html for details
 $MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
-$XONSH_SHOW_TRACEBACK = True
-$XONSH_STORE_STDOUT = True
-$XONSH_HISTORY_MATCH_ANYWHERE = True
+$DEEPSH_SHOW_TRACEBACK = True
+$DEEPSH_STORE_STDOUT = True
+$DEEPSH_HISTORY_MATCH_ANYWHERE = True
 $COMPLETIONS_CONFIRM = True
-$XONSH_AUTOPAIR = True
+$DEEPSH_AUTOPAIR = True

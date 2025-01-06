@@ -5,44 +5,44 @@ Editor and IDE Support
 
 Sublime Text
 ============
-There is a `xonsh package`_ for **Sublime Text 4** (build > 4075). To install:
+There is a `deepsh package`_ for **Sublime Text 4** (build > 4075). To install:
 
-- Via **Package Control**: open (``^``/``⌘`` ``⇧`` ``P``) ``Command Palette`` → ``Package Control: Install Package`` → ``xonsh``
-- **Manually**: clone the repository to your `Sublime Text packages`_ directory and rename it to ``xonsh``
+- Via **Package Control**: open (``^``/``⌘`` ``⇧`` ``P``) ``Command Palette`` → ``Package Control: Install Package`` → ``deepsh``
+- **Manually**: clone the repository to your `Sublime Text packages`_ directory and rename it to ``deepsh``
 
   .. code-block:: sh
 
     cd /path/to/sublime/packages/directory
-    git clone https://github.com/eugenesvk/sublime-xonsh.git
-    mv sublime-xonsh xonsh
+    git clone https://github.com/eugenesvk/sublime-deepsh.git
+    mv sublime-deepsh deepsh
 
-.. _xonsh package: https://packagecontrol.io/packages/xonsh
+.. _deepsh package: https://packagecontrol.io/packages/deepsh
 .. _Sublime Text packages: https://www.sublimetext.com/docs/packages.html
 
 
 Visual Studio Code (VS Code)
 ============================
-There is `xonsh extension for VS Code`_. To install search "xonsh" using extensions
+There is `deepsh extension for VS Code`_. To install search "deepsh" using extensions
 menu or just press ``F1`` and run without `>` preceding:
 
 .. code-block::
 
-    ext install jnoortheen.xonsh
+    ext install jnoortheen.deepsh
 
 .. https://github.com/microsoft/vscode/issues/200374
 
-Since version 1.86 of VS Code, the editor also supports loading the environment for users with xonsh as their default shell.
+Since version 1.86 of VS Code, the editor also supports loading the environment for users with deepsh as their default shell.
 
-.. _xonsh extension for VS Code: https://marketplace.visualstudio.com/items?itemName=jnoortheen.xonsh
+.. _deepsh extension for VS Code: https://marketplace.visualstudio.com/items?itemName=jnoortheen.deepsh
 
 
 Emacs
 =====
 
-Emacs Xonsh mode
+Emacs Deepsh mode
 ----------------
 
-There is an emacs mode for editing xonsh scripts available from the
+There is an emacs mode for editing deepsh scripts available from the
 `MELPA repository`_. If you are not familiar see the installation
 instructions there.
 
@@ -50,49 +50,49 @@ Then just add this line to your emacs configuration file:
 
 .. code-block:: emacs-lisp
 
-    (require 'xonsh-mode)
+    (require 'deepsh-mode)
 
 
-.. _MELPA repository: https://melpa.org/#/xonsh-mode
+.. _MELPA repository: https://melpa.org/#/deepsh-mode
 
 
-Xonsh Comint buffer
+Deepsh Comint buffer
 -------------------
 
-You can use xonsh as your `interactive shell in Emacs
+You can use deepsh as your `interactive shell in Emacs
 <https://www.gnu.org/software/emacs/manual/html_node/emacs/Interactive-Shell.html>`_
 in a Comint buffer. This way you keep all the Emacs editing power
-in the shell, but you lose xonsh's completion feature.
+in the shell, but you lose deepsh's completion feature.
 
-Make sure you install xonsh with readline support and in your
-``.xonshrc`` file define
+Make sure you install deepsh with readline support and in your
+``.deepshrc`` file define
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     $SHELL_TYPE = 'readline'
 
-Also, in Emacs set ``explicit-shell-file-name`` to your xonsh executable.
+Also, in Emacs set ``explicit-shell-file-name`` to your deepsh executable.
 
-Xonsh Ansi-term buffer
+Deepsh Ansi-term buffer
 ----------------------
 
-The second option is to run xonsh in an Ansi-term buffer inside
+The second option is to run deepsh in an Ansi-term buffer inside
 Emacs. This way you have to switch modes if you want do Emacs-style
-editing, but you keep xonsh's impressive completion.
+editing, but you keep deepsh's impressive completion.
 
-For this it is preferred to have xonsh installed with the
+For this it is preferred to have deepsh installed with the
 prompt-toolkit. Then you can leave ``$SHELL_TYPE`` at its default.
 
-Emacs will prompt you for the path of the xonsh executable when you
+Emacs will prompt you for the path of the deepsh executable when you
 start up ``ansi-term``.
 
 Vim
 ===
 
-There is `xonsh syntax file for vim`_. To install run:
+There is `deepsh syntax file for vim`_. To install run:
 
 .. code-block::
 
-    git clone --depth 1 https://github.com/linkinpark342/xonsh-vim ~/.vim
+    git clone --depth 1 https://github.com/linkinpark342/deepsh-vim ~/.vim
 
-.. _xonsh syntax file for vim: https://github.com/linkinpark342/xonsh-vim
+.. _deepsh syntax file for vim: https://github.com/linkinpark342/deepsh-vim

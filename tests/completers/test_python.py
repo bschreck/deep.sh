@@ -1,15 +1,15 @@
 import pytest
 
-from xonsh.completers.imports import complete_import
-from xonsh.completers.python import complete_python, python_signature_complete
-from xonsh.parsers.completion_context import CompletionContext, PythonContext
-from xonsh.pytest.tools import skip_if_pre_3_8
+from deepsh.completers.imports import complete_import
+from deepsh.completers.python import complete_python, python_signature_complete
+from deepsh.parsers.completion_context import CompletionContext, PythonContext
+from deepsh.pytest.tools import skip_if_pre_3_8
 
 
 @pytest.fixture(autouse=True)
-def xonsh_execer_autouse(xession, xonsh_execer, monkeypatch):
+def deepsh_execer_autouse(xession, deepsh_execer, monkeypatch):
     monkeypatch.setitem(xession.env, "COMPLETIONS_BRACKETS", True)
-    return xonsh_execer
+    return deepsh_execer
 
 
 def foo(x, y, z):

@@ -1,5 +1,5 @@
-"""Tests involving running Xonsh in subproc.
-This requires Xonsh installed in venv or otherwise available on PATH
+"""Tests involving running Deepsh in subproc.
+This requires Deepsh installed in venv or otherwise available on PATH
 """
 
 import os
@@ -11,9 +11,9 @@ from pathlib import Path
 
 import pytest
 
-import xonsh
-from xonsh.dirstack import with_pushd
-from xonsh.pytest.tools import (
+import deepsh
+from deepsh.dirstack import with_pushd
+from deepsh.pytest.tools import (
     ON_DARWIN,
     ON_TRAVIS,
     ON_WINDOWS,
@@ -31,8 +31,8 @@ PATH = (
 )
 
 
-skip_if_no_xonsh = pytest.mark.skipif(
-    shutil.which("xonsh") is None, reason="xonsh not on PATH"
+skip_if_no_deepsh = pytest.mark.skipif(
+    shutil.which("deepsh") is None, reason="deepsh not on PATH"
 )
 skip_if_no_make = pytest.mark.skipif(
     shutil.which("make") is None, reason="make command not on PATH"
@@ -43,8 +43,8 @@ skip_if_no_sleep = pytest.mark.skipif(
 
 base_env = {
     "PATH": PATH,
-    "XONSH_DEBUG": "0",
-    "XONSH_SHOW_TRACEBACK": "1",
+    "DEEPSH_DEBUG": "0",
+    "DEEPSH_SHOW_TRACEBACK": "1",
     "RAISE_SUBPROC_ERROR": "0",
     "FOREIGN_ALIASES_SUPPRESS_SKIP_MESSAGE": "1",
     "PROMPT": "",
@@ -52,7 +52,7 @@ base_env = {
 }
 
 
-def run_xonsh(
+def run_deepsh(
     cmd,
     stdin=sp.PIPE,
     stdin_cmd=None,
@@ -74,8 +74,8 @@ def run_xonsh(
         popen_env |= env
 
     # Args
-    xonsh = shutil.which("xonsh", path=PATH)
-    popen_args = [xonsh]
+    deepsh = shutil.which("deepsh", path=PATH)
+    popen_args = [deepsh]
 
     if not args:
         popen_args += ["--no-rc"]
@@ -115,11 +115,11 @@ def run_xonsh(
     return out, err, proc.returncode
 
 
-def check_run_xonsh(cmd, fmt, exp, exp_rtn=0):
+def check_run_deepsh(cmd, fmt, exp, exp_rtn=0):
     """The ``fmt`` parameter is a function
     that formats the output of cmd, can be None.
     """
-    out, err, rtn = run_xonsh(cmd, stderr=sp.PIPE)
+    out, err, rtn = run_deepsh(cmd, stderr=sp.PIPE)
     if callable(fmt):
         out = fmt(out)
     if callable(exp):
@@ -254,7 +254,7 @@ def _test_stream(args, stdin, stdout, stderr):
     return 1
 
 aliases['test-stream'] = _test_stream
-with __xonsh__.env.swap(XONSH_SUBPROC_CAPTURED_PRINT_STDERR=True):
+with __deepsh__.env.swap(DEEPSH_SUBPROC_CAPTURED_PRINT_STDERR=True):
     x = !(test-stream)
     print(x.returncode)
 """,
@@ -318,7 +318,7 @@ with open('tttt', 'w') as fp:
     # test unthreadable alias (which should trigger a ProcPoxy call)
     (
         """
-from xonsh.tools import unthreadable
+from deepsh.tools import unthreadable
 
 @unthreadable
 def _f():
@@ -333,7 +333,7 @@ f
     # test system exit in unthreadable alias (see #5689)
     (
         """
-from xonsh.tools import unthreadable
+from deepsh.tools import unthreadable
 
 @unthreadable
 def _f():
@@ -479,7 +479,7 @@ def _echo(args):
     print(' '.join(args))
 aliases['echo'] = _echo
 
-from xonsh.api.subprocess import check_output
+from deepsh.api.subprocess import check_output
 
 print(check_output(["echo", "hello"]).decode("utf8"))
 """,
@@ -665,7 +665,7 @@ echo $SHLVL # == 5
 # creating a subshell should increment the child's $SHLVL and maintain the parents $SHLVL
 
 $SHLVL = 5
-xonsh --no-rc -c r'echo $SHLVL' # == 6
+deepsh --no-rc -c r'echo $SHLVL' # == 6
 echo $SHLVL # == 5
 
 # replacing the current process with another process should derease $SHLVL
@@ -745,14 +745,14 @@ if not ON_WINDOWS:
     ALL_PLATFORMS = tuple(ALL_PLATFORMS) + tuple(UNIX_TESTS)
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @pytest.mark.parametrize("case", ALL_PLATFORMS)
 @pytest.mark.flaky(reruns=4, reruns_delay=2)
 def test_script(case):
     script, exp_out, exp_rtn = case
     if ON_DARWIN:
         script = script.replace("tests/bin", str(Path(__file__).parent / "bin"))
-    out, err, rtn = run_xonsh(script)
+    out, err, rtn = run_deepsh(script)
     out = out.replace("bash: no job control in this shell\n", "")
     if callable(exp_out):
         assert exp_out(
@@ -779,16 +779,16 @@ f o>e
 ]
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @pytest.mark.parametrize("case", ALL_PLATFORMS_STDERR)
 def test_script_stderr(case):
     script, exp_err, exp_rtn = case
-    out, err, rtn = run_xonsh(script, stderr=sp.PIPE)
+    out, err, rtn = run_deepsh(script, stderr=sp.PIPE)
     assert exp_err == err
     assert exp_rtn == rtn
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_on_windows
 @pytest.mark.parametrize(
     "cmd, fmt, exp",
@@ -797,35 +797,35 @@ def test_script_stderr(case):
         ("echo WORKING", None, "WORKING\n"),
         ("ls -f", lambda out: out.splitlines().sort(), os.listdir().sort()),
         (
-            "$FOO='foo' $BAR=2 xonsh --no-rc -c r'echo -n $FOO$BAR'",
+            "$FOO='foo' $BAR=2 deepsh --no-rc -c r'echo -n $FOO$BAR'",
             None,
             "foo2",
         ),
     ],
 )
 def test_single_command_no_windows(cmd, fmt, exp):
-    check_run_xonsh(cmd, fmt, exp)
+    check_run_deepsh(cmd, fmt, exp)
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 def test_eof_syntax_error():
     """Ensures syntax errors for EOF appear on last line."""
     script = "x = 1\na = (1, 0\n"
-    out, err, rtn = run_xonsh(script, stderr=sp.PIPE)
+    out, err, rtn = run_deepsh(script, stderr=sp.PIPE)
     assert "line 0" not in err
     assert "EOF in multi-line statement" in err and "line 2" in err
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 def test_open_quote_syntax_error():
     script = (
-        "#!/usr/bin/env xonsh\n\n"
+        "#!/usr/bin/env deepsh\n\n"
         'echo "This is line 3"\n'
         'print ("This is line 4")\n'
         'x = "This is a string where I forget the closing quote on line 5\n'
         'echo "This is line 6"\n'
     )
-    out, err, rtn = run_xonsh(script, stderr=sp.PIPE)
+    out, err, rtn = run_deepsh(script, stderr=sp.PIPE)
     assert """('code: "This is line 3"',)""" not in err
     assert "line 5" in err
     assert "SyntaxError:" in err
@@ -836,7 +836,7 @@ _bad_case = pytest.mark.skipif(
 )
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 def test_atdollar_no_output():
     # see issue 1521
     script = """
@@ -845,36 +845,36 @@ def _echo(args):
 aliases['echo'] = _echo
 @$(echo)
 """
-    out, err, rtn = run_xonsh(script, stderr=sp.PIPE)
+    out, err, rtn = run_deepsh(script, stderr=sp.PIPE)
     assert "command is empty" in err
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 def test_empty_command():
     script = "$['']\n"
-    out, err, rtn = run_xonsh(script, stderr=sp.PIPE)
+    out, err, rtn = run_deepsh(script, stderr=sp.PIPE)
     assert "command is empty" in err
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @_bad_case
 def test_printfile():
-    check_run_xonsh("printfile.xsh", None, "printfile.xsh\n")
+    check_run_deepsh("printfile.xsh", None, "printfile.xsh\n")
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @_bad_case
 def test_printname():
-    check_run_xonsh("printfile.xsh", None, "printfile.xsh\n")
+    check_run_deepsh("printfile.xsh", None, "printfile.xsh\n")
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @_bad_case
 def test_sourcefile():
-    check_run_xonsh("printfile.xsh", None, "printfile.xsh\n")
+    check_run_deepsh("printfile.xsh", None, "printfile.xsh\n")
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @_bad_case
 @pytest.mark.parametrize(
     "cmd, fmt, exp",
@@ -904,16 +904,16 @@ with open('tttt', 'w') as fp:
     ],
 )
 def test_subshells(cmd, fmt, exp):
-    check_run_xonsh(cmd, fmt, exp)
+    check_run_deepsh(cmd, fmt, exp)
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_on_windows
 @pytest.mark.parametrize("cmd, exp", [("pwd", lambda: os.getcwd() + "\n")])
 def test_redirect_out_to_file(cmd, exp, tmpdir):
-    outfile = tmpdir.mkdir("xonsh_test_dir").join("xonsh_test_file")
+    outfile = tmpdir.mkdir("deepsh_test_dir").join("deepsh_test_file")
     command = f"{cmd} > {outfile}\n"
-    out, _, _ = run_xonsh(command)
+    out, _, _ = run_deepsh(command)
     content = outfile.read()
     if callable(exp):
         exp = exp()
@@ -921,12 +921,12 @@ def test_redirect_out_to_file(cmd, exp, tmpdir):
 
 
 @skip_if_no_make
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_no_sleep
 @skip_if_on_windows
 @pytest.mark.xfail(strict=False)  # TODO: fixme (super flaky on OSX)
-def test_xonsh_no_close_fds():
-    # see issue https://github.com/xonsh/xonsh/issues/2984
+def test_deepsh_no_close_fds():
+    # see issue https://github.com/deepsh/deepsh/issues/2984
     makefile = (
         "default: all\n"
         "all:\n"
@@ -941,11 +941,11 @@ def test_xonsh_no_close_fds():
     with tempfile.TemporaryDirectory() as d, with_pushd(d):
         with open("Makefile", "w") as f:
             f.write(makefile)
-        out = sp.check_output(["make", "-sj2", "SHELL=xonsh"], universal_newlines=True)
+        out = sp.check_output(["make", "-sj2", "SHELL=deepsh"], universal_newlines=True)
         assert "warning" not in out
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @pytest.mark.parametrize(
     "cmd, fmt, exp",
     [
@@ -954,20 +954,20 @@ def test_xonsh_no_close_fds():
 )
 def test_pipe_between_subprocs(cmd, fmt, exp):
     """verify pipe between subprocesses doesn't throw an exception"""
-    check_run_xonsh(cmd, fmt, exp)
+    check_run_deepsh(cmd, fmt, exp)
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_on_windows
 def test_negative_exit_codes_fail():
     # see issue 3309
     script = 'python -c "import os; os.abort()" && echo OK\n'
-    out, err, rtn = run_xonsh(script)
+    out, err, rtn = run_deepsh(script)
     assert "OK" != out
     assert "OK" != err
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @pytest.mark.parametrize(
     "cmd, exp",
     [
@@ -979,17 +979,17 @@ def test_negative_exit_codes_fail():
 )
 def test_ampersand_argument(cmd, exp):
     script = f"""
-#!/usr/bin/env xonsh
+#!/usr/bin/env deepsh
 def _echo(args):
     print(' '.join(args))
 aliases['echo'] = _echo
 {cmd}
 """
-    out, _, _ = run_xonsh(script)
+    out, _, _ = run_deepsh(script)
     assert out == exp
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @pytest.mark.parametrize(
     "cmd, exp",
     [
@@ -1000,18 +1000,18 @@ aliases['echo'] = _echo
 )
 def test_redirect_argument(cmd, exp):
     script = f"""
-#!/usr/bin/env xonsh
+#!/usr/bin/env deepsh
 def _echo(args):
     print(' '.join(args))
 aliases['echo'] = _echo
 {cmd}
 """
-    out, _, _ = run_xonsh(script)
+    out, _, _ = run_deepsh(script)
     assert out == exp
 
 
 # issue 3402
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_on_windows
 @pytest.mark.parametrize(
     "cmd, exp_rtn",
@@ -1024,8 +1024,8 @@ aliases['echo'] = _echo
         ("exit unknown", 1),
         ("exit()", 0),
         ("exit(100)", 100),
-        ("__xonsh__.exit=0", 0),
-        ("__xonsh__.exit=100", 100),
+        ("__deepsh__.exit=0", 0),
+        ("__deepsh__.exit=100", 100),
         ("raise Exception()", 1),
         ("raise SystemExit(100)", 100),
         ("sh -c 'exit 0'", 0),
@@ -1033,38 +1033,38 @@ aliases['echo'] = _echo
     ],
 )
 def test_single_command_return_code(cmd, exp_rtn):
-    _, _, rtn = run_xonsh(cmd, single_command=True)
+    _, _, rtn = run_deepsh(cmd, single_command=True)
     assert rtn == exp_rtn
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_on_msys
 @skip_if_on_windows
 @skip_if_on_darwin
 def test_argv0():
-    check_run_xonsh("checkargv0.xsh", None, "OK\n")
+    check_run_deepsh("checkargv0.xsh", None, "OK\n")
 
 
 @pytest.mark.parametrize("interactive", [True, False])
 def test_loading_correctly(monkeypatch, interactive):
     # Ensure everything loads correctly in interactive mode (e.g. #4289)
     monkeypatch.setenv("SHELL_TYPE", "prompt_toolkit")
-    monkeypatch.setenv("XONSH_LOGIN", "1")
-    monkeypatch.setenv("XONSH_INTERACTIVE", "1")
-    out, err, ret = run_xonsh(
-        "import xonsh; echo -n AAA @(xonsh.__file__) BBB",
+    monkeypatch.setenv("DEEPSH_LOGIN", "1")
+    monkeypatch.setenv("DEEPSH_INTERACTIVE", "1")
+    out, err, ret = run_deepsh(
+        "import deepsh; echo -n AAA @(deepsh.__file__) BBB",
         interactive=interactive,
         single_command=True,
     )
     assert not err
     assert ret == 0
-    our_xonsh = (
-        xonsh.__file__
-    )  # make sure xonsh didn't fail and fallback to the system shell
-    assert f"AAA {our_xonsh} BBB" in out  # ignore tty warnings/prompt text
+    our_deepsh = (
+        deepsh.__file__
+    )  # make sure deepsh didn't fail and fallback to the system shell
+    assert f"AAA {our_deepsh} BBB" in out  # ignore tty warnings/prompt text
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @pytest.mark.parametrize(
     "cmd",
     [
@@ -1073,7 +1073,7 @@ def test_loading_correctly(monkeypatch, interactive):
     ],
 )
 def test_exec_function_scope(cmd):
-    _, _, rtn = run_xonsh(cmd, single_command=True)
+    _, _, rtn = run_deepsh(cmd, single_command=True)
     assert rtn == 0
 
 
@@ -1085,28 +1085,28 @@ def test_run_currentfolder(monkeypatch):
     batfile = Path(__file__).parent / "bin" / "hello_world.bat"
     monkeypatch.chdir(batfile.parent)
     cmd = batfile.name
-    out, _, _ = run_xonsh(cmd, stdout=sp.PIPE, stderr=sp.PIPE, path=os.environ["PATH"])
+    out, _, _ = run_deepsh(cmd, stdout=sp.PIPE, stderr=sp.PIPE, path=os.environ["PATH"])
     assert out.strip() == "hello world"
 
 
 @skip_if_on_unix
 def test_run_dynamic_on_path():
     """Ensure we can run an executable which is added to the path
-    after xonsh is loaded
+    after deepsh is loaded
     """
     batfile = Path(__file__).parent / "bin" / "hello_world.bat"
     cmd = f"$PATH.add(r'{batfile.parent}');![hello_world.bat]"
-    out, _, _ = run_xonsh(cmd, path=os.environ["PATH"])
+    out, _, _ = run_deepsh(cmd, path=os.environ["PATH"])
     assert out.strip() == "hello world"
 
 
 @skip_if_on_unix
 def test_run_fail_not_on_path():
-    """Test that xonsh fails to run an executable when not on path
+    """Test that deepsh fails to run an executable when not on path
     or in current folder
     """
     cmd = "hello_world.bat"
-    out, _, _ = run_xonsh(cmd, stdout=sp.PIPE, stderr=sp.PIPE, path=os.environ["PATH"])
+    out, _, _ = run_deepsh(cmd, stdout=sp.PIPE, stderr=sp.PIPE, path=os.environ["PATH"])
     assert out != "Hello world"
 
 
@@ -1114,7 +1114,7 @@ ALIASES_THREADABLE_PRINT_CASES = [
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: 1/0
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1123,7 +1123,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: 1/0
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1132,7 +1132,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: 1/0
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1141,7 +1141,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: 1/0
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1150,7 +1150,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: (None, "I failed", 2)
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1159,7 +1159,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: (None, "I failed", 2)
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1168,7 +1168,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: (None, "I failed", 2)
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1177,7 +1177,7 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: (None, "I failed", 2)
 echo f1f1f1 ; f ; echo f2f2f2
 """,
@@ -1189,9 +1189,9 @@ ALIASES_UNTHREADABLE_PRINT_CASES = [
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: 1/0
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "^f1f1f1\nException in.*FuncAlias.*\nZeroDivisionError.*\nf2f2f2\n$",
@@ -1199,9 +1199,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: 1/0
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "f1f1f1\nException in.*\nZeroDivisionError: .*\nsubprocess.CalledProcessError.*\n$",
@@ -1209,9 +1209,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: 1/0
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "f1f1f1\nException in.*\nTraceback.*\nZeroDivisionError: .*\nsubprocess.CalledProcessError.*\n$",
@@ -1219,9 +1219,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: 1/0
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "f1f1f1\nException in.*FuncAlias.*\nTraceback.*\nZeroDivisionError.*\nf2f2f2\n$",
@@ -1229,9 +1229,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: (None, "I failed", 2)
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "^f1f1f1\nI failed\nf2f2f2\n$",
@@ -1239,9 +1239,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = False
+$DEEPSH_SHOW_TRACEBACK = False
 aliases['f'] = lambda: (None, "I failed", 2)
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "f1f1f1\nI failed\nsubprocess.CalledProcessError.*\n$",
@@ -1249,9 +1249,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = True
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: (None, "I failed", 2)
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "f1f1f1\nI failed.*\nTraceback.*\nsubprocess.CalledProcessError.*\n$",
@@ -1259,9 +1259,9 @@ echo f1f1f1 ; f ; echo f2f2f2
     (
         """
 $RAISE_SUBPROC_ERROR = False
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 aliases['f'] = lambda: (None, "I failed", 2)
-aliases['f'].__xonsh_threadable__ = False
+aliases['f'].__deepsh_threadable__ = False
 echo f1f1f1 ; f ; echo f2f2f2
 """,
         "f1f1f1\nI failed\nf2f2f2\n$",
@@ -1275,7 +1275,7 @@ echo f1f1f1 ; f ; echo f2f2f2
 )
 def test_aliases_print(case):
     cmd, match = case
-    out, err, ret = run_xonsh(cmd=cmd, single_command=False)
+    out, err, ret = run_deepsh(cmd=cmd, single_command=False)
     assert re.match(
         match, out, re.MULTILINE | re.DOTALL
     ), f"\nFailed:\n```\n{cmd.strip()}\n```,\nresult: {out!r}\nexpected: {match!r}."
@@ -1284,16 +1284,16 @@ def test_aliases_print(case):
 @skip_if_on_windows
 @pytest.mark.parametrize("interactive", [True, False])
 def test_raise_subproc_error_with_show_traceback(monkeypatch, interactive):
-    out, err, ret = run_xonsh(
-        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=False\n$XONSH_SHOW_TRACEBACK=False\nls nofile",
+    out, err, ret = run_deepsh(
+        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=False\n$DEEPSH_SHOW_TRACEBACK=False\nls nofile",
         interactive=interactive,
         single_command=True,
     )
     assert ret != 0
     assert re.match("ls.*No such file or directory\n", out)
 
-    out, err, ret = run_xonsh(
-        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=True\n$XONSH_SHOW_TRACEBACK=False\nls nofile",
+    out, err, ret = run_deepsh(
+        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=True\n$DEEPSH_SHOW_TRACEBACK=False\nls nofile",
         interactive=interactive,
         single_command=True,
     )
@@ -1304,8 +1304,8 @@ def test_raise_subproc_error_with_show_traceback(monkeypatch, interactive):
         re.MULTILINE | re.DOTALL,
     )
 
-    out, err, ret = run_xonsh(
-        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=True\n$XONSH_SHOW_TRACEBACK=True\nls nofile",
+    out, err, ret = run_deepsh(
+        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=True\n$DEEPSH_SHOW_TRACEBACK=True\nls nofile",
         interactive=interactive,
         single_command=True,
     )
@@ -1316,8 +1316,8 @@ def test_raise_subproc_error_with_show_traceback(monkeypatch, interactive):
         re.MULTILINE | re.DOTALL,
     )
 
-    out, err, ret = run_xonsh(
-        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=False\n$XONSH_SHOW_TRACEBACK=True\nls nofile",
+    out, err, ret = run_deepsh(
+        "$COLOR_RESULTS=False\n$RAISE_SUBPROC_ERROR=False\n$DEEPSH_SHOW_TRACEBACK=True\nls nofile",
         interactive=interactive,
         single_command=True,
     )
@@ -1326,12 +1326,12 @@ def test_raise_subproc_error_with_show_traceback(monkeypatch, interactive):
 
 
 def test_main_d():
-    out, err, ret = run_xonsh(cmd="print($XONSH_HISTORY_BACKEND)", single_command=True)
+    out, err, ret = run_deepsh(cmd="print($DEEPSH_HISTORY_BACKEND)", single_command=True)
     assert out == "json\n"
 
-    out, err, ret = run_xonsh(
-        args=["--no-rc", "-DXONSH_HISTORY_BACKEND='dummy'"],
-        cmd="print($XONSH_HISTORY_BACKEND)",
+    out, err, ret = run_deepsh(
+        args=["--no-rc", "-DDEEPSH_HISTORY_BACKEND='dummy'"],
+        cmd="print($DEEPSH_HISTORY_BACKEND)",
         single_command=True,
     )
     assert out == "dummy\n"
@@ -1340,7 +1340,7 @@ def test_main_d():
 @pytest.mark.flaky(reruns=3, reruns_delay=1)
 def test_catching_system_exit():
     stdin_cmd = "__import__('sys').exit(2)\n"
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         cmd=None, stdin_cmd=stdin_cmd, interactive=True, single_command=False, timeout=3
     )
     assert ret > 0
@@ -1350,7 +1350,7 @@ def test_catching_system_exit():
 @pytest.mark.flaky(reruns=3, reruns_delay=1)
 def test_catching_exit_signal():
     stdin_cmd = "sleep 0.2; kill -SIGHUP @(__import__('os').getpid())\n"
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         cmd=None, stdin_cmd=stdin_cmd, interactive=True, single_command=False, timeout=3
     )
     assert ret > 0
@@ -1360,7 +1360,7 @@ def test_catching_exit_signal():
 def test_suspended_captured_process_pipeline():
     """See also test_specs.py:test_specs_with_suspended_captured_process_pipeline"""
     stdin_cmd = "!(python -c 'import os, signal, time; time.sleep(0.2); os.kill(os.getpid(), signal.SIGTTIN)')\n"
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         cmd=None, stdin_cmd=stdin_cmd, interactive=True, single_command=False, timeout=5
     )
     match = ".*suspended=True.*"
@@ -1377,7 +1377,7 @@ def test_alias_stability():
         "aliases['tst'] = lambda: [print('sleep'), __import__('time').sleep(1)]\n"
         "tst\ntst\ntst\n"
     )
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         cmd=None,
         stdin_cmd=stdin_cmd,
         interactive=True,
@@ -1392,12 +1392,12 @@ def test_alias_stability():
 def test_spec_decorator_alias():
     """Testing spec modifier alias with `@` in the alias name."""
     stdin_cmd = (
-        "from xonsh.procs.specs import SpecAttrDecoratorAlias as mod\n"
+        "from deepsh.procs.specs import SpecAttrDecoratorAlias as mod\n"
         'aliases["@dict"] = mod({"output_format": lambda lines: eval("\\n".join(lines))})\n'
         "d = $(@dict echo '{\"a\":42}')\n"
         "print('Answer =', d['a'])\n"
     )
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         cmd=None,
         stdin_cmd=stdin_cmd,
         interactive=True,
@@ -1416,7 +1416,7 @@ def test_alias_stability_exception():
         "aliases['tst2'] = lambda: [1/0]\n"
         "tst1\ntst2\ntst1\ntst2\n"
     )
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         cmd=None,
         stdin_cmd=stdin_cmd,
         interactive=True,
@@ -1436,25 +1436,25 @@ def test_alias_stability_exception():
     [
         [
             "-i",
-            ".*CONFIG_XONSH_RC_XSH.*HOME_XONSHRC.*CONFIG_XONSH_RCD.*CONFIG_XONSH_PY_RCD.*",
+            ".*CONFIG_DEEPSH_RC_XSH.*HOME_DEEPSHRC.*CONFIG_DEEPSH_RCD.*CONFIG_DEEPSH_PY_RCD.*",
         ],
         ["--rc rc.xsh", ".*RCXSH.*"],
         ["-i --rc rc.xsh", ".*RCXSH.*"],
         [
             "-c print('CMD')",
-            ".*CONFIG_XONSH_RC_XSH.*CONFIG_XONSH_RCD.*CONFIG_XONSH_PY_RCD.*CMD.*",
+            ".*CONFIG_DEEPSH_RC_XSH.*CONFIG_DEEPSH_RCD.*CONFIG_DEEPSH_PY_RCD.*CMD.*",
         ],
         [
             "-i -c print('CMD')",
-            ".*CONFIG_XONSH_RC_XSH.*HOME_XONSHRC.*CONFIG_XONSH_RCD.*CONFIG_XONSH_PY_RCD.*CMD.*",
+            ".*CONFIG_DEEPSH_RC_XSH.*HOME_DEEPSHRC.*CONFIG_DEEPSH_RCD.*CONFIG_DEEPSH_PY_RCD.*CMD.*",
         ],
         [
             "script.xsh",
-            ".*CONFIG_XONSH_RC_XSH.*CONFIG_XONSH_RCD.*CONFIG_XONSH_PY_RCD.*SCRIPT.*",
+            ".*CONFIG_DEEPSH_RC_XSH.*CONFIG_DEEPSH_RCD.*CONFIG_DEEPSH_PY_RCD.*SCRIPT.*",
         ],
         [
             "-i script.xsh",
-            ".*CONFIG_XONSH_RC_XSH.*HOME_XONSHRC.*CONFIG_XONSH_RCD.*CONFIG_XONSH_PY_RCD.*SCRIPT.*",
+            ".*CONFIG_DEEPSH_RC_XSH.*HOME_DEEPSHRC.*CONFIG_DEEPSH_RCD.*CONFIG_DEEPSH_PY_RCD.*SCRIPT.*",
         ],
         ["--rc rc.xsh -- script.xsh", ".*RCXSH.*SCRIPT.*"],
         ["-i --rc rc.xsh -- script.xsh", ".*RCXSH.*SCRIPT.*"],
@@ -1462,27 +1462,27 @@ def test_alias_stability_exception():
         ["-i --no-rc --rc rc.xsh -- script.xsh", ".*SCRIPT.*"],
     ],
 )
-def test_xonshrc(tmpdir, cmd, exp):
-    # ~/.xonshrc
+def test_deepshrc(tmpdir, cmd, exp):
+    # ~/.deepshrc
     home = tmpdir.mkdir("home")
-    (home / ".xonshrc").write_text("echo HOME_XONSHRC", encoding="utf8")
-    home_xonsh_rc_path = str(  # crossplatform path
-        (Path(home) / ".xonshrc").expanduser()
+    (home / ".deepshrc").write_text("echo HOME_DEEPSHRC", encoding="utf8")
+    home_deepsh_rc_path = str(  # crossplatform path
+        (Path(home) / ".deepshrc").expanduser()
     )
 
-    # ~/.config/xonsh/rc.xsh
-    home_config_xonsh = tmpdir.mkdir("home_config_xonsh")
-    (home_config_xonsh_rc_xsh := home_config_xonsh / "rc.xsh").write_text(
-        "echo CONFIG_XONSH_RC_XSH", encoding="utf8"
+    # ~/.config/deepsh/rc.xsh
+    home_config_deepsh = tmpdir.mkdir("home_config_deepsh")
+    (home_config_deepsh_rc_xsh := home_config_deepsh / "rc.xsh").write_text(
+        "echo CONFIG_DEEPSH_RC_XSH", encoding="utf8"
     )
 
-    # ~/.config/xonsh/rc.d/
-    home_config_xonsh_rcd = tmpdir.mkdir("home_config_xonsh_rcd")
-    (home_config_xonsh_rcd / "rcd1.xsh").write_text(
-        "echo CONFIG_XONSH_RCD", encoding="utf8"
+    # ~/.config/deepsh/rc.d/
+    home_config_deepsh_rcd = tmpdir.mkdir("home_config_deepsh_rcd")
+    (home_config_deepsh_rcd / "rcd1.xsh").write_text(
+        "echo CONFIG_DEEPSH_RCD", encoding="utf8"
     )
-    (home_config_xonsh_rcd / "rcd2.py").write_text(
-        "__xonsh__.print(__xonsh__.subproc_captured_stdout(['echo', 'CONFIG_XONSH_PY_RCD']))",
+    (home_config_deepsh_rcd / "rcd2.py").write_text(
+        "__deepsh__.print(__deepsh__.subproc_captured_stdout(['echo', 'CONFIG_DEEPSH_PY_RCD']))",
         encoding="utf8",
     )
 
@@ -1490,22 +1490,22 @@ def test_xonshrc(tmpdir, cmd, exp):
     (rc_xsh := home / "rc.xsh").write_text("echo RCXSH", encoding="utf8")
     (script_xsh := home / "script.xsh").write_text("echo SCRIPT_XSH", encoding="utf8")
 
-    # Construct $XONSHRC and $XONSHRC_DIR.
-    xonshrc_files = [str(home_config_xonsh_rc_xsh), str(home_xonsh_rc_path)]
-    xonshrc_dir = [str(home_config_xonsh_rcd)]
+    # Construct $DEEPSHRC and $DEEPSHRC_DIR.
+    deepshrc_files = [str(home_config_deepsh_rc_xsh), str(home_deepsh_rc_path)]
+    deepshrc_dir = [str(home_config_deepsh_rcd)]
 
     args = [
         f'-DHOME="{str(home)}"',
-        f'-DXONSHRC="{os.pathsep.join(xonshrc_files)}"',
-        f'-DXONSHRC_DIR="{os.pathsep.join(xonshrc_dir)}"',
+        f'-DDEEPSHRC="{os.pathsep.join(deepshrc_files)}"',
+        f'-DDEEPSHRC_DIR="{os.pathsep.join(deepshrc_dir)}"',
     ]
     env = {"HOME": str(home)}
 
     cmd = cmd.replace("rc.xsh", str(rc_xsh)).replace("script.xsh", str(script_xsh))
     args = args + cmd.split()
 
-    # xonsh
-    out, err, ret = run_xonsh(
+    # deepsh
+    out, err, ret = run_deepsh(
         cmd=None,
         args=args,
         env=env,
@@ -1516,27 +1516,27 @@ def test_xonshrc(tmpdir, cmd, exp):
         exp,
         out,
         re.MULTILINE | re.DOTALL,
-    ), f"Case: xonsh {cmd},\nExpected: {exp!r},\nResult: {out!r},\nargs={args!r}"
+    ), f"Case: deepsh {cmd},\nExpected: {exp!r},\nResult: {out!r},\nargs={args!r}"
 
 
-@skip_if_no_xonsh
+@skip_if_no_deepsh
 @skip_if_on_windows
 def test_shebang_cr(tmpdir):
-    testdir = tmpdir.mkdir("xonsh_test_dir")
+    testdir = tmpdir.mkdir("deepsh_test_dir")
     testfile = "shebang_cr.xsh"
-    expected_out = "I'm xonsh with shebang␍"
+    expected_out = "I'm deepsh with shebang␍"
     (f := testdir / testfile).write_text(
-        f"""#!/usr/bin/env xonsh\r\nprint("{expected_out}")""", encoding="utf8"
+        f"""#!/usr/bin/env deepsh\r\nprint("{expected_out}")""", encoding="utf8"
     )
     os.chmod(f, 0o777)
     command = f"cd {testdir}; ./{testfile}\n"
-    out, err, rtn = run_xonsh(command)
+    out, err, rtn = run_deepsh(command)
     assert out == f"{expected_out}\n"
 
 
 test_code = [
     """
-$XONSH_SHOW_TRACEBACK = True
+$DEEPSH_SHOW_TRACEBACK = True
 @aliases.register
 def _e(a,i,o,e):
     echo -n O
@@ -1564,7 +1564,7 @@ for i in range(0, 12):
 def test_callable_alias_no_bad_file_descriptor(test_code):
     """Test no exceptions during any kind of capturing of callable alias. See also #5631."""
 
-    out, err, ret = run_xonsh(
+    out, err, ret = run_deepsh(
         test_code, interactive=True, single_command=True, timeout=60
     )
     assert ret == 0

@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from xonsh.xontribs import (
+from deepsh.xontribs import (
     xontrib_context,
     xontribs_load,
     xontribs_loaded,

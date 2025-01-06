@@ -1,16 +1,16 @@
-#!/usr/bin/env xonsh
+#!/usr/bin/env deepsh
 import sys
 import subprocess
 from typing import List
 
-import xonsh.cli_utils as xcli
+import deepsh.cli_utils as xcli
 
-from xonsh.tools import print_color
+from deepsh.tools import print_color
 import itertools
 
 
 $RAISE_SUBPROC_ERROR = True
-# $XONSH_TRACE_SUBPROC = True
+# $DEEPSH_TRACE_SUBPROC = True
 
 
 def colored_tracer(cmds, **_):
@@ -41,7 +41,7 @@ def test(
 
     Examples
     --------
-    `xonsh run-tests.xsh -- --junitxml=junit/test-results.%%d.xml`
+    `deepsh run-tests.xsh -- --junitxml=junit/test-results.%%d.xml`
     """
 
     if report_cov:

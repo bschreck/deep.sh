@@ -7,9 +7,9 @@ Linux
 Possible conflicts with Bash
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Depending on how your installation of Bash is configured, Xonsh may have trouble
+Depending on how your installation of Bash is configured, Deepsh may have trouble
 loading certain shell modules. If you see errors similar to this
-when launching Xonsh:
+when launching Deepsh:
 
 .. code-block:: console
 
@@ -30,14 +30,14 @@ lines to your ``~/.bashrc file``:
     unset module
     unset scl
 
-Use the Nix Package manager with Xonsh
+Use the Nix Package manager with Deepsh
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To users of the `Nix Package Manager <https://www.nixos.org/>`_ these few lines might be life-savers:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     import os.path
-    if os.path.exists(f"{$HOME}/.nix-profile") and not __xonsh__.env.get("NIX_PATH"):
+    if os.path.exists(f"{$HOME}/.nix-profile") and not __deepsh__.env.get("NIX_PATH"):
         $NIX_REMOTE="daemon"
         $NIX_USER_PROFILE_DIR="/nix/var/nix/profiles/per-user/" + $USER
         $NIX_PROFILES="/nix/var/nix/profiles/default " + $HOME + "/.nix-profile"
@@ -47,7 +47,7 @@ To users of the `Nix Package Manager <https://www.nixos.org/>`_ these few lines 
 
 Btw. a hacky solution to install xontribs that do not yet ship with ``nixpkgs`` is:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     for p in map(lambda s: str(s.resolve()), p"~/.local/lib/".glob("python*/site-packages")):
         if p not in sys.path:
@@ -56,10 +56,10 @@ Btw. a hacky solution to install xontribs that do not yet ship with ``nixpkgs`` 
     $PYTHONPATH = "$USER/.local/lib/python3.7/site-packages"
 
     python -m ensurepip --user
-    xonsh
-    python -m pip install --user -U pip xontrib-z xonsh-direnv
+    deepsh
+    python -m pip install --user -U pip xontrib-z deepsh-direnv
 
-Just run the last three lines, do not put them in your `xonshrc`!
+Just run the last three lines, do not put them in your `deepshrc`!
 
 MacOS, OSX
 ----------
@@ -85,16 +85,16 @@ macOS provides a `path helper
 which by default configures paths in bash and other POSIX or C  shells. Without
 including these paths, common tools including those installed by Homebrew
 may be unavailable. See ``/etc/profile`` for details on how it is done.
-To ensure the path helper is invoked on xonsh (for all users), add the
-following to ``/etc/xonsh/xonshrc``:
+To ensure the path helper is invoked on deepsh (for all users), add the
+following to ``/etc/deepsh/deepshrc``:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     source-bash $(/usr/libexec/path_helper -s)
 
 To incorporate the whole functionality of ``/etc/profile``:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     source-bash --seterrprevcmd "" /etc/profile
 
@@ -102,11 +102,11 @@ To incorporate the whole functionality of ``/etc/profile``:
 
 Tab completion
 ^^^^^^^^^^^^^^
-Xonsh has support for using bash completion files on the shell, to use it you need to install
+Deepsh has support for using bash completion files on the shell, to use it you need to install
 the bash-completion package.
-The regular bash-completion package uses v1 which mostly works, but `occasionally has rough edges <https://github.com/xonsh/xonsh/issues/2111>`_ so we recommend using bash-completion v2.
+The regular bash-completion package uses v1 which mostly works, but `occasionally has rough edges <https://github.com/deepsh/deepsh/issues/2111>`_ so we recommend using bash-completion v2.
 
-Bash completion comes from <https://github.com/scop/bash-completion> which suggests you use a package manager to install it, this manager will also install a new version of bash without affecting  /bin/bash. Xonsh also needs to be told where the bash shell file that builds the completions is, this has to be added to $BASH_COMPLETIONS. The package includes completions for many Unix commands.
+Bash completion comes from <https://github.com/scop/bash-completion> which suggests you use a package manager to install it, this manager will also install a new version of bash without affecting  /bin/bash. Deepsh also needs to be told where the bash shell file that builds the completions is, this has to be added to $BASH_COMPLETIONS. The package includes completions for many Unix commands.
 
 Common packaging systems for macOS include
 
@@ -116,7 +116,7 @@ Common packaging systems for macOS include
 
        @ brew install bash-completion2
 
-    This will install the bash_completion file in `/usr/local/share/bash-completion/bash_completion` which is in the current xonsh code and so should just work.
+    This will install the bash_completion file in `/usr/local/share/bash-completion/bash_completion` which is in the current deepsh code and so should just work.
 
  - `MacPorts <https://trac.macports.org/wiki/howto/bash-completion>`_ where the bash-completion port needs to be installed.
 
@@ -132,7 +132,7 @@ Common packaging systems for macOS include
 
     @ $BASH_COMPLETIONS.insert(0, '/opt/local/share/bash-completion/bash_completion')
 
-Note that the `bash completion project page <https://github.com/scop/bash-completion>`_ gives the script to be called as in .../profile.d/bash_completion.sh which will the call the script mentioned above and one in $XDG_CONFIG_HOME . Currently xonsh seems only to be able to read the first script directly.
+Note that the `bash completion project page <https://github.com/scop/bash-completion>`_ gives the script to be called as in .../profile.d/bash_completion.sh which will the call the script mentioned above and one in $XDG_CONFIG_HOME . Currently deepsh seems only to be able to read the first script directly.
 
 
 Windows
@@ -149,8 +149,8 @@ from the terminal application in other platforms.
 You can install it from the `Microsoft Store <https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701>`_
 or from `Github <https://github.com/microsoft/terminal>`_.
 
-By default Windows Terminal runs Powershell, but you can add a profile tab to run Xonsh and even configure it
-to open automatically in xonsh. Here is a sample settings.json:
+By default Windows Terminal runs Powershell, but you can add a profile tab to run Deepsh and even configure it
+to open automatically in deepsh. Here is a sample settings.json:
 
 .. code-block::
 
@@ -172,8 +172,8 @@ to open automatically in xonsh. Here is a sample settings.json:
                             {
                     // Guid from https://guidgen.com
                     "guid": "{02639f1c-9437-4b34-a383-2df49b5ed5c5}",
-                    "name": "Xonsh",
-                    "commandline": "c:\\users\\bobhy\\src\\xonsh\\.venv\\scripts\\xonsh.exe",
+                    "name": "Deepsh",
+                    "commandline": "c:\\users\\bobhy\\src\\deepsh\\.venv\\scripts\\deepsh.exe",
                     "hidden": false
                 },
                 {
@@ -199,7 +199,7 @@ The dark red and blue colors are completely unreadable in `cmd.exe`.
    :alt: intensify-colors-win-false
    :align: center
 
-Xonsh has some tricks to fix colors. This is controlled by the
+Deepsh has some tricks to fix colors. This is controlled by the
 :ref:`$INTENSIFY_COLORS_ON_WIN <intensify_colors_on_win>`
 environment variable which is ``True`` by default.
 
@@ -207,11 +207,11 @@ environment variable which is ``True`` by default.
 :ref:`$INTENSIFY_COLORS_ON_WIN <intensify_colors_on_win>` has the following effect:b
 
 On Windows 10:
-    Windows 10 supports true color in the terminal, so on Windows 10 Xonsh will use
+    Windows 10 supports true color in the terminal, so on Windows 10 Deepsh will use
     a style with hard coded colors instead of the terminal colors.
 
 On older Windows:
-    Xonsh replaces some of the unreadable dark colors with more readable
+    Deepsh replaces some of the unreadable dark colors with more readable
     alternatives (e.g. blue becomes cyan).
 
 
@@ -222,18 +222,18 @@ Python (like other processes on Windows) locks the current working directory so
 it can't be deleted or renamed. ``cmd.exe`` has this behaviour as well, but it
 is quite annoying for a shell.
 
-The :ref:`free_cwd <free_cwd>` xontrib (add-on) for xonsh solves some of this problem. It
+The :ref:`free_cwd <free_cwd>` xontrib (add-on) for deepsh solves some of this problem. It
 works by hooking the prompt to reset the current working directory to the root
 drive folder whenever the shell is idle. It only works with the prompt-toolkit
 back-end. To enable that behaviour run the following:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    >>> xpip install xontrib-free-cwd
 
-Add this line to your ``~/.xonshrc`` file to have it always enabled.
+Add this line to your ``~/.deepshrc`` file to have it always enabled.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    >>> xontrib load free_cwd
 
@@ -244,17 +244,17 @@ Name space conflicts
 Due to ambiguity with the Python ``dir`` builtin, to list the current directory
 you must explicitly request the ``.``, like this:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    >>> dir .
     Volume in drive C is Windows
     Volume Serial Number is 30E8-8B86
 
-    Directory of C:\Users\snail\xonsh
+    Directory of C:\Users\snail\deepsh
 
    2015-05-12  03:04    <DIR>          .
    2015-05-12  03:04    <DIR>          ..
-   2015-05-01  01:31    <DIR>          xonsh
+   2015-05-01  01:31    <DIR>          deepsh
                   0 File(s)              0 bytes
                   3 Dir(s)  11,008,000,000 bytes free
 
@@ -263,12 +263,12 @@ you must explicitly request the ``.``, like this:
 Many people create a ``d`` alias for the ``dir`` command to save
 typing and avoid the ambiguity altogether:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    >>> aliases['d'] = ['cmd', '/c', 'dir']
 
-You can add aliases to your `xonshrc <xonshrc.rst>`_ to have it always
-available when xonsh starts.
+You can add aliases to your `deepshrc <deepshrc.rst>`_ to have it always
+available when deepsh starts.
 
 
 Working Directory on PATH
@@ -278,21 +278,21 @@ Windows users, particularly those coming from the ``cmd.exe`` shell,
 might be accustomed to being able to run executables from the current
 directory by simply typing the program name.
 
-Since version 0.16, ``xonsh`` follows the more secure and modern
+Since version 0.16, ``deepsh`` follows the more secure and modern
 approach of not including the current working directory in the search
 path, similar to Powershell and popular Unix shells. To invoke commands
 in the current directory on any platform, include the current directory
 explicitly:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> ./my-program
 
 Although not recommended, to restore the behavior found in the
 ``cmd.exe`` shell, simply append ``.`` to the ``PATH``:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $PATH.append('.')
 
-Add that to ``~/.xonshrc`` to enable that as the default behavior.
+Add that to ``~/.deepshrc`` to enable that as the default behavior.

@@ -4,22 +4,22 @@
 Tutorial: Extensions (Xontribs)
 ************************************
 Take a deep breath and prepare for some serious Show & Tell; it's time to
-learn about xonsh extensions!
+learn about deepsh extensions!
 
-Xonsh comes with some default set of extensions. These can be viewed :py:mod:`here <xontrib>`.
+Deepsh comes with some default set of extensions. These can be viewed :py:mod:`here <xontrib>`.
 
-Also checkout the list of `Awesome Contributions <https://xonsh.github.io/awesome-xontribs/>`_
+Also checkout the list of `Awesome Contributions <https://deepsh.github.io/awesome-xontribs/>`_
 from the community.
 
 Overview
 ========
 Xontributions, or ``xontribs``, are a set of tools and conventions for
-extending the functionality of xonsh beyond what is provided by default. This
-allows 3rd party developers and users to improve their xonsh experience without
-having to go through the xonsh development and release cycle.
+extending the functionality of deepsh beyond what is provided by default. This
+allows 3rd party developers and users to improve their deepsh experience without
+having to go through the deepsh development and release cycle.
 
 Many tools and libraries have extension capabilities. Here are some that we
-took inspiration from for xonsh:
+took inspiration from for deepsh:
 
 * `Sphinx <http://sphinx-doc.org/>`_: Extensions are just Python modules,
   bundles some extensions with the main package, interface is a list of
@@ -34,31 +34,31 @@ took inspiration from for xonsh:
 Structure
 ================
 Xontribs are modules with some special functions written
-in either xonsh (``*.xsh``) or Python (``*.py``).
+in either deepsh (``*.xsh``) or Python (``*.py``).
 
 Here is a template:
 
 .. code-block:: python
 
-    from xonsh.built_ins import XonshSession
+    from deepsh.built_ins import DeepshSession
 
-    def _load_xontrib_(xsh: XonshSession, **kwargs) -> dict:
+    def _load_xontrib_(xsh: DeepshSession, **kwargs) -> dict:
         """
         this function will be called when loading/reloading the xontrib.
 
         Args:
-            xsh: the current xonsh session instance, serves as the interface to manipulate the session.
+            xsh: the current deepsh session instance, serves as the interface to manipulate the session.
                  This allows you to register new aliases, history backends, event listeners ...
             **kwargs: it is empty as of now. Kept for future proofing.
         Returns:
             dict: this will get loaded into the current execution context
         """
 
-    def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:
+    def _unload_xontrib_(xsh: DeepshSession, **kwargs) -> dict:
         """If you want your extension to be unloadable, put that logic here"""
 
 This _load_xontrib_() function is called after your extension is imported,
-and the currently active :py:class:`xonsh.built_ins.XonshSession` instance is passed as the argument.
+and the currently active :py:class:`deepsh.built_ins.DeepshSession` instance is passed as the argument.
 
 .. note::
 
@@ -98,20 +98,20 @@ Here is a sample file system layout and what the xontrib names would be::
           |- done.py     # "mypkg.subpkg.done", full module name
 
 
-You can also use the `xontrib template <https://github.com/xonsh/xontrib-cookiecutter>`_ to easily
+You can also use the `xontrib template <https://github.com/deepsh/xontrib-cookiecutter>`_ to easily
 create the layout for your xontrib package.
 
 
 Loading Xontribs
 ================
-Xontribs may be loaded in a few different ways: from the `xonshrc <xonshrc.rst>`_ file
-(e.g. ``~/.xonshrc``), dynamically at runtime with the ``xontrib`` command, or its Python API.
+Xontribs may be loaded in a few different ways: from the `deepshrc <deepshrc.rst>`_ file
+(e.g. ``~/.deepshrc``), dynamically at runtime with the ``xontrib`` command, or its Python API.
 
 Extensions are loaded via the ``xontrib load`` command.
-This command may be run from anywhere in a `xonshrc <xonshrc.rst>`_ file or at any point
-after xonsh has started up.
+This command may be run from anywhere in a `deepshrc <deepshrc.rst>`_ file or at any point
+after deepsh has started up.
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     xontrib load myext mpl mypkg.show
 
@@ -119,12 +119,12 @@ The same can be done in Python as well
 
 .. code-block:: python
 
-    from xonsh.xontribs import xontribs_load
+    from deepsh.xontribs import xontribs_load
     xontribs_load(['myext', 'mpl', 'mypkg.show'])
 
 A xontrib can be unloaded from the current session using ``xontrib unload``
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     xontrib unload myext mpl mypkg.show
 
@@ -134,7 +134,7 @@ to mark themselves available for autoloading using the below format.
 .. code-block:: ini
 
     [options.entry_points]
-    xonsh.xontribs =
+    deepsh.xontribs =
         xontrib_name = path.to.the.module
 
 Here the module should contain ``_load_xontrib_`` function as described above.
@@ -153,7 +153,7 @@ list the installed xontribs. This command will report if they are loaded
 in the current session. To display this
 information, pass the ``list`` action to the ``xontrib`` command:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> xontrib list
     mpl     not-loaded
@@ -163,14 +163,14 @@ information, pass the ``list`` action to the ``xontrib`` command:
 For programmatic access, you may also have this command print a JSON formatted
 string:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> xontrib list --json mpl
     {"mpl": {"loaded": false, "installed": true}}
 
 Authoring Xontribs
 ==================
-Writing a xontrib is as easy as writing a xonsh or Python file and sticking
+Writing a xontrib is as easy as writing a deepsh or Python file and sticking
 it in a directory named ``xontrib/``. However, please do not place an
 ``__init__.py`` in the ``xontrib/`` directory. It is an
 *implicit namespace package* and should not have one. See
@@ -208,9 +208,9 @@ We request that you register your xontrib with us.
 We think that will make your contribution more discoverable.
 
 To register a xontrib, create a ``PullRequest`` at
-`Awesome-xontribs <https://github.com/xonsh/awesome-xontribs>`_
+`Awesome-xontribs <https://github.com/deepsh/awesome-xontribs>`_
 repository. Also, if you use Github to host your code,
-please add `xonsh <https://github.com/topics/xonsh>`_ and `xontrib <https://github.com/topics/xontrib>`_
+please add `deepsh <https://github.com/topics/deepsh>`_ and `xontrib <https://github.com/topics/xontrib>`_
 to the topics.
 
 All of this let's users know that your xontrib is out there, ready to be used.

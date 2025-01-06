@@ -28,11 +28,11 @@ appropriate way.
 
 What are Species?
 =================
-In xonsh, events come in species. Each one may look like an event and quack like an event, but they
+In deepsh, events come in species. Each one may look like an event and quack like an event, but they
 behave differently.
 
 This was done because load hooks look like events and quack like events, but they have different
-semantics. See `LoadEvents <api/events.html#xonsh.events.LoadEvent>`_ for details.
+semantics. See `LoadEvents <api/events.html#deepsh.events.LoadEvent>`_ for details.
 
 In order to turn an event from the default ``Event``, you must transmogrify it, using
 ``events.transmogrify()``. The class the event is turned in to must be a subclass of ``AbstractEvent``.

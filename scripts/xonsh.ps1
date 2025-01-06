@@ -1,1 +1,1 @@
-python -m xonsh $args
+python -m deepsh $args

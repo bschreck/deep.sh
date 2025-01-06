@@ -6,9 +6,9 @@
 Python Virtual Environments
 ===========================
 
-The usual tools for creating Python virtual environments—``venv``, ``virtualenv``, ``pew``—don't play well with xonsh. We won't dig deeper into why it is so, but the general gist is that these tools are hacky and hard-coded for bash, zsh, and other mainstream shells.
+The usual tools for creating Python virtual environments—``venv``, ``virtualenv``, ``pew``—don't play well with deepsh. We won't dig deeper into why it is so, but the general gist is that these tools are hacky and hard-coded for bash, zsh, and other mainstream shells.
 
-Luckily, xonsh has its own virtual environments manager called **Vox**. Run to install Vox::
+Luckily, deepsh has its own virtual environments manager called **Vox**. Run to install Vox::
 
     $ xpip install xontrib-vox
 
@@ -71,7 +71,7 @@ Instead of ``remove``, you can call ``rm``, ``delete``, or ``del``.
 
 To see all available commands, run ``vox help``, ``vox --help``, or ``vox -h``::
 
-    Vox is a virtual environment manager for xonsh.
+    Vox is a virtual environment manager for deepsh.
 
     Available commands:
         vox new <env>

@@ -3,7 +3,7 @@
 ******************
 Keyboard Shortcuts
 ******************
-Xonsh comes pre-baked with a few keyboard shortcuts. The following is only available under the prompt-toolkit shell.
+Deepsh comes pre-baked with a few keyboard shortcuts. The following is only available under the prompt-toolkit shell.
 
 .. list-table::
     :widths: 40 60
@@ -16,7 +16,7 @@ Xonsh comes pre-baked with a few keyboard shortcuts. The following is only avail
     * - Ctrl-X + Ctrl-E
       - Open the current buffer in your default text editor.
     * - Ctrl-D
-      - Exit xonsh and return to original terminal. If not called by another terminal, then exit current terminal window. Similar to ``exit``.
+      - Exit deepsh and return to original terminal. If not called by another terminal, then exit current terminal window. Similar to ``exit``.
     * - Ctrl-J
       - | Similar to enter in a few respects:
         | 1. Execute the current buffer.
