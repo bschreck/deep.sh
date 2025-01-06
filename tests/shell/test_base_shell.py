@@ -1,22 +1,22 @@
-"""(A down payment on) Testing for ``xonsh.shells.base_shell.BaseShell`` and associated classes"""
+"""(A down payment on) Testing for ``deepsh.shells.base_shell.BaseShell`` and associated classes"""
 
 import os
 
 import pytest
 
-from xonsh.shell import transform_command
-from xonsh.shells.base_shell import BaseShell
+from deepsh.shell import transform_command
+from deepsh.shells.base_shell import BaseShell
 
 
-def test_pwd_tracks_cwd(xession, xonsh_execer, tmpdir_factory, monkeypatch):
+def test_pwd_tracks_cwd(xession, deepsh_execer, tmpdir_factory, monkeypatch):
     asubdir = str(tmpdir_factory.mktemp("asubdir"))
     cur_wd = os.getcwd()
     xession.env.update(
-        dict(PWD=cur_wd, XONSH_CACHE_SCRIPTS=False, XONSH_CACHE_EVERYTHING=False)
+        dict(PWD=cur_wd, DEEPSH_CACHE_SCRIPTS=False, DEEPSH_CACHE_EVERYTHING=False)
     )
 
-    monkeypatch.setattr(xonsh_execer, "cacheall", False, raising=False)
-    bc = BaseShell(xonsh_execer, None)
+    monkeypatch.setattr(deepsh_execer, "cacheall", False, raising=False)
+    bc = BaseShell(deepsh_execer, None)
 
     assert os.getcwd() == cur_wd
 
@@ -49,7 +49,7 @@ def test_transform(xession):
         ("print('yes')", True),
     ],
 )
-def test_default_append_history(cmd, exp_append_history, xonsh_session, monkeypatch):
+def test_default_append_history(cmd, exp_append_history, deepsh_session, monkeypatch):
     """Test that running an empty line or a comment does not append to history"""
     append_history_calls = []
 
@@ -57,9 +57,9 @@ def test_default_append_history(cmd, exp_append_history, xonsh_session, monkeypa
         append_history_calls.append(info)
 
     monkeypatch.setattr(
-        xonsh_session.shell.shell, "_append_history", mock_append_history
+        deepsh_session.shell.shell, "_append_history", mock_append_history
     )
-    xonsh_session.shell.default(cmd)
+    deepsh_session.shell.default(cmd)
     if exp_append_history:
         assert len(append_history_calls) == 1
     else:

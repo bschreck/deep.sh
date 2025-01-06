@@ -3,14 +3,14 @@ import os
 
 import pytest
 
-from xonsh.platform import DEFAULT_ENCODING
-from xonsh.xoreutils import cat
+from deepsh.platform import DEFAULT_ENCODING
+from deepsh.coreutils import cat
 
 
 @pytest.fixture
 def cat_env_fixture(xession):
     with xession.env.swap(
-        XONSH_ENCODING=DEFAULT_ENCODING, XONSH_ENCODING_ERRORS="surrogateescape"
+        DEEPSH_ENCODING=DEFAULT_ENCODING, DEEPSH_ENCODING_ERRORS="surrogateescape"
     ):
         yield xession
 
@@ -78,8 +78,8 @@ class TestCat:
     @pytest.mark.parametrize(
         "content",
         [
-            "this is a content\nfor testing xoreutil's cat",
-            "this is a content withe \\n\nfor testing xoreutil's cat\n",
+            "this is a content\nfor testing coreutil's cat",
+            "this is a content withe \\n\nfor testing coreutil's cat\n",
             "",
         ],
     )

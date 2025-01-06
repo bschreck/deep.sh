@@ -1,17 +1,17 @@
-"""Xonsh AST tests."""
+"""Deepsh AST tests."""
 
 import ast as pyast
 
 import pytest
 
-from xonsh.parsers import ast
-from xonsh.parsers.ast import BinOp, Call, Name, Store, Tuple, isexpression, min_line
-from xonsh.pytest.tools import nodes_equal
+from deepsh.parsers import ast
+from deepsh.parsers.ast import BinOp, Call, Name, Store, Tuple, isexpression, min_line
+from deepsh.pytest.tools import nodes_equal
 
 
 @pytest.fixture(autouse=True)
-def xonsh_execer_autouse(xonsh_execer):
-    return xonsh_execer
+def deepsh_execer_autouse(deepsh_execer):
+    return deepsh_execer
 
 
 def test_gather_names_name():
@@ -45,20 +45,20 @@ def test_gather_load_store_names_tuple():
         "l = 1",  # ls remains undefined.
     ],
 )
-def test_multilline_num(xonsh_execer_parse, line1):
+def test_multilline_num(deepsh_execer_parse, line1):
     # Subprocess transformation happens on the second line,
     # because not all variables are known.
     code = line1 + "\nls -l\n"
-    tree = xonsh_execer_parse(code)
+    tree = deepsh_execer_parse(code)
     lsnode = tree.body[1]
     assert 2 == min_line(lsnode)
     assert isinstance(lsnode.value, Call)
 
 
-def test_multilline_no_transform(xonsh_execer_parse):
+def test_multilline_no_transform(deepsh_execer_parse):
     # No subprocess transformations happen here, since all variables are known.
     code = "ls = 1\nl = 1\nls -l\n"
-    tree = xonsh_execer_parse(code)
+    tree = deepsh_execer_parse(code)
     lsnode = tree.body[2]
     assert 3 == min_line(lsnode)
     assert isinstance(lsnode.value, BinOp)
@@ -109,10 +109,10 @@ for root, dirs, files in os.walk(path):
     """,
     ],
 )
-def test_unmodified(inp, xonsh_execer_parse):
+def test_unmodified(inp, deepsh_execer_parse):
     # Context sensitive parsing should not modify AST
     exp = pyast.parse(inp)
-    obs = xonsh_execer_parse(inp)
+    obs = deepsh_execer_parse(inp)
 
     assert nodes_equal(exp, obs)
 
@@ -121,8 +121,8 @@ def test_unmodified(inp, xonsh_execer_parse):
     "test_input",
     ["echo; echo && echo\n", "echo; echo && echo a\n", "true && false && true\n"],
 )
-def test_whitespace_subproc(test_input, xonsh_execer_parse):
-    assert xonsh_execer_parse(test_input)
+def test_whitespace_subproc(test_input, deepsh_execer_parse):
+    assert deepsh_execer_parse(test_input)
 
 
 @pytest.mark.parametrize(
@@ -138,6 +138,6 @@ def test_whitespace_subproc(test_input, xonsh_execer_parse):
         ("x = 42", False),
     ],
 )
-def test_isexpression(xonsh_execer, inp, exp):
+def test_isexpression(deepsh_execer, inp, exp):
     obs = isexpression(inp)
     assert exp is obs

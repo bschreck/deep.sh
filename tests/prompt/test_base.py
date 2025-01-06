@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from xonsh.prompt import env as prompt_env
-from xonsh.prompt.base import PromptField, PromptFields, PromptFormatter
+from deepsh.prompt import env as prompt_env
+from deepsh.prompt.base import PromptField, PromptFields, PromptFormatter
 
 
 @pytest.fixture
@@ -51,9 +51,9 @@ def test_format_prompt(inp, exp, fields, formatter, xession):
     "inp, exp",
     [
         ("{a_number:{0:^3}}cats", " 7 cats"),
-        ("{a_function:{} | }xonsh", "hello | xonsh"),
-        ("{current_job:{} | }xonsh", "sleep | xonsh"),
-        ("{none_pf:{} | }xonsh", "xonsh"),
+        ("{a_function:{} | }deepsh", "hello | deepsh"),
+        ("{current_job:{} | }deepsh", "sleep | deepsh"),
+        ("{none_pf:{} | }deepsh", "deepsh"),
         ("{none:{} | }{a_string}{empty:!}", "cats!"),
         ("{none:{}}", ""),
         ("{{{a_string:{{{}}}}}}", "{{cats}}"),

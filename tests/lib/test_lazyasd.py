@@ -1,6 +1,6 @@
 """Tests lazy and self destruictive objects."""
 
-from xonsh.lib.lazyasd import LazyObject
+from deepsh.lib.lazyasd import LazyObject
 
 #
 # LazyObject Tests

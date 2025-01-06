@@ -1,4 +1,4 @@
-"""Tests xonsh tools."""
+"""Tests deepsh tools."""
 
 import datetime as dt
 import os
@@ -9,11 +9,11 @@ import warnings
 
 import pytest
 
-from xonsh import __version__
-from xonsh.parsers.lexer import Lexer
-from xonsh.platform import HAS_PYGMENTS, ON_WINDOWS, PYTHON_VERSION_INFO
-from xonsh.pytest.tools import skip_if_on_windows
-from xonsh.tools import (
+from deepsh import __version__
+from deepsh.parsers.lexer import Lexer
+from deepsh.platform import HAS_PYGMENTS, ON_WINDOWS, PYTHON_VERSION_INFO
+from deepsh.pytest.tools import skip_if_on_windows
+from deepsh.tools import (
     EnvPath,
     all_permutations,
     always_false,
@@ -96,8 +96,8 @@ LEXER.build()
 
 INDENT = "    "
 
-TOOLS_ENV = {"EXPAND_ENV_VARS": True, "XONSH_ENCODING_ERRORS": "strict"}
-ENCODE_ENV_ONLY = {"XONSH_ENCODING_ERRORS": "strict"}
+TOOLS_ENV = {"EXPAND_ENV_VARS": True, "DEEPSH_ENCODING_ERRORS": "strict"}
+ENCODE_ENV_ONLY = {"DEEPSH_ENCODING_ERRORS": "strict"}
 
 
 def test_random_choice():
@@ -401,10 +401,10 @@ def test_subproc_toks_pyeval_nested():
     "phrase",
     [
         "xandy",
-        "xory",
+        "cory",
         "xand",
         "andy",
-        "xor",
+        "cor",
         "ory",
         "x-and",
         "x-or",
@@ -1062,7 +1062,7 @@ def expand(path):
 @pytest.mark.parametrize(
     "inp, exp",
     [
-        ("xonsh_dir", "xonsh_dir"),
+        ("deepsh_dir", "deepsh_dir"),
         (".", "."),
         ("../", "../"),
         ("~/", "~/"),
@@ -1083,8 +1083,8 @@ def test_env_path_getitem(inp, exp, xession, env):
     "inp, exp",
     [
         (
-            os.pathsep.join(["xonsh_dir", "../", ".", "~/"]),
-            ["xonsh_dir", "../", ".", "~/"],
+            os.pathsep.join(["deepsh_dir", "../", ".", "~/"]),
+            ["deepsh_dir", "../", ".", "~/"],
         ),
         (
             "/home/wakka" + os.pathsep + "/home/jakka" + os.pathsep + "~/",
@@ -1661,7 +1661,7 @@ def test_expand_case_matching(inp, exp):
     ],
 )
 def test_expandvars(inp, exp, xession):
-    """Tweaked for xonsh cases from CPython `test_genericpath.py`"""
+    """Tweaked for deepsh cases from CPython `test_genericpath.py`"""
     xession.env.update(
         dict({"foo": "bar", "spam": "eggs", "a_bool": True, "an_int": 42, "none": None})
     )
@@ -1687,7 +1687,7 @@ def test_expandvars(inp, exp, xession):
     ],
 )
 def test_ensure_timestamp(inp, fmt, exp, xession):
-    xession.env["XONSH_DATETIME_FORMAT"] = "%Y-%m-%d %H:%M"
+    xession.env["DEEPSH_DATETIME_FORMAT"] = "%Y-%m-%d %H:%M"
     obs = ensure_timestamp(inp, fmt)
     assert exp == obs
 
@@ -1931,7 +1931,7 @@ def test_register_custom_style(name, styles, refrules):
         ("default", True),
         ("menu-complete", True),
         ("def", False),
-        ("xonsh", False),
+        ("deepsh", False),
         ("men", False),
     ],
 )
@@ -2017,7 +2017,7 @@ def test_is_regex_false():
     assert not is_regex("**")
 
 
-from xonsh.style_tools import Token
+from deepsh.style_tools import Token
 
 
 @pytest.mark.parametrize(
@@ -2067,7 +2067,7 @@ def test_print_exception_msg(xession, capsys):
 def test_print_exception_error(xession, capsys):
     xession.env["COLOR_INPUT"] = False
 
-    with xession.env.swap(XONSH_SHOW_TRACEBACK=False):
+    with xession.env.swap(DEEPSH_SHOW_TRACEBACK=False):
         try:
             raise subprocess.CalledProcessError(1, ["ls", "nofile"], output="nooutput")
         except subprocess.CalledProcessError:
@@ -2080,7 +2080,7 @@ def test_print_exception_error(xession, capsys):
         re.MULTILINE | re.DOTALL,
     ), f"\nAssert: {cap.err!r},\nexpected: {match!r}"
 
-    with xession.env.swap(XONSH_SHOW_TRACEBACK=True):
+    with xession.env.swap(DEEPSH_SHOW_TRACEBACK=True):
         try:
             raise subprocess.CalledProcessError(1, ["ls", "nofile"], output="nooutput")
         except subprocess.CalledProcessError:

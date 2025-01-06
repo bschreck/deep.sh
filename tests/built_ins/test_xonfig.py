@@ -1,8 +1,8 @@
-"""Tests the xonfig command.
+"""Tests the config command.
 Actually, just a down payment on a full test.
 Currently exercises only these options:
-- xonfig info
-- xonfig jupyter_kernel
+- config info
+- config jupyter_kernel
 
 """
 
@@ -12,17 +12,17 @@ import re
 import pytest  # noqa F401
 import requests
 
-from xonsh.webconfig import file_writes
-from xonsh.webconfig import main as web_main
-from xonsh.xonfig import xonfig_main
+from deepsh.webconfig import file_writes
+from deepsh.webconfig import main as web_main
+from deepsh.config import config_main
 
 
-def test_xonfig_help(capsys, xession):
+def test_config_help(capsys, xession):
     """verify can invoke it, and usage knows about all the options"""
     with pytest.raises(SystemExit):
-        xonfig_main(["-h"])
+        config_main(["-h"])
     capout = capsys.readouterr().out
-    pat = re.compile(r"^usage:\s*xonfig[^\n]*{([\w,-]+)}", re.MULTILINE)
+    pat = re.compile(r"^usage:\s*config[^\n]*{([\w,-]+)}", re.MULTILINE)
     m = pat.match(capout)
     assert m[1]
     verbs = {v.strip().lower() for v in m[1].split(",")}
@@ -50,7 +50,7 @@ class MockRequest:
         return ("sockname",)
 
     def _request(self):
-        web_main.XonshConfigHTTPRequestHandler(self, (0, 0), None)
+        web_main.DeepshConfigHTTPRequestHandler(self, (0, 0), None)
         return self
 
     def get(self):
@@ -106,29 +106,29 @@ def request_factory():
 
 @pytest.fixture
 def rc_file(tmp_path, monkeypatch):
-    file = tmp_path / "xonshrc"
+    file = tmp_path / "deepshrc"
     monkeypatch.setattr(file_writes, "RC_FILE", str(file))
     return file
 
 
-class TestXonfigWeb:
+class TestconfigWeb:
     def test_colors_get(self, request_factory):
         resp = request_factory("/").get()
         assert "Colors" in resp
 
     def test_colors_post(self, request_factory, rc_file):
         resp = request_factory("/", selected="default").post()
-        assert "$XONSH_COLOR_STYLE = 'default'" in rc_file.read_text()
+        assert "$DEEPSH_COLOR_STYLE = 'default'" in rc_file.read_text()
         assert "302" in resp  # redirect
 
-    def test_xontribs_get(self, request_factory):
-        resp = request_factory("/xontribs").get()
-        assert "Xontribs" in resp
+    def test_contribs_get(self, request_factory):
+        resp = request_factory("/contribs").get()
+        assert "contribs" in resp
 
-    def test_xontribs_post(self, request_factory, rc_file, mocker):
-        mocker.patch("xonsh.xontribs.xontribs_load", return_value=(None, None, None))
-        resp = request_factory("/xontribs").post(xontrib1="")
-        assert "xontrib load xontrib1" in rc_file.read_text()
+    def test_contribs_post(self, request_factory, rc_file, mocker):
+        mocker.patch("deepsh.contribs.contribs_load", return_value=(None, None, None))
+        resp = request_factory("/contribs").post(contrib1="")
+        assert "contrib load contrib1" in rc_file.read_text()
         assert "302" in resp
 
     def test_prompts_get(self, request_factory):
@@ -144,9 +144,9 @@ class TestXonfigWeb:
         rc_file.write_text(
             """
 pre-lines
-# XONSH WEBCONFIG START
-$XONSH_COLOR_STYLE = 'abap'
-# XONSH WEBCONFIG END
+# DEEPSH WEBCONFIG START
+$DEEPSH_COLOR_STYLE = 'abap'
+# DEEPSH WEBCONFIG END
 post
 lines
 """
@@ -156,10 +156,10 @@ lines
             rc_file.read_text()
             == """
 pre-lines
-# XONSH WEBCONFIG START
-$XONSH_COLOR_STYLE = 'abap'
+# DEEPSH WEBCONFIG START
+$DEEPSH_COLOR_STYLE = 'abap'
 $PROMPT = 'custom'
-# XONSH WEBCONFIG END
+# DEEPSH WEBCONFIG END
 post
 lines
 """
@@ -177,9 +177,9 @@ lines
         ),
     ],
 )
-def test_xonfig_info(args, xession):
+def test_config_info(args, xession):
     """info works, and reports no jupyter if none in environment"""
-    capout = xonfig_main(args)
+    capout = config_main(args)
     assert capout.startswith("+---")
     assert capout.endswith("---+\n")
     pat = re.compile(r".*history backend\s+\|\s+", re.MULTILINE | re.IGNORECASE)

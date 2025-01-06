@@ -4,7 +4,7 @@ import inspect
 
 import pytest
 
-from xonsh.events import Event, EventManager, LoadEvent
+from deepsh.events import Event, EventManager, LoadEvent
 
 
 @pytest.fixture

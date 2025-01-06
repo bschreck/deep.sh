@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from xonsh.aliases import xexec
+from deepsh.aliases import xexec
 
 
 @pytest.fixture(autouse=True)
@@ -19,10 +19,10 @@ def mockexecvpe(monkeypatch):
 
 
 def test_missing_command(mockexecvpe):
-    assert xexec([]) == (None, "xonsh: exec: no command specified\n", 1)
-    assert xexec(["-a", "foo"]) == (None, "xonsh: exec: no command specified\n", 1)
-    assert xexec(["-c"]) == (None, "xonsh: exec: no command specified\n", 1)
-    assert xexec(["-l"]) == (None, "xonsh: exec: no command specified\n", 1)
+    assert xexec([]) == (None, "deepsh: exec: no command specified\n", 1)
+    assert xexec(["-a", "foo"]) == (None, "deepsh: exec: no command specified\n", 1)
+    assert xexec(["-c"]) == (None, "deepsh: exec: no command specified\n", 1)
+    assert xexec(["-l"]) == (None, "deepsh: exec: no command specified\n", 1)
 
 
 def test_command_not_found(monkeypatch):
@@ -38,7 +38,7 @@ def test_command_not_found(monkeypatch):
 
     assert xexec([command]) == (
         None,
-        f"xonsh: exec: file not found: {dummy_error_msg}: {command}" "\n",
+        f"deepsh: exec: file not found: {dummy_error_msg}: {command}" "\n",
         1,
     )
 

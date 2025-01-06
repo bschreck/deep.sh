@@ -8,10 +8,10 @@ Developer's Guide
    :alt: knight-vs-snail
    :align: center
 
-Welcome to the xonsh developer's guide!  This is a place for developers to
+Welcome to the deepsh developer's guide!  This is a place for developers to
 place information that does not belong in the user's guide or the library
 reference but is useful or necessary for the next people that come along to
-develop xonsh.
+develop deepsh.
 
 .. note:: All code changes must go through the pull request review procedure.
 
@@ -19,9 +19,9 @@ develop xonsh.
 Making Your First Change
 ========================
 
-.. note:: xonsh requires at least `pip 24.0` for `pyproject.toml` support. You can upgrade old versions using `pip install -U pip`.
+.. note:: deepsh requires at least `pip 24.0` for `pyproject.toml` support. You can upgrade old versions using `pip install -U pip`.
 
-First, install xonsh from source and open a xonsh shell in your favorite
+First, install deepsh from source and open a deepsh shell in your favorite
 terminal application. See installation instructions for details, but it
 is recommended to do an 'editable' install via `pip'
 
@@ -32,8 +32,8 @@ Next, make a trivial change (e.g. ``print("hello!")`` in ``main.py``).
 Finally, run the following commands. You should see the effects of your change
 (e.g. ``hello!``)::
 
-        $ $XONSH_DEBUG=1
-        $ xonsh
+        $ $DEEPSH_DEBUG=1
+        $ deepsh
 
 
 Changelog
@@ -60,14 +60,14 @@ filtered out too!
 
 Style Guide
 ===========
-xonsh is a pure Python project, and so we use PEP8 (with some additions) to
+deepsh is a pure Python project, and so we use PEP8 (with some additions) to
 ensure consistency throughout the code base.
 
 -----------------
 Rules to Write By
 -----------------
 It is important to refer to things and concepts by their most specific name.
-When writing xonsh code or documentation please use technical terms
+When writing deepsh code or documentation please use technical terms
 appropriately. The following rules help provide needed clarity.
 
 **********
@@ -89,10 +89,10 @@ Expectations
 ------------------
 Python Style Guide
 ------------------
-xonsh follows `PEP8`_ for all Python code.  The following rules apply where
+deepsh follows `PEP8`_ for all Python code.  The following rules apply where
 `PEP8`_ is open to interpretation.
 
-* Use absolute imports (``import xonsh.tools``) rather than explicit
+* Use absolute imports (``import deepsh.tools``) rather than explicit
   relative imports (``import .tools``). Implicit relative imports
   (``import tools``) are never allowed.
 * We use sphinx with the numpydoc extension to autogenerate API documentation. Follow
@@ -113,7 +113,7 @@ xonsh follows `PEP8`_ for all Python code.  The following rules apply where
 Imports
 *******
 
-``xonsh`` imports should be sorted alphabetically, and by module location.  You
+``deepsh`` imports should be sorted alphabetically, and by module location.  You
 can (and should) use ``isort`` either from the command line or use the
 ``pre-commit`` hook.
 
@@ -128,7 +128,7 @@ If you want to run your "work in progress version" without installing
 and in a fresh environment you can use Docker. If Docker is installed
 you just have to run this::
 
-  @ python xonsh-in-docker.py
+  @ python deepsh-in-docker.py
 
 This will build and run the current state of the repository in an isolated
 container (it may take a while the first time you run it). There are two
@@ -194,7 +194,7 @@ has to be prefixed with `test_`::
         assert is_true_or_false
 
 The conftest.py in tests directory defines fixtures for mocking various
-parts of xonsh for more test isolation. For a list of the various fixtures::
+parts of deepsh for more test isolation. For a list of the various fixtures::
 
     @ pytest --fixtures
 
@@ -215,7 +215,7 @@ only once for the different test cases and you get less isolation.
 With that in mind, each test should have the least `assert` statements,
 preferably one.
 
-At the moment, xonsh doesn't support any pytest plugins.
+At the moment, deepsh doesn't support any pytest plugins.
 
 Happy Testing!
 
@@ -238,15 +238,15 @@ Auto-Documentation Hooks
 ------------------------
 The docstrings that you have written will automatically be connected to the
 website, once the appropriate hooks have been setup.  At this stage, all
-documentation lives within xonsh's top-level ``docs`` directory.
+documentation lives within deepsh's top-level ``docs`` directory.
 We uses the sphinx tool to manage and generate the documentation, which
 you can learn about from `the sphinx website <http://sphinx-doc.org/>`_.
-If you want to generate the documentation, first xonsh itself must be installed
+If you want to generate the documentation, first deepsh itself must be installed
 and then you may run the following command from the ``docs`` dir:
 
 .. code-block:: console
 
-    ~/xonsh/docs @ make html
+    ~/deepsh/docs @ make html
 
 For each new
 module, you will have to supply the appropriate hooks. This should be done the
@@ -274,7 +274,7 @@ Building the website/documentation requires the following dependencies:
 #. `numpydoc <https://numpydoc.readthedocs.io/>`_
 #. `MyST Parser <https://myst-parser.readthedocs.io>`_
 
-Note that xonsh itself needs to be installed too.
+Note that deepsh itself needs to be installed too.
 
 If you have cloned the git repository, you can install all of the doc-related
 dependencies by running::
@@ -285,7 +285,7 @@ dependencies by running::
 -----------------------------------
 Procedure for modifying the website
 -----------------------------------
-The xonsh website source files are located in the ``docs`` directory.
+The deepsh website source files are located in the ``docs`` directory.
 A developer first makes necessary changes, then rebuilds the website locally
 by executing the command::
 
@@ -307,13 +307,13 @@ committed and pull-requested per usual. The docs are built and deployed using
 GitHub Actions.
 
 Docs associated with the latest release are hosted at
-https://xon.sh while docs for the current ``main`` branch are available at
-https://xon.sh/dev
+https://con.sh while docs for the current ``main`` branch are available at
+https://con.sh/dev
 
 Branches and Releases
 =====================
 
-Mainline xonsh development occurs on the ``main`` branch. Other branches
+Mainline deepsh development occurs on the ``main`` branch. Other branches
 may be used for feature development (topical branches) or to represent
 past and upcoming releases.
 
@@ -323,8 +323,8 @@ Maintenance Tasks
 You can cleanup your local repository of transient files such as \*.pyc files
 created by unit testing by running::
 
-    @ rm -f xonsh/parser_table.py xonsh/completion_parser_table.py
-    @ rm -f xonsh/*.pyc tests/*.pyc
+    @ rm -f deepsh/parser_table.py deepsh/completion_parser_table.py
+    @ rm -f deepsh/*.pyc tests/*.pyc
     @ rm -fr build
 
 ----------------------

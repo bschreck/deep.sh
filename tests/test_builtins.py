@@ -1,4 +1,4 @@
-"""Tests the xonsh builtins."""
+"""Tests the deepsh builtins."""
 
 import os
 import re
@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from xonsh.built_ins import (
+from deepsh.built_ins import (
     call_macro,
     convert_macro_arg,
     ensure_list_of_strs,
@@ -24,15 +24,15 @@ from xonsh.built_ins import (
     reglob,
     superhelper,
 )
-from xonsh.environ import Env
-from xonsh.pytest.tools import skip_if_on_windows
+from deepsh.environ import Env
+from deepsh.pytest.tools import skip_if_on_windows
 
 HOME_PATH = os.path.expanduser("~")
 
 
 @pytest.fixture(autouse=True)
-def xonsh_execer_autouse(xonsh_execer):
-    return xonsh_execer
+def deepsh_execer_autouse(deepsh_execer):
+    return deepsh_execer
 
 
 @pytest.mark.parametrize("testfile", reglob("test_.*"))
@@ -42,7 +42,7 @@ def test_reglob_tests(testfile):
 
 @pytest.fixture
 def home_env(xession):
-    """Set `__xonsh__.env ` to a new Env instance on `xonsh_builtins`"""
+    """Set `__deepsh__.env ` to a new Env instance on `deepsh_builtins`"""
     xession.env["HOME"] = HOME_PATH
     return xession
 

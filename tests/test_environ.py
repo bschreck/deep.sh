@@ -1,4 +1,4 @@
-"""Tests the xonsh environment."""
+"""Tests the deepsh environment."""
 
 import datetime
 import os
@@ -11,7 +11,7 @@ from time import sleep
 
 import pytest
 
-from xonsh.environ import (
+from deepsh.environ import (
     Env,
     InternalEnvironDict,
     LsColors,
@@ -21,8 +21,8 @@ from xonsh.environ import (
     locate_binary,
     make_args_env,
 )
-from xonsh.pytest.tools import skip_if_on_unix
-from xonsh.tools import DefaultNotGiven, always_true
+from deepsh.pytest.tools import skip_if_on_unix
+from deepsh.tools import DefaultNotGiven, always_true
 
 
 def test_env_normal():

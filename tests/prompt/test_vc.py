@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
-from xonsh.prompt import vc
+from deepsh.prompt import vc
 
-# Xonsh interaction with version control systems.
+# Deepsh interaction with version control systems.
 VC_BRANCH = {
     "git": {"master", "main"},
     "hg": {"default"},

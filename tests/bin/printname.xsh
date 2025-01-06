@@ -1,2 +1,2 @@
-#!/usr/bin/env xonsh
+#!/usr/bin/env deepsh
 print(__name__)

@@ -8,82 +8,82 @@ build-backend = "setuptools.build_meta"
 [project]
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
-name = "xonsh"
+name = "deepsh"
 dynamic = ["version", "readme"]
-description = "Python-powered shell. Full-featured and cross-platform."
-authors = [{ name = "Anthony Scopatz" }, { email = "scopatz@gmail.com" }]
-maintainers = [{ name = "Xonsh Community" }, { email = "xonsh@gil.forsyth.dev" }]
+description = "LLM-powered shell."
+authors = [{ name = "Ben Schreck" }, { email = "ben@benschreck.com" }]
+maintainers = [{ name = "Deep.sh Community" }, { email = "ben@benschreck.com" }]
 license = { text = "BSD 2-Clause License" }
 requires-python = ">=3.9"
 dependencies = []
 
 [tool.setuptools.dynamic]
-version = {attr = "xonsh.__version__"}
+version = {attr = "deepsh.__version__"}
 readme = {file = ["README.rst"]}
 
 [tool.setuptools]
 packages = [
-    "xonsh",
-    "xonsh.api",
-    "xonsh.shells",
-    "xonsh.shells.ptk_shell",
-    "xonsh.parsers.ply",
-    "xonsh.procs",
-    "xonsh.platforms",
-    "xonsh.parsers",
-    "xonsh.xoreutils",
-    "xontrib",
-    "xonsh.completers",
-    "xonsh.history",
-    "xonsh.prompt",
-    "xonsh.pytest",
-    "xonsh.lib",
-    "xonsh.webconfig",
-    "xonsh.virtualenv",
-    "xompletions",
+    "deepsh",
+    "deepsh.api",
+    "deepsh.shells",
+    "deepsh.shells.ptk_shell",
+    "deepsh.parsers.ply",
+    "deepsh.procs",
+    "deepsh.platforms",
+    "deepsh.parsers",
+    "deepsh.coreutils",
+    "contrib",
+    "deepsh.completers",
+    "deepsh.history",
+    "deepsh.prompt",
+    "deepsh.pytest",
+    "deepsh.lib",
+    "deepsh.webconfig",
+    "deepsh.virtualenv",
+    "completions",
 ]
 platforms = ["Cross Platform"]
 include-package-data = false
 
 [tool.setuptools.package-dir]
-xonsh = "xonsh"
-xontrib = "xontrib"
-xompletions = "xompletions"
-"xonsh.lib" = "xonsh/lib"
-"xonsh.webconfig" = "xonsh/webconfig"
+deepsh = "deepsh"
+contrib = "contrib"
+completions = "completions"
+"deepsh.lib" = "deepsh/lib"
+"deepsh.webconfig" = "deepsh/webconfig"
 
 [tool.setuptools.package-data]
-xonsh = [
+deepsh = [
     "*.json",
     "*.githash",
 ]
-xontrib = ["*.xsh"]
-"xonsh.lib" = ["*.xsh"]
-"xonsh.virtualenv" = ["*.xsh"]
-"xonsh.webconfig" = [
+contrib = ["*.xsh"]
+"deepsh.lib" = ["*.xsh"]
+"deepsh.virtualenv" = ["*.xsh"]
+"ceepsh.webconfig" = [
     "*.html",
     "js/app.min.js",
     "js/bootstrap.min.css",
     "js/LICENSE-bootstrap",
-    "js/xonsh_sticker_mini.png",
+    "js/deepsh_sticker_mini.png",
 ]
 
 [project.entry-points]
-pytest11 = { xonsh = "xonsh.pytest.plugin" }
+pytest11 = { deepsh = "deepsh.pytest.plugin" }
 
 [project.entry-points."pygments.lexers"]
-xonsh = "xonsh.pyghooks:XonshLexer"
-xonshcon = "xonsh.pyghooks:XonshConsoleLexer"
+deepsh = "deepsh.pyghooks:deepshLexer"
+deepshcon = "deepsh.pyghooks:deepshConsoleLexer"
 
 [project.entry-points."virtualenv.activate"]
-xonsh = "xonsh.virtualenv:XonshActivator"
+deepsh = "deepsh.virtualenv:deepshActivator"
 
 [project.urls]
-Homepage = "https://xon.sh"
-documentation = "https://xon.sh/contents.html"
-repository = "https://github.com/xonsh/xonsh"
-changelog = "https://github.com/xonsh/xonsh/blob/main/CHANGELOG.rst"
-"Issue tracker" = "https://github.com/xonsh/xonsh/issues"
+Homepage = "https://deep.sh"
+documentation = "https://deep.sh/contents.html"
+repository = "https://github.com/bschreck/deepsh"
+changelog = "https://github.com/bschreck/deepsh/blob/main/CHANGELOG.rst"
+"Issue tracker" = "https://github.com/bschreck/deepsh/issues"
 
 [project.optional-dependencies]
 ptk = [
@@ -95,7 +95,7 @@ mac = ["gnureadline"]
 linux = ["distro"]
 proctitle = ["setproctitle"]
 full = [
-    "xonsh[ptk,pygments]",
+    "deepsh[ptk,pygments]",
     "distro; platform_system=='Linux'",
     "setproctitle; platform_system=='Windows'",
     "gnureadline; platform_system=='Darwin'",
@@ -106,7 +106,7 @@ bestshell = [
     "pygments>=2.2",
 ]
 test = [
-    "xonsh[bestshell]",
+    "deepsh[bestshell]",
     "pytest>=7",
     "restructuredtext_lint",
     "pytest-cov",
@@ -122,13 +122,13 @@ test = [
     "requests",
 ]
 dev = [
-    "xonsh[test,doc]",
+    "deepsh[test,doc]",
     "pre-commit",
     "re-ver",
     "tomli",
 ]
 doc = [
-    "xonsh[bestshell]",
+    "deepsh[bestshell]",
     "furo",
     "numpydoc",
     "sphinx>=3.1",
@@ -143,19 +143,19 @@ doc = [
 
 
 [project.scripts]
-xonsh = "xonsh.main:main"
-xonsh-cat = "xonsh.xoreutils.cat:main"
-xonsh-uname = "xonsh.xoreutils.uname:main"
-xonsh-uptime = "xonsh.xoreutils.uptime:main"
+deepsh = "deepsh.main:main"
+deepsh-cat = "deepsh.coreutils.cat:main"
+deepsh-uname = "deepsh.coreutils.uname:main"
+deepsh-uptime = "deepsh.coreutils.uptime:main"
 
 
 [tool.ruff.lint.isort]
-known-first-party = ["xonsh", "xontrib", "xompletions", "tests"]
+known-first-party = ["deepsh", "contrib", "completions", "tests"]
 known-third-party = ["ply", "pytest"]
 
 [tool.ruff]
 src = [
-    "xonsh", "xontrib", "xompletions", "tests"
+    "deepsh", "contrib", "completions", "tests"
 ]
 extend-exclude = [
     "docs/",
@@ -220,41 +220,41 @@ select = [
 convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
-"xonsh/timings.py" = ["F401"]
-"xonsh/history.py" = ["F821"]
-"xonsh/parsers/lexer.py" = ["E741"]
-"xonsh/parsers/completion_context.py" = ["B018"]
-"xonsh/parsers/tokenize.py" = [
+"deepsh/timings.py" = ["F401"]
+"deepsh/history.py" = ["F821"]
+"deepsh/parsers/lexer.py" = ["E741"]
+"deepsh/parsers/completion_context.py" = ["B018"]
+"deepsh/parsers/tokenize.py" = [
     "F821",
     "F841",
     "B904" # Within an `except` clause, raise exceptions with `raise ... from err`
 ]
-"xonsh/pyghooks.py" = ["F821"]
+"deepsh/pyghooks.py" = ["F821"]
 "tests/test_builtins.py" = [
     "F821",
     "B011",
 ]
-"xonsh/built_ins.py" = [
+"deepsh/built_ins.py" = [
     "F821",
     "E721",
     "E721",
 ]
-"xonsh/style_tools.py" = ["F821"]
-"xonsh/xoreutils/*.py" = ["E722"]
-"xonsh/completers/python.py" = ["E722"]
-"xonsh/parsers/ast.py" = ["F401"]
-"xonsh/shells/ptk_shell/__init__.py" = ["E731"]
-"xonsh/shells/readline_shell.py" = ["F401"]
-"xonsh/commands_cache.py" = ["F841"]
-"xonsh/shells/ptk_shell/key_bindings.py" = ["F841"]
-"xonsh/tools.py" = [
+"deepsh/style_tools.py" = ["F821"]
+"deepsh/coreutils/*.py" = ["E722"]
+"deepsh/completers/python.py" = ["E722"]
+"deepsh/parsers/ast.py" = ["F401"]
+"deepsh/shells/ptk_shell/__init__.py" = ["E731"]
+"deepsh/shells/readline_shell.py" = ["F401"]
+"deepsh/commands_cache.py" = ["F841"]
+"deepsh/shells/ptk_shell/key_bindings.py" = ["F841"]
+"deepsh/tools.py" = [
     "E731",
 ]
-"xonsh/xonfig.py" = ["E731"]
-"xontrib/vox.py" = ["F821"]
-"xonsh/inspectors.py" = ["E722"]
-"xonsh/platform.py" = ["F401"]
-"xonsh/parsers/*.py" = [
+"deepsh/config.py" = ["E731"]
+"contrib/vox.py" = ["F821"]
+"deepsh/inspectors.py" = ["E722"]
+"deepsh/platform.py" = ["F401"]
+"deepsh/parsers/*.py" = [
     "E741", # E741 Ambiguous variable name
 ]
 "tests/test*.py" = [

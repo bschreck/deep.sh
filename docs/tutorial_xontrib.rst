@@ -1,25 +1,25 @@
-.. _tutorial_xontrib:
+.. _tutorial_contrib:
 
 ************************************
-Tutorial: Extensions (Xontribs)
+Tutorial: Extensions (contribs)
 ************************************
 Take a deep breath and prepare for some serious Show & Tell; it's time to
-learn about xonsh extensions!
+learn about deepsh extensions!
 
-Xonsh comes with some default set of extensions. These can be viewed :py:mod:`here <xontrib>`.
+Deepsh comes with some default set of extensions. These can be viewed :py:mod:`here <contrib>`.
 
-Also checkout the list of `Awesome Contributions <https://xonsh.github.io/awesome-xontribs/>`_
+Also checkout the list of `Awesome Contributions <https://deepsh.github.io/awesome-contribs/>`_
 from the community.
 
 Overview
 ========
-Xontributions, or ``xontribs``, are a set of tools and conventions for
-extending the functionality of xonsh beyond what is provided by default. This
-allows 3rd party developers and users to improve their xonsh experience without
-having to go through the xonsh development and release cycle.
+contributions, or ``contribs``, are a set of tools and conventions for
+extending the functionality of deepsh beyond what is provided by default. This
+allows 3rd party developers and users to improve their deepsh experience without
+having to go through the deepsh development and release cycle.
 
 Many tools and libraries have extension capabilities. Here are some that we
-took inspiration from for xonsh:
+took inspiration from for deepsh:
 
 * `Sphinx <http://sphinx-doc.org/>`_: Extensions are just Python modules,
   bundles some extensions with the main package, interface is a list of
@@ -33,64 +33,64 @@ took inspiration from for xonsh:
 
 Structure
 ================
-Xontribs are modules with some special functions written
-in either xonsh (``*.xsh``) or Python (``*.py``).
+contribs are modules with some special functions written
+in either deepsh (``*.xsh``) or Python (``*.py``).
 
 Here is a template:
 
 .. code-block:: python
 
-    from xonsh.built_ins import XonshSession
+    from deepsh.built_ins import DeepshSession
 
-    def _load_xontrib_(xsh: XonshSession, **kwargs) -> dict:
+    def _load_contrib_(xsh: DeepshSession, **kwargs) -> dict:
         """
-        this function will be called when loading/reloading the xontrib.
+        this function will be called when loading/reloading the contrib.
 
         Args:
-            xsh: the current xonsh session instance, serves as the interface to manipulate the session.
+            xsh: the current deepsh session instance, serves as the interface to manipulate the session.
                  This allows you to register new aliases, history backends, event listeners ...
             **kwargs: it is empty as of now. Kept for future proofing.
         Returns:
             dict: this will get loaded into the current execution context
         """
 
-    def _unload_xontrib_(xsh: XonshSession, **kwargs) -> dict:
+    def _unload_contrib_(xsh: DeepshSession, **kwargs) -> dict:
         """If you want your extension to be unloadable, put that logic here"""
 
-This _load_xontrib_() function is called after your extension is imported,
-and the currently active :py:class:`xonsh.built_ins.XonshSession` instance is passed as the argument.
+This _load_contrib_() function is called after your extension is imported,
+and the currently active :py:class:`deepsh.built_ins.DeepshSession` instance is passed as the argument.
 
 .. note::
 
-    Xontribs without ``_load_xontrib_`` are still supported.
-    But when such xontrib is loaded, variables listed
+    contribs without ``_load_contrib_`` are still supported.
+    But when such contrib is loaded, variables listed
     in ``__all__`` are placed in the current
     execution context if defined.
 
 Normally, these are stored and found in an
 `implicit namespace package <https://www.python.org/dev/peps/pep-0420/>`_
-called ``xontrib``. However, xontribs may be placed in any package or directory
+called ``contrib``. However, contribs may be placed in any package or directory
 that is on the ``$PYTHONPATH``.
 
-If a module is in the ``xontrib`` namespace package, it can be referred to just
+If a module is in the ``contrib`` namespace package, it can be referred to just
 by its module name. If a module is in any other package, then it must be
 referred to by its full package path, separated by ``.`` like you would in an
-import statement.  Of course, a module in ``xontrib`` may be referred to
-with the full ``xontrib.myext``. But just calling it ``myext`` is a lot shorter
-and one of the main advantages of placing an extension in the ``xontrib``
+import statement.  Of course, a module in ``contrib`` may be referred to
+with the full ``contrib.myext``. But just calling it ``myext`` is a lot shorter
+and one of the main advantages of placing an extension in the ``contrib``
 namespace package.
 
-Here is a sample file system layout and what the xontrib names would be::
+Here is a sample file system layout and what the contrib names would be::
 
-    |- xontrib/
-       |- javert.xsh     # "javert", because in xontrib
+    |- contrib/
+       |- javert.xsh     # "javert", because in contrib
        |- your.py        # "your",
        |- eyes/
           |- __init__.py
-          |- scream.xsh  # "eyes.scream", because eyes is in xontrib
+          |- scream.xsh  # "eyes.scream", because eyes is in contrib
     |- mypkg/
        |- __init__.py    # a regular package with an init file
-       |- other.py       # not a xontrib
+       |- other.py       # not a contrib
        |- show.py        # "mypkg.show", full module name
        |- tell.xsh       # "mypkg.tell", full module name
        |- subpkg/
@@ -98,64 +98,64 @@ Here is a sample file system layout and what the xontrib names would be::
           |- done.py     # "mypkg.subpkg.done", full module name
 
 
-You can also use the `xontrib template <https://github.com/xonsh/xontrib-cookiecutter>`_ to easily
-create the layout for your xontrib package.
+You can also use the `contrib template <https://github.com/deepsh/contrib-cookiecutter>`_ to easily
+create the layout for your contrib package.
 
 
-Loading Xontribs
+Loading contribs
 ================
-Xontribs may be loaded in a few different ways: from the `xonshrc <xonshrc.rst>`_ file
-(e.g. ``~/.xonshrc``), dynamically at runtime with the ``xontrib`` command, or its Python API.
+contribs may be loaded in a few different ways: from the `deepshrc <deepshrc.rst>`_ file
+(e.g. ``~/.deepshrc``), dynamically at runtime with the ``contrib`` command, or its Python API.
 
-Extensions are loaded via the ``xontrib load`` command.
-This command may be run from anywhere in a `xonshrc <xonshrc.rst>`_ file or at any point
-after xonsh has started up.
+Extensions are loaded via the ``contrib load`` command.
+This command may be run from anywhere in a `deepshrc <deepshrc.rst>`_ file or at any point
+after deepsh has started up.
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
-    xontrib load myext mpl mypkg.show
+    contrib load myext mpl mypkg.show
 
 The same can be done in Python as well
 
 .. code-block:: python
 
-    from xonsh.xontribs import xontribs_load
-    xontribs_load(['myext', 'mpl', 'mypkg.show'])
+    from deepsh.contribs import contribs_load
+    contribs_load(['myext', 'mpl', 'mypkg.show'])
 
-A xontrib can be unloaded from the current session using ``xontrib unload``
+A contrib can be unloaded from the current session using ``contrib unload``
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
-    xontrib unload myext mpl mypkg.show
+    contrib unload myext mpl mypkg.show
 
-Xontribs can use `setuptools entrypoints <https://setuptools.pypa.io/en/latest/userguide/entry_point.html?highlight=entrypoints>`_
+contribs can use `setuptools entrypoints <https://setuptools.pypa.io/en/latest/userguide/entry_point.html?highlight=entrypoints>`_
 to mark themselves available for autoloading using the below format.
 
 .. code-block:: ini
 
     [options.entry_points]
-    xonsh.xontribs =
-        xontrib_name = path.to.the.module
+    deepsh.contribs =
+        contrib_name = path.to.the.module
 
-Here the module should contain ``_load_xontrib_`` function as described above.
+Here the module should contain ``_load_contrib_`` function as described above.
 
 .. note::
 
-    Please make sure that importing the xontrib module and calling ``_load_xontrib_`` is fast enough.
+    Please make sure that importing the contrib module and calling ``_load_contrib_`` is fast enough.
     Otherwise it will affect the shell's startup time.
     Any other imports or heavy computations should be done in lazy manner whenever possible.
 
 
-Listing Known Xontribs
+Listing Known contribs
 ======================
-In addition to loading extensions, the ``xontrib`` command also allows you to
-list the installed xontribs. This command will report if they are loaded
+In addition to loading extensions, the ``contrib`` command also allows you to
+list the installed contribs. This command will report if they are loaded
 in the current session. To display this
-information, pass the ``list`` action to the ``xontrib`` command:
+information, pass the ``list`` action to the ``contrib`` command:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> xontrib list
+    >>> contrib list
     mpl     not-loaded
     myext   not-loaded
 
@@ -163,24 +163,24 @@ information, pass the ``list`` action to the ``xontrib`` command:
 For programmatic access, you may also have this command print a JSON formatted
 string:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> xontrib list --json mpl
+    >>> contrib list --json mpl
     {"mpl": {"loaded": false, "installed": true}}
 
-Authoring Xontribs
+Authoring contribs
 ==================
-Writing a xontrib is as easy as writing a xonsh or Python file and sticking
-it in a directory named ``xontrib/``. However, please do not place an
-``__init__.py`` in the ``xontrib/`` directory. It is an
+Writing a contrib is as easy as writing a deepsh or Python file and sticking
+it in a directory named ``contrib/``. However, please do not place an
+``__init__.py`` in the ``contrib/`` directory. It is an
 *implicit namespace package* and should not have one. See
 `PEP 420 <https://www.python.org/dev/peps/pep-0420/>`_ for more details.
 
 .. warning::
 
-    Do not place an ``__init__.py`` in the ``xontrib/`` directory!
+    Do not place an ``__init__.py`` in the ``contrib/`` directory!
 
-If you plan on using ``*.xsh`` files in you xontrib, then you'll
+If you plan on using ``*.xsh`` files in you contrib, then you'll
 have to add some hooks to distutils, setuptools, pip, etc. to install these
 files. Try adding entries like the following entries to your ``setup()`` call
 in your ``setup.py``:
@@ -193,28 +193,28 @@ in your ``setup.py``:
         from distutils.core import setup
 
     setup(...,
-          packages=[..., 'xontrib'],
-          package_dir={..., 'xontrib': 'xontrib'},
-          package_data={..., 'xontrib': ['*.xsh']},
+          packages=[..., 'contrib'],
+          package_dir={..., 'contrib': 'contrib'},
+          package_data={..., 'contrib': ['*.xsh']},
           ...)
 
-Something similar can be done for any non-xontrib package or sub-package
+Something similar can be done for any non-contrib package or sub-package
 that needs to distribute ``*.xsh`` files.
 
 
-Tell Us About Your Xontrib!
+Tell Us About Your contrib!
 ===========================
-We request that you register your xontrib with us.
+We request that you register your contrib with us.
 We think that will make your contribution more discoverable.
 
-To register a xontrib, create a ``PullRequest`` at
-`Awesome-xontribs <https://github.com/xonsh/awesome-xontribs>`_
+To register a contrib, create a ``PullRequest`` at
+`Awesome-contribs <https://github.com/deepsh/awesome-contribs>`_
 repository. Also, if you use Github to host your code,
-please add `xonsh <https://github.com/topics/xonsh>`_ and `xontrib <https://github.com/topics/xontrib>`_
+please add `deepsh <https://github.com/topics/deepsh>`_ and `contrib <https://github.com/topics/contrib>`_
 to the topics.
 
-All of this let's users know that your xontrib is out there, ready to be used.
-Of course, you're under no obligation to register your xontrib.  Users will
-still be able to load your xontrib, as long as they have it installed.
+All of this let's users know that your contrib is out there, ready to be used.
+Of course, you're under no obligation to register your contrib.  Users will
+still be able to load your contrib, as long as they have it installed.
 
 Go forth!

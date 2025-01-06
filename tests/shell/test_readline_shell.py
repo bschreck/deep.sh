@@ -1,7 +1,7 @@
 import pytest
 
-from xonsh.completers.tools import RichCompletion
-from xonsh.shells.readline_shell import _render_completions
+from deepsh.completers.tools import RichCompletion
+from deepsh.shells.readline_shell import _render_completions
 
 
 @pytest.mark.parametrize(
@@ -38,7 +38,7 @@ def test_rl_prompt_cmdloop(line, exp, readline_shell, capsys):
     shell.stdin.write(f"{line}\nexit\n")  # note: terminate with '\n'
     shell.stdin.seek(0)
     shell.cmdloop()
-    # xonsh, doesn't write all its output to shell.stdout
+    # deepsh, doesn't write all its output to shell.stdout
     # so capture sys.stdout
     out, err = capsys.readouterr()
 

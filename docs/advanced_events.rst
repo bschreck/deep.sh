@@ -14,7 +14,7 @@ Why Unordered?
 Yes, handler call order is not guaranteed. Please don't file bugs about this.
 
 This was chosen because the order of handler registration is dependent on load order, which is
-stable in a release but not something generally reasoned about. In addition, xontribs mean that we
+stable in a release but not something generally reasoned about. In addition, contribs mean that we
 don't know what handlers could be registered. So even an "ordered" event system would be unable to
 make guarantees about ordering because of the larger system.
 
@@ -28,11 +28,11 @@ appropriate way.
 
 What are Species?
 =================
-In xonsh, events come in species. Each one may look like an event and quack like an event, but they
+In deepsh, events come in species. Each one may look like an event and quack like an event, but they
 behave differently.
 
 This was done because load hooks look like events and quack like events, but they have different
-semantics. See `LoadEvents <api/events.html#xonsh.events.LoadEvent>`_ for details.
+semantics. See `LoadEvents <api/events.html#deepsh.events.LoadEvent>`_ for details.
 
 In order to turn an event from the default ``Event``, you must transmogrify it, using
 ``events.transmogrify()``. The class the event is turned in to must be a subclass of ``AbstractEvent``.

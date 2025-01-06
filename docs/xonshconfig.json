@@ -1,8 +1,8 @@
 {"env": {
-  "EDITOR": "xo",
+  "EDITOR": "co",
   "PAGER": "more"
   },
- "xontribs": ["mpl"],
+ "contribs": ["mpl"],
  "foreign_shells": [
   {"shell": "bash",
    "login": true,

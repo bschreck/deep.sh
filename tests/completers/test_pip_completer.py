@@ -3,7 +3,7 @@ import subprocess
 
 import pytest
 
-from xonsh.completers.commands import complete_xompletions
+from deepsh.completers.commands import complete_completions
 
 regex_cases = [
     "pip",
@@ -18,7 +18,7 @@ regex_cases = [
     regex_cases,
 )
 def test_pip_re(line):
-    assert complete_xompletions.matcher.search_completer(line)
+    assert complete_completions.matcher.search_completer(line)
 
 
 @pytest.mark.parametrize(
@@ -36,7 +36,7 @@ def test_pip_re(line):
     ],
 )
 def test_pip_list_re1(line):
-    assert complete_xompletions.matcher.search_completer(line) is None
+    assert complete_completions.matcher.search_completer(line) is None
 
 
 def pip_installed():

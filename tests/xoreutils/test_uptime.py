@@ -9,8 +9,8 @@ import pytest
 
 
 @pytest.fixture
-def uptime(xession, load_xontrib):
-    load_xontrib("coreutils")
+def uptime(xession, load_contrib):
+    load_contrib("coreutils")
     return xession.aliases["uptime"]
 
 

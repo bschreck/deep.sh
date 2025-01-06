@@ -3,7 +3,7 @@
 **********************
 Subprocess Types Table
 **********************
-Xonsh has a few different ways to launch subprocesses, each with their own
+Deepsh has a few different ways to launch subprocesses, each with their own
 unique interface depending on your need. The following table is a quick reference
 for the different suprocesses. The columns have the following meaning:
 

@@ -4,59 +4,59 @@
 Tutorial
 *******************
 
-xonsh is a shell language and command prompt. Unlike other shells, xonsh is
+deepsh is a shell language and command prompt. Unlike other shells, deepsh is
 based on Python, with additional syntax added that makes calling subprocess
 commands, manipulating the environment, and dealing with the file system
-easy.  The xonsh command prompt gives users interactive access to the xonsh
+easy.  The deepsh command prompt gives users interactive access to the deepsh
 language.
 
-While all Python code is also xonsh, not all Bash code can be used in xonsh.
-That would defeat the purpose, and Python is better anyway! Still, xonsh is
+While all Python code is also deepsh, not all Bash code can be used in deepsh.
+That would defeat the purpose, and Python is better anyway! Still, deepsh is
 Bash-wards compatible in the ways that matter, such as for running commands,
 reading in the Bash environment, and utilizing Bash tab completion.
 
-The purpose of this tutorial is to teach you xonsh. There are many excellent
+The purpose of this tutorial is to teach you deepsh. There are many excellent
 guides out there for learning Python, and this will not join their ranks.
 Similarly, you'd probably get the most out of this tutorial if you have already
 used a command prompt or interactive interpreter.
 
 Let's dive in!
 
-Starting xonsh
+Starting deepsh
 ========================
-Assuming you have successfully installed xonsh (see http://xon.sh),
-you can start up the xonsh interpreter via the ``xonsh`` command. Suppose
+Assuming you have successfully installed deepsh (see http://con.sh),
+you can start up the deepsh interpreter via the ``deepsh`` command. Suppose
 you are in a lesser terminal:
 
 .. code-block:: console
 
-    $ xonsh
+    $ deepsh
     snail@home ~ @
 
-Now we are in a xonsh shell. Our username happens to be ``snail``, our
+Now we are in a deepsh shell. Our username happens to be ``snail``, our
 hostname happens to be ``home``, and we are in our home directory (``~``).
 Alternatively, you can setup your terminal emulator (xterm, gnome-terminal,
-etc) to run xonsh automatically when it starts up. This is recommended.
+etc) to run deepsh automatically when it starts up. This is recommended.
 
 Basics
 =======================
-The xonsh language is based on Python, and the xonsh shell uses Python to
+The deepsh language is based on Python, and the deepsh shell uses Python to
 interpret any input it receives. This makes simple things, like arithmetic,
 simple:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> 1 + 1
     2
 
 .. note:: From here on we'll be using ``>>>`` to prefix (or prompt) any
-          xonsh input. This follows the Python convention and helps trick
+          deepsh input. This follows the Python convention and helps trick
           syntax highlighting, though ``$`` is more traditional for shells.
 
 Since this is just Python, we are able to import modules, print values,
 and use other built-in Python functionality:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> import sys
     >>> print(sys.version)
@@ -68,18 +68,18 @@ We can also create and use literal data types, such as ints, floats, lists,
 sets, and dictionaries. Everything that you are used to if you already know
 Python is there:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> d = {'xonsh': True}
+    >>> d = {'deepsh': True}
     >>> d.get('bash', False)
     False
 
-The xonsh shell also supports multi-line input for more advanced flow control.
+The deepsh shell also supports multi-line input for more advanced flow control.
 The multi-line mode is automatically entered whenever the first line of input
 is not syntactically valid on its own.  Multi-line mode is then exited when
 enter (or return) is pressed when the cursor is in the first column.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> if True:
     ...     print(1)
@@ -90,9 +90,9 @@ enter (or return) is pressed when the cursor is in the first column.
 
 Flow control, of course, includes loops.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> for i, x in enumerate('xonsh'):
+    >>> for i, x in enumerate('deepsh'):
     ...     print(i, x)
     ...
     0 x
@@ -104,13 +104,13 @@ Flow control, of course, includes loops.
 We can also define and call functions and classes. I'll mostly spare you the
 details, but this *is* pretty cool:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> def f():
-    ...     return "xonsh"
+    ...     return "deepsh"
     ...
     >>> f()
-    'xonsh'
+    'deepsh'
 
 For easier indentation, Shift+Tab will enter 4 spaces.
 And that about wraps it up for the basics section.  It is just like Python.
@@ -120,7 +120,7 @@ Environment Variables
 Environment variables are written as ``$`` followed by a name.  For example,
 ``$HOME``, ``$PWD``, and ``$PATH``.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $HOME
     '/home/snail'
@@ -128,7 +128,7 @@ Environment variables are written as ``$`` followed by a name.  For example,
 You can set (and export) environment variables like you would set any other
 variable in Python.  The same is true for deleting them too.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $GOAL = 'Become the Lord of the Files'
     >>> print($GOAL)
@@ -139,7 +139,7 @@ variable in Python.  The same is true for deleting them too.
     >>> $EXT = $NUM + "456"
     >>> $EXT
     '123456'
-    >>> $FNUM = f"{$NUM}456" # Not working with Python 3.12+ (https://github.com/xonsh/xonsh/issues/5166).
+    >>> $FNUM = f"{$NUM}456" # Not working with Python 3.12+ (https://github.com/deepsh/deepsh/issues/5166).
     >>> $FNUM = "{FILLME}456".format(FILLME=$NUM)
     >>> $FNUM
     '123456'
@@ -150,35 +150,35 @@ Very nice.
 
 .. note::
 
-   To update ``os.environ`` when the xonsh environment changes set
+   To update ``os.environ`` when the deepsh environment changes set
    :ref:`$UPDATE_OS_ENVIRON <update_os_environ>` to ``True``.
 
 
 The Environment Itself ``${...}``
 ---------------------------------
 
-All environment variables live in the built-in ``${...}`` (aka ``__xonsh__.env``) mapping.
+All environment variables live in the built-in ``${...}`` (aka ``__deepsh__.env``) mapping.
 You can access this mapping directly, but in most situations, you shouldn’t need to.
 
 If you want for example to check if an environment variable is present in your current
-session (say, in your awesome new ``xonsh`` script) you can use the membership operator:
+session (say, in your awesome new ``deepsh`` script) you can use the membership operator:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
    >>> 'HOME' in ${...}
    True
 
 To get information about a specific environment variable you can use the
-:func:`~xonsh.environ.Env.help` method.
+:func:`~deepsh.environ.Env.help` method.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-   >>> ${...}.help('XONSH_DEBUG')
+   >>> ${...}.help('DEEPSH_DEBUG')
 
-One helpful method on the ``${...}`` is :func:`~xonsh.environ.Env.swap`.
+One helpful method on the ``${...}`` is :func:`~deepsh.environ.Env.swap`.
 It can be used to temporarily set an environment variable:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> with ${...}.swap(SOMEVAR='foo'):
     ...     echo $SOMEVAR
@@ -198,13 +198,13 @@ programmatically, or read it from another variable?  Enter the ``${}``
 operator.
 
 .. warning:: In Bash, ``$NAME`` and ``${NAME}`` are syntactically equivalent.
-             In xonsh, they have separate meanings.
+             In deepsh, they have separate meanings.
 
 We can place any valid Python expression inside of the curly braces in
 ``${<expr>}``. This result of this expression will then be used to look up a
 value in the environment. Here are a couple of examples in action:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> x = 'USER'
     >>> ${x}
@@ -212,7 +212,7 @@ value in the environment. Here are a couple of examples in action:
     >>> ${'HO' + 'ME'}
     '/home/snail'
 
-Not bad, xonsh, not bad.
+Not bad, deepsh, not bad.
 
 Environment Types
 -----------------
@@ -226,12 +226,12 @@ simple:
 
 Futhermore, a number of predefined environment variables listed `here <envvars.html>`_ have a static type.
 For example,
-* ``XONSH_HISTORY_SIZE``: is an int, and
+* ``DEEPSH_HISTORY_SIZE``: is an int, and
 * ``CASE_SENSITIVE_COMPLETIONS``: is a boolean.
 
-xonsh will automatically convert back and forth to untyped (string-only)
+deepsh will automatically convert back and forth to untyped (string-only)
 representations of the environment as needed (mostly by subprocess commands).
-When in xonsh, you'll always have the typed version.
+When in deepsh, you'll always have the typed version.
 
 Variables that do not match the rules above are converted to strings using ``str``,
 except they are ``None``. In this case the empty string is used.
@@ -239,7 +239,7 @@ except they are ``None``. In this case the empty string is used.
 Here are a couple of
 PATH examples:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $PATH
     ['/home/snail/.local/bin', '/home/snail/sandbox/bin',
@@ -250,7 +250,7 @@ PATH examples:
 
 Also note that *any* Python object can go into the environment. It is sometimes
 useful to have more sophisticated types, like functions, in the environment.
-There are handful of environment variables that xonsh considers special.
+There are handful of environment variables that deepsh considers special.
 They can be seen on the `Environment Variables page <envvars.html>`_.
 
 .. note:: In subprocess mode, referencing an undefined environment variable
@@ -264,7 +264,7 @@ Callable Environment Variables
 In some cases you may want to have environment variable with dynamically created value.
 Here is the example of callable environment variable:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> class Stamp:
     ...    """Return current date as string representation."""
@@ -284,19 +284,19 @@ Here is the example of callable environment variable:
 
 Running Commands
 ==============================
-As a shell, xonsh is meant to make running commands easy and fun.
+As a shell, deepsh is meant to make running commands easy and fun.
 Running subprocess commands should work like in any other shell.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> echo "Yoo hoo"
     Yoo hoo
-    >>> cd xonsh
+    >>> cd deepsh
     >>> ls
-    build  docs     README.rst  setup.py  xonsh           __pycache__
-    dist   license  scripts     tests     xonsh.egg-info
+    build  docs     README.rst  setup.py  deepsh           __pycache__
+    dist   license  scripts     tests     deepsh.egg-info
     >>> dir scripts
-    xonsh  xonsh.bat
+    deepsh  deepsh.bat
     >>> git status
     On branch main
     Your branch is up-to-date with 'origin/main'.
@@ -313,8 +313,8 @@ This should feel very natural.
 
 .. note::
 
-    Access the last run subprocess command using ``__xonsh__.last``;
-    e.g. to get the return code, run ``__xonsh__.last.rtn``.
+    Access the last run subprocess command using ``__deepsh__.last``;
+    e.g. to get the return code, run ``__deepsh__.last.rtn``.
 
 
 Python-mode vs Subprocess-mode
@@ -326,12 +326,12 @@ clear from the syntax alone what mode is desired. This ambiguity stems from
 most command line utilities looking a lot like Python operators.
 
 Take the case of ``ls -l``.  This is valid Python code, though it could
-have also been written as ``ls - l`` or ``ls-l``.  So how does xonsh know
+have also been written as ``ls - l`` or ``ls-l``.  So how does deepsh know
 that ``ls -l`` is meant to be run in subprocess-mode?
 
 For any given line that only contains an expression statement (expr-stmt,
 see the Python AST docs for more information), if all the names cannot
-be found as current variables xonsh will try to parse the line as a
+be found as current variables deepsh will try to parse the line as a
 subprocess command instead.  In the above, if ``ls`` and ``l`` are not
 variables, then subprocess mode will be attempted. If parsing in subprocess
 mode fails, then the line is left in Python-mode.
@@ -341,12 +341,12 @@ with ``ls -l``. Then we'll make new variable names ``ls`` and ``l`` and then
 subtract them. Finally, we will delete ``ls`` and ``l`` and be able to list
 the directories again.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> # this will be in subproc-mode, because ls doesn't exist
     >>> ls -l
     total 0
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
     >>> # set ls and l variables to force python-mode
     >>> ls = 44
     >>> l = 2
@@ -356,7 +356,7 @@ the directories again.
     >>> del ls
     >>> ls -l
     total 0
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
 
 The determination between Python- and subprocess-modes is always done in the
 safest possible way. If anything goes wrong, it will favor Python-mode.
@@ -365,50 +365,50 @@ You do not need to worry about partially executed commands - that is
 impossible.
 
 .. note:: If you would like to explicitly run a subprocess command, you can always
-          use the formal xonsh subprocess syntax that we will see in the following
+          use the formal deepsh subprocess syntax that we will see in the following
           sections. For example: ``![ls -l]``.
 
 Quoting
 =======
 
 Single or double quotes can be used to remove the special meaning
-of certain characters or words to xonsh. If a subprocess command
-contains characters that collide with xonsh syntax then quotes
-must be used to force xonsh to not interpret them.
+of certain characters or words to deepsh. If a subprocess command
+contains characters that collide with deepsh syntax then quotes
+must be used to force deepsh to not interpret them.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> echo ${
     ...
-    SyntaxError: <xonsh-code>:1:5: ('code: {',)
+    SyntaxError: <deepsh-code>:1:5: ('code: {',)
     echo ${
          ^
     >>> echo '${'
     ${
 
-.. warning:: There is no notion of an escaping character in xonsh like the
+.. warning:: There is no notion of an escaping character in deepsh like the
              backslash (\\) in bash.
 
 
 Captured Subprocess with ``$()`` and ``!()``
 ============================================
-The ``$(<expr>)`` operator in xonsh executes a subprocess command and
+The ``$(<expr>)`` operator in deepsh executes a subprocess command and
 *captures* some information about that command.
 
 The ``$()`` syntax captures and returns the standard output stream of the
 command as a Python string. This is similar to how ``$()`` performs in Bash.
 For example,
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $(ls -l)
-    'total 0\n-rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh\n'
+    'total 0\n-rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh\n'
 
 
 .. note::
 
     By default the output is represented as one single block of output with new
-    line characters. You can set ``$XONSH_SUBPROC_OUTPUT_FORMAT`` to ``list_lines``
+    line characters. You can set ``$DEEPSH_SUBPROC_OUTPUT_FORMAT`` to ``list_lines``
     to have a list of distinct lines in the commands like ``du -h $(ls)``.
 
 
@@ -418,7 +418,7 @@ about the result of the given command, including the return code, the process
 id, the standard output and standard error streams, and information about how
 input and output were redirected.  For example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> !(ls nonexistent_directory)
     CommandPipeline(
@@ -437,7 +437,7 @@ The captured object ``!()`` operator allows for non-blocking execution.
 You can call a long-running command, intersperse other commands and
 read the captured output later:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> p = !(echo snail)
     >>> p.output
@@ -446,10 +446,10 @@ read the captured output later:
     >>> p.output
     'snail'
 
-You can force ``xonsh`` to block and wait for the command to complete by asking for the return code,
+You can force ``deepsh`` to block and wait for the command to complete by asking for the return code,
 printing the object or reading the ``out`` attribute:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> p = !(echo snail)
     >>> p.out
@@ -465,7 +465,7 @@ This object will be "truthy" if its return code was 0, and it is equal (via
 to the string will return the output. This allows for some interesting new
 kinds of interactions with subprocess commands, for example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     def check_file(file):
         if !(test -e @(file)):
@@ -484,10 +484,10 @@ kinds of interactions with subprocess commands, for example:
 If you iterate over the ``CommandPipeline`` object, it will yield lines of its
 output.  Using this, you can quickly and cleanly process output from commands.
 Additionally, these objects expose a method ``itercheck``, which behaves the same
-as the built-in iterator but raises ``XonshCalledProcessError`` if the process
+as the built-in iterator but raises ``DeepshCalledProcessError`` if the process
 had a nonzero return code.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     def get_wireless_interface():
         """Returns devicename of first connected wifi, None otherwise"""
@@ -509,7 +509,7 @@ had a nonzero return code.
         try:
             for match in !(grep -RPl @(regexp) @(str(path))).itercheck():
                 matches.append(match)
-        except XonshCalledProcessError as error:
+        except DeepshCalledProcessError as error:
             for line in error.stderr.split('\n'):
                 if not line.strip():
                     continue
@@ -522,12 +522,12 @@ The ``$()`` and ``!()`` operators are expressions themselves. This means that
 we can assign the results to a variable or perform any other manipulations we
 want.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> x = $(ls -l)
     >>> print(x.upper())
     TOTAL 0
-    -RW-RW-R-- 1 SNAIL SNAIL 0 MAR  8 15:46 XONSH
+    -RW-RW-R-- 1 SNAIL SNAIL 0 MAR  8 15:46 DEEPSH
     >>> y = !(ls -l)
     >>> print(y.returncode)
     0
@@ -541,7 +541,7 @@ While in subprocess-mode or inside of a captured subprocess, we can always
 still query the environment with ``$NAME`` variables or the ``${}`` syntax,
 or inject Python values with the ``@()`` operator:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $(echo $HOME)
     '/home/snail'
@@ -550,15 +550,15 @@ Threading
 =========
 
 If you want to work more closely with captured commands, you need to know about threading.
-Xonsh has a threading prediction mechanism that allows it to understand which commands can capture everything.
+Deepsh has a threading prediction mechanism that allows it to understand which commands can capture everything.
 For example, the ``echo`` command has no interaction with the user and is capturable.
 However, some tools have mixed behavior and can be run for either interactive or non-interactive tasks.
 The best example of this is ``ssh``, which allows for remote terminal sessions and executing commands.
 
-To handle different types of tasks, xonsh has the ``@thread`` and ``@unthread`` built-in decorator aliases.
+To handle different types of tasks, deepsh has the ``@thread`` and ``@unthread`` built-in decorator aliases.
 If you need to capture the output from an interactive tool that has a capturable mode use ``@thread`` to run:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     @ !(@thread ssh host -T 'echo remote')
     CommandPipeline(output="remote")
@@ -568,17 +568,17 @@ Uncaptured Subprocess with ``$[]`` and ``![]``
 ===============================================
 Uncaptured subprocesses are denoted with the ``$[]`` and ``![]`` operators. They are
 the same as ``$()`` captured subprocesses in almost every way. The only
-difference is that the subprocess's stdout passes directly through xonsh and
+difference is that the subprocess's stdout passes directly through deepsh and
 to the screen.  The return value of ``$[]`` is always ``None``.
 
 In the following, we can see that the results of ``$[]`` are automatically
 printed, and that the return value is not a string.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> x = $[ls -l]
     total 0
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
     >>> x is None
     True
 
@@ -587,11 +587,11 @@ containing information about the result of executing the given command.
 However, its standard output and standard error streams are directed to the
 terminal, and the resulting object is not displayed.  For example
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> x = ![ls -l] and ![echo "hi"]
     total 0
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
     hi
 
 
@@ -607,12 +607,12 @@ is a function, it is treated as an alias (see the section on `Aliases`_ below),
 even if it was not explicitly added to the ``aliases`` mapping.  Otherwise, the
 result is automatically converted to a string. For example,
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> x = 'xonsh'
+    >>> x = 'deepsh'
     >>> y = 'party'
     >>> echo @(x + ' ' + y)
-    xonsh party
+    deepsh party
     >>> echo @(2+2)
     4
     >>> echo @([42, 'yo'])
@@ -622,23 +622,23 @@ result is automatically converted to a string. For example,
     >>> @(['echo', 'hello', 'world'])
     hello world
     >>> @('echo hello world')  # note that strings are not split automatically
-    xonsh: subprocess mode: command not found: echo hello world
+    deepsh: subprocess mode: command not found: echo hello world
 
 This syntax can be used inside of a captured or uncaptured subprocess, and can
 be used to generate any of the tokens in the subprocess command list.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> out = $(echo @(x + ' ' + y))
     >>> out
-    'xonsh party'
+    'deepsh party'
     >>> @("ech" + "o") "hey"
     hey
 
 Thus, ``@()`` allows us to create complex commands in Python-mode and then
 feed them to a subprocess as needed.  For example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     for i in range(20):
         $[touch @('file%02d' % i)]
@@ -646,7 +646,7 @@ feed them to a subprocess as needed.  For example:
 The ``@()`` syntax may also be used inside of subprocess
 arguments, not just as a stand-alone argument. For example:
 
-  .. code-block:: xonshcon
+  .. code-block:: deepshcon
 
     >>> x = 'hello'
     >>> echo /path/to/@(x)
@@ -670,12 +670,12 @@ Command Substitution with ``@$()``
 
 A common use of the ``@()`` and ``$()`` operators is allowing the output of a
 command to replace the command itself (command substitution):
-``@([i.strip() for i in $(cmd).split()])``.  Xonsh offers a
+``@([i.strip() for i in $(cmd).split()])``.  Deepsh offers a
 short-hand syntax for this operation: ``@$(cmd)``.
 
 Consider the following example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> # this returns a string representing stdout
     >>> $(which ls)
@@ -684,7 +684,7 @@ Consider the following example:
     >>> # this attempts to run the command, but as one argument
     >>> # (looks for 'ls --color=auto' with spaces)
     >>> @($(which ls))
-    xonsh: subprocess mode: command not found: ls --color=auto
+    deepsh: subprocess mode: command not found: ls --color=auto
 
     >>> # this actually executes the intended command
     >>> @([i.strip() for i in $(which ls).split()])
@@ -706,7 +706,7 @@ border of the absurd is shown below:
 
     >>> $[@$(which @($(echo ls).strip())) @('-' + $(printf 'l'))]
     total 0
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
 
 With great power, and so forth...
 
@@ -716,28 +716,28 @@ With great power, and so forth...
           Python mode, it is not possible to nest other subprocess operators
           inside of them.
 
-To understand how xonsh executes the subprocess commands try
-to set :ref:`$XONSH_TRACE_SUBPROC <xonsh_trace_subproc>` to ``True``:
+To understand how deepsh executes the subprocess commands try
+to set :ref:`$DEEPSH_TRACE_SUBPROC <deepsh_trace_subproc>` to ``True``:
 
 .. code-block:: console
 
-    >>> $XONSH_TRACE_SUBPROC = True
+    >>> $DEEPSH_TRACE_SUBPROC = True
     >>> $[@$(which @($(echo ls).strip())) @('-' + $(printf 'l'))]
     TRACE SUBPROC: (['echo', 'ls'],)
     TRACE SUBPROC: (['which', 'ls'],)
     TRACE SUBPROC: (['printf', 'l'],)
     TRACE SUBPROC: (['ls', '--color=auto', '-v', '-l'],)
     total 0
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
 
 
 Pipes
 ====================
 
-In subprocess-mode, xonsh allows you to use the ``|`` character to pipe
+In subprocess-mode, deepsh allows you to use the ``|`` character to pipe
 together commands as you would in other shells.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> env | uniq | sort | grep PATH
     DATAPATH=/usr/share/MCNPX/v260/Data/
@@ -762,7 +762,7 @@ its return code is zero (i.e. ``proc.returncode == 0``).  Like in Python,
 if the command evaluates to ``False``, subsequent commands will not be executed.
 For example, suppose we want to lists files that may or may not exist:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> touch exists
     >>> ls exists and ls doesnt
@@ -772,12 +772,12 @@ For example, suppose we want to lists files that may or may not exist:
 However, if you list the file that doesn't exist first,
 you would have only seen the error:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> ls doesnt and ls exists
     /bin/ls: cannot access doesnt: No such file or directory
 
-Also, don't worry. Xonsh directly translates the ``&&`` operator into ``and``
+Also, don't worry. Deepsh directly translates the ``&&`` operator into ``and``
 for you. It is less Pythonic, of course, but it is your shell!
 
 Logical Subprocess Or
@@ -789,7 +789,7 @@ subsequent commands will be executed only if the
 if the return code is non-zero (i.e. a failure). Using the file example
 from above:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> ls exists or ls doesnt
     exists
@@ -798,29 +798,29 @@ This doesn't even try to list a non-existent file!
 However, if you list the file that doesn't exist first,
 you will see the error and then the file that does exist:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> ls doesnt or ls exists
     /bin/ls: cannot access doesnt: No such file or directory
     exists
 
-Never fear! Xonsh also directly translates the ``||`` operator into ``or``,
+Never fear! Deepsh also directly translates the ``||`` operator into ``or``,
 too. Your muscle memory is safe now, here with us.
 
 Input/Output Redirection
 ====================================
 
-xonsh also allows you to redirect ``stdin``, ``stdout``, and/or ``stderr``.
+deepsh also allows you to redirect ``stdin``, ``stdout``, and/or ``stderr``.
 This allows you to control where the output of a command is sent, and where
-it receives its input from.  xonsh has its own syntax for these operations,
-but, for compatibility purposes, xonsh also support Bash-like syntax.
+it receives its input from.  deepsh has its own syntax for these operations,
+but, for compatibility purposes, deepsh also support Bash-like syntax.
 
 The basic operations are "write to" (``>``), "append to" (``>>``), and "read
 from" (``<``).  The details of these are perhaps best explained through
 examples.
 
 .. note:: The target of the redirection should be separated by a space,
-          otherwise xonsh will raise a SyntaxError.
+          otherwise deepsh will raise a SyntaxError.
 
 Redirecting ``stdout``
 ----------------------
@@ -829,7 +829,7 @@ All of the following examples will execute ``COMMAND`` and write its regular
 output (stdout) to a file called ``output.txt``, creating it if it does not
 exist:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND > output.txt
     >>> COMMAND out> output.txt
@@ -847,7 +847,7 @@ All of the following examples will execute ``COMMAND`` and write its error
 output (stderr) to a file called ``errors.txt``, creating it if it does not
 exist:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND err> errors.txt
     >>> COMMAND e> errors.txt
@@ -863,7 +863,7 @@ It is possible to send all of ``COMMAND``'s output (both regular output and
 error output) to the same location.  All of the following examples accomplish
 that task:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND all> combined.txt
     >>> COMMAND a> combined.txt
@@ -873,7 +873,7 @@ It is also possible to explicitly merge stderr into stdout so that error
 messages are reported to the same location as regular output.  You can do this
 with the following syntax:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND err>out
     >>> COMMAND err>o
@@ -884,7 +884,7 @@ with the following syntax:
 This merge can be combined with other redirections, including pipes (see the
 section on `Pipes`_ above):
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND err>out | COMMAND2
     >>> COMMAND e>o > combined.txt
@@ -893,7 +893,7 @@ It is worth noting that this last example is equivalent to: ``COMMAND a> combine
 
 Similarly, you can also send stdout to stderr with the following syntax:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND out>err
     >>> COMMAND out>e
@@ -907,7 +907,7 @@ Redirecting ``stdin``
 It is also possible to have a command read its input from a file, rather
 than from ``stdin``.  The following examples demonstrate two ways to accomplish this:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND < input.txt
     >>> < input.txt COMMAND
@@ -918,7 +918,7 @@ Combining I/O Redirects
 It is worth noting that all of these redirections can be combined.  Below is
 one example of a complicated redirect.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> COMMAND1 e>o < input.txt | COMMAND2 > output.txt e>> errors.txt
 
@@ -931,9 +931,9 @@ error output will be appended to ``errors.txt``.
 Background Jobs
 ===============
 
-Typically, when you start a program running in xonsh, xonsh itself will pause
+Typically, when you start a program running in deepsh, deepsh itself will pause
 and wait for that program to terminate.  Sometimes, though, you may want to
-continue giving commands to xonsh while that program is running.  In subprocess
+continue giving commands to deepsh while that program is running.  In subprocess
 mode, you can start a process "in the background" (i.e., in a way that allows
 continued use of the shell) by adding an ampersand (``&``) to the end of your
 command.  Background jobs are very useful when running programs with graphical
@@ -941,7 +941,7 @@ user interfaces.
 
 The following shows an example with ``emacs``.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> emacs &
     >>>
@@ -957,8 +957,8 @@ Job Control
 ===========
 
 If you start a program in the foreground (with no ampersand), you can suspend
-that program's execution and return to the xonsh prompt by pressing Control-Z.
-This will give control of the terminal back to xonsh, and will keep the program
+that program's execution and return to the deepsh prompt by pressing Control-Z.
+This will give control of the terminal back to deepsh, and will keep the program
 paused in the background.
 
 .. note:: Suspending processes via Control-Z is not yet supported when
@@ -966,7 +966,7 @@ paused in the background.
 
 To unpause the program and bring it back to the foreground, you can use the
 ``fg`` command.  To unpause the program have it continue in the background
-(giving you continued access to the xonsh prompt), you can use the ``bg``
+(giving you continued access to the deepsh prompt), you can use the ``bg``
 command.
 
 You can get a listing of all currently running jobs with the ``jobs`` command.
@@ -982,26 +982,26 @@ String Literals in Subprocess-mode
 ====================================
 Strings can be used to escape special characters in subprocess-mode. The
 contents of the string are passed directly to the subprocess command as a
-single argument.  So whenever you are in doubt, or if there is a xonsh syntax
+single argument.  So whenever you are in doubt, or if there is a deepsh syntax
 error because of a filename, just wrap the offending portion in a string.
 
 A common use case for this is files with spaces in their names. This
-detestable practice refuses to die. "No problem!" says xonsh, "I have
+detestable practice refuses to die. "No problem!" says deepsh, "I have
 strings."  Let's see it go!
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> touch "sp ace"
     >>> ls -l
     total 0
     -rw-rw-r-- 1 snail snail 0 Mar  8 17:50 sp ace
-    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 xonsh
+    -rw-rw-r-- 1 snail snail 0 Mar  8 15:46 deepsh
 
 By default, the name of an environment variable inside a string will be
 replaced by the contents of that variable (in subprocess mode only).  For
 example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> print("my home is $HOME")
     my home is $HOME
@@ -1011,7 +1011,7 @@ example:
 You can avoid this expansion within a particular command by forcing the strings
 to be evaluated in Python mode using the ``@()`` syntax:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> echo "my home is $HOME"
     my home is /home/snail
@@ -1059,17 +1059,17 @@ Filename Globbing with ``*``
 ===============================
 Filename globbing with the ``*`` character is also allowed in subprocess-mode.
 This simply uses Python's glob module under-the-covers.  See there for more
-details.  As an example, start with a lovely bunch of xonshs:
+details.  As an example, start with a lovely bunch of deepshs:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> touch xonsh conch konk quanxh
+    >>> touch deepsh conch konk quanxh
     >>> ls
-    conch  konk  quanxh  xonsh
+    conch  konk  quanxh  deepsh
     >>> ls *h
-    conch  quanxh  xonsh
+    conch  quanxh  deepsh
     >>> ls *o*
-    conch  konk  xonsh
+    conch  konk  deepsh
 
 This is not available in Python-mode because multiplication is pretty
 important.
@@ -1078,7 +1078,7 @@ important.
 Advanced Path Search with Backticks
 ===================================
 
-xonsh offers additional ways to find path names beyond regular globbing, both
+deepsh offers additional ways to find path names beyond regular globbing, both
 in Python mode and in subprocess mode.
 
 Regular Expression Globbing
@@ -1095,7 +1095,7 @@ to the subprocess command.
 Let's see a demonstration with some simple filenames:
 
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> touch a aa aaa aba abba aab aabb abcba
     >>> ls `a(a+|b+)a`
@@ -1112,10 +1112,10 @@ Other than the regex matching, this functions in the same way as normal
 globbing.  For more information, please see the documentation for the ``re``
 module in the Python standard library.
 
-.. warning:: In Xonsh, the meaning of backticks is very different from their
+.. warning:: In Deepsh, the meaning of backticks is very different from their
              meaning in Bash.
              In Bash, backticks mean to run a captured subprocess
-	     (``$()`` in Xonsh).
+	     (``$()`` in Deepsh).
 
 
 Normal Globbing
@@ -1128,7 +1128,7 @@ of Python mode as well as subprocess mode.
 Similarly to regex globbing, normal globbing can be performed (either in Python
 mode or subprocess mode) by using the ``g````:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> touch a aa aaa aba abba aab aabb abcba
     >>> ls a*b*
@@ -1148,7 +1148,7 @@ Using the ``f`` modifier with either regex or normal globbing makes
 the glob pattern behave like a formatted string literal. This can be used to
 substitute variables and other expressions into the glob pattern:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> touch a aa aaa aba abba aab aabb abcba
     >>> mypattern = 'ab'
@@ -1162,7 +1162,7 @@ Custom Path Searches
 --------------------
 
 In addition, if normal globbing and regular expression globbing are not enough,
-xonsh allows you to specify your own search functions.
+deepsh allows you to specify your own search functions.
 
 A search function is defined as a function of a single argument (a string) that
 returns a list of possible matches to that string.  Search functions can then
@@ -1170,7 +1170,7 @@ be used with backticks with the following syntax: ``@<name>`test```
 
 The following example shows the form of these functions:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> def foo(s):
     ...     return [i for i in os.listdir('.') if i.startswith(s)]
@@ -1184,7 +1184,7 @@ Path Output
 Using the ``p`` modifier with either regex or glob backticks changes the
 return type from a list of strings to a list of :class:`pathlib.Path` objects:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> p`.*`
     [Path('foo'), Path('bar')]
@@ -1199,7 +1199,7 @@ Path objects can be instantiated directly using *p-string* syntax. Path objects
 can be converted back to plain strings with `str()`, and this conversion is
 handled implicitly in subprocess mode.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> mypath = p'/foo/bar'
     >>> mypath
@@ -1211,7 +1211,7 @@ handled implicitly in subprocess mode.
 
 Path object allows do some tricks with paths. Globbing certain path, checking and getting info:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> mypath = p'/etc'
     >>> sorted(mypath.glob('**/*bashrc*'))
@@ -1221,7 +1221,7 @@ Path object allows do some tricks with paths. Globbing certain path, checking an
 
 Help & Superhelp with ``?`` & ``??``
 =====================================================
-From IPython, xonsh allows you to inspect objects with question marks.
+From IPython, deepsh allows you to inspect objects with question marks.
 A single question mark (``?``) is used to display the normal level of help.
 Double question marks (``??``) are used to display a higher level of help,
 called superhelp. Superhelp usually includes source code if the object was
@@ -1229,7 +1229,7 @@ written in pure Python.
 
 Let's start by looking at the help for the int type:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> int?
     Type:            type
@@ -1252,15 +1252,15 @@ Let's start by looking at the help for the int type:
     4
     <class 'int'>
 
-Now, let's look at the superhelp for the xonsh built-in that enables
+Now, let's look at the superhelp for the deepsh built-in that enables
 regex globbing:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    >>> __xonsh__.regexsearch??
+    >>> __deepsh__.regexsearch??
     Type:         function
     String form:  <function regexsearch at 0x7efc8b367d90>
-    File:         /usr/local/lib/python3.5/dist-packages/xonsh/built_ins.py
+    File:         /usr/local/lib/python3.5/dist-packages/deepsh/built_ins.py
     Definition:   (s)
     Source:
     def regexsearch(s):
@@ -1268,14 +1268,14 @@ regex globbing:
         return reglob(s)
 
 
-    <function xonsh.built_ins.regexsearch>
+    <function deepsh.built_ins.regexsearch>
 
 Note that both help and superhelp return the object that they are inspecting.
 This allows you to chain together help inside of other operations and
 ask for help several times in an object hierarchy.  For instance, let's get
 help for both the dict type and its key() method simultaneously:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> dict?.keys??
     Type:            type
@@ -1301,17 +1301,17 @@ Of course, for subprocess commands, you still want to use the ``man`` command.
 
 Compile, Evaluate, & Execute
 ================================
-Like Python and Bash, xonsh provides built-in hooks to compile, evaluate,
-and execute strings of xonsh code.  To prevent this functionality from having
+Like Python and Bash, deepsh provides built-in hooks to compile, evaluate,
+and execute strings of deepsh code.  To prevent this functionality from having
 serious name collisions with the Python built-in ``compile()``, ``eval()``,
-and ``exec()`` functions, the xonsh equivalents all append an 'x'.  So for
-xonsh code you want to use the ``compilex()``, ``evalx()``, and ``execx()``
+and ``exec()`` functions, the deepsh equivalents all append an 'x'.  So for
+deepsh code you want to use the ``compilex()``, ``evalx()``, and ``execx()``
 functions. If you don't know what these do, you probably don't need them.
 
 
 Aliases
 =======
-Another important xonsh built-in is the ``aliases`` mapping.  This is
+Another important deepsh built-in is the ``aliases`` mapping.  This is
 like a dictionary that affects how subprocess commands are run.  If you are
 familiar with the Bash ``alias`` built-in, this is similar.  Alias command
 matching only occurs for the first element of a subprocess command.
@@ -1320,17 +1320,17 @@ The keys of ``aliases`` are strings that act as commands in subprocess-mode.
 The values are lists of strings, where the first element is the command, and
 the rest are the arguments.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> aliases['ls']
     ['ls', '--color=auto', '-v']
 
-You can also set the value to a string. If the string is a xonsh expression,
-it will be converted to a list automatically with xonsh's ``Lexer.split()`` method.
+You can also set the value to a string. If the string is a deepsh expression,
+it will be converted to a list automatically with deepsh's ``Lexer.split()`` method.
 For example, the following creates several aliases for the ``git`` version
 control software. Both styles (list of strings and single string) are shown:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> aliases['g'] = 'git status -sb'
     >>> aliases['gco'] = 'git checkout'
@@ -1346,7 +1346,7 @@ Alias to modify command
 The best way to modify command on the fly is to use alias that returns modified command.
 One of the most interesting application is expanding an alias:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> @aliases.register
     ... @aliases.return_command
@@ -1361,7 +1361,7 @@ One of the most interesting application is expanding an alias:
 
 Or implement logic to run the right command:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> @aliases.register
     ... @aliases.return_command
@@ -1378,12 +1378,12 @@ Or implement logic to run the right command:
 ExecAlias
 ---------
 
-If the string is representing a block of xonsh code, the alias will be registered
+If the string is representing a block of deepsh code, the alias will be registered
 as an ``ExecAlias``, which is a callable alias. This block of code will then be
 executed whenever the alias is run. The arguments are available in the list ``$args``
 or by the index in ``$arg<n>`` environment variables.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> aliases['answer'] = 'echo @(21+21)'
     >>> aliases['piu'] = 'pip install -U @($args)'
@@ -1391,7 +1391,7 @@ or by the index in ``$arg<n>`` environment variables.
 
 .. warning:: You need to add ``@($args)`` manually if you need arguments.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> aliases['careful'] = 'echo @("all args will be ignored")'
     >>> aliases['better'] = 'echo @("the arguments are: ") @($args)'
@@ -1439,11 +1439,11 @@ may have one of the following signatures:
         # aliases to support piping.
         print('I go to stdout and will be printed or piped')
 
-        # Note: that you have access to the xonsh
+        # Note: that you have access to the deepsh
         # built-ins if you 'import builtins'.  For example, if you need the
         # environment, you could do the following:
         import builtins
-        env = builtins.__xonsh__.env
+        env = builtins.__deepsh__.env
 
     def mycmd1(args):
         """This form takes a single argument, args. This is a list of strings
@@ -1497,8 +1497,8 @@ may have one of the following signatures:
         the command is being run.  For instance this can be useful for
         knowing if the process is captured by $() or !().
         """
-        import xonsh.proc
-        if spec.captured in xonsh.proc.STDOUT_CAPTURE_KINDS:
+        import deepsh.proc
+        if spec.captured in deepsh.proc.STDOUT_CAPTURE_KINDS:
             print("I'm being captured!")
         elif not spec.last_in_pipeline:
             print("Going through a pipe!")
@@ -1531,7 +1531,7 @@ Adding, Modifying, and Removing Aliases
 We can dynamically alter the aliases present simply by modifying the
 built-in mapping.  Here is an example using a function value:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> def _banana(args, stdin=None):
     ...     return ('My spoon is tooo big!', None)
@@ -1543,7 +1543,7 @@ built-in mapping.  Here is an example using a function value:
 To redefine an alias, simply assign a new function, here using a python lambda
 with keyword arguments:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> aliases['banana'] = lambda: "Banana for scale.\n"
     >>> banana
@@ -1552,7 +1552,7 @@ with keyword arguments:
 
 Removing an alias is as easy as deleting the key from the alias dictionary:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> del aliases['banana']
 
@@ -1560,16 +1560,16 @@ Removing an alias is as easy as deleting the key from the alias dictionary:
 
    Alias functions should generally be defined with a leading underscore.
    Otherwise, they may shadow the alias itself, as Python variables take
-   precedence over aliases when xonsh executes commands.
+   precedence over aliases when deepsh executes commands.
 
 Callable alias and capturing
 ----------------------------
 
 Callable aliases tend to be capturable. Only the explicitly denoted uncaptured subprocess
 operator ``$[]`` is uncapturable, and the subprocess's stdout passes directly
-through xonsh to the screen.
+through deepsh to the screen.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> @aliases.register('hunter')
     ... def _hunter():
@@ -1592,7 +1592,7 @@ Anonymous Aliases
 As mentioned above, it is also possible to treat functions outside this mapping
 as aliases, by wrapping them in ``@()``.  For example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> @(_banana)
     'My spoon is tooo big!'
@@ -1606,11 +1606,11 @@ Usually, callable alias commands will be run in a separate thread so that
 they may be run in the background.  However, some aliases may need to be
 executed on the thread that they were called from. This is mostly useful for
 debuggers and profilers. To make an alias run in the foreground, decorate its
-function with the ``xonsh.tools.unthreadable`` decorator.
+function with the ``deepsh.tools.unthreadable`` decorator.
 
 .. code-block:: python
 
-    from xonsh.tools import unthreadable
+    from deepsh.tools import unthreadable
 
     @unthreadable
     def _mycmd(args, stdin=None):
@@ -1621,18 +1621,18 @@ function with the ``xonsh.tools.unthreadable`` decorator.
 Uncapturable Aliases
 -----------------------
 Also, callable aliases by default will be executed such that their output is
-captured (like most commands in xonsh that don't enter alternate mode).
+captured (like most commands in deepsh that don't enter alternate mode).
 However, some aliases may want to run alternate-mode commands themselves.
 Thus the callable alias can't be captured without dire consequences (tm).
 To prevent this, you can declare a callable alias uncapturable. This is mostly
 useful for aliases that then open up text editors, pagers, or the like.
 To make an alias uncapturable, decorate its
-function with the ``xonsh.tools.uncapturable`` decorator. This is probably
+function with the ``deepsh.tools.uncapturable`` decorator. This is probably
 best used in conjunction with the ``unthreadable`` decorator.  For example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    from xonsh.tools import unthreadable, uncapturable
+    from deepsh.tools import unthreadable, uncapturable
 
     @uncapturable
     @unthreadable
@@ -1650,10 +1650,10 @@ Decorator Aliases
 Using ``DecoratorAlias`` and ``SpecAttrDecoratorAlias`` and callable ``output_format`` you can
 convert subprocess command output into Python object:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     import json, pathlib, yaml
-    from xonsh.procs.specs import SpecAttrDecoratorAlias
+    from deepsh.procs.specs import SpecAttrDecoratorAlias
 
     aliases['@lines'] = SpecAttrDecoratorAlias({"output_format": 'list_lines'},
                                                "Set `list_lines` output format.")
@@ -1669,7 +1669,7 @@ convert subprocess command output into Python object:
 
 Now you can run:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     $(@lines ls /)
     # ['/bin', '/etc', '/home']
@@ -1681,8 +1681,8 @@ Now you can run:
     j['answer']
     # 42
 
-    $(@path which xonsh)
-    # Path('/path/to/xonsh')
+    $(@path which deepsh)
+    # Path('/path/to/deepsh')
 
     aliases['ydig'] = '@yaml dig +yaml'
     y = $(ydig google.com)
@@ -1692,13 +1692,13 @@ Now you can run:
 
 -------------
 
-Aliasing is a powerful way that xonsh allows you to seamlessly interact to
+Aliasing is a powerful way that deepsh allows you to seamlessly interact to
 with Python and subprocess.
 
 .. warning:: If ``FOREIGN_ALIASES_OVERRIDE`` environment variable is False
              (the default), then foreign shell aliases that try to override
-             xonsh aliases will be ignored. The setting of this environment variable
-             must happen outside if xonsh, i.e. in the process that starts xonsh.
+             deepsh aliases will be ignored. The setting of this environment variable
+             must happen outside if deepsh, i.e. in the process that starts deepsh.
 
 
 Up, Down, Tab
@@ -1708,12 +1708,12 @@ much like they do in the IPython shell.
 
 Tab completion is present as well. By default, in Python-mode you are able to
 complete based on the variable names in the current builtins, globals, and
-locals, as well as xonsh languages keywords & operator, files & directories,
+locals, as well as deepsh languages keywords & operator, files & directories,
 and environment variable names. In subprocess-mode, you additionally complete
 on the names of executable files on your ``$PATH``, alias keys, and full Bash
 completion for the commands themselves.
 
-xonsh also provides a means of modifying the behavior of the tab completer.  More
+deepsh also provides a means of modifying the behavior of the tab completer.  More
 detail is available on the `Tab Completion page <tutorial_completers.html>`_.
 
 .. _customprompt:
@@ -1725,13 +1725,13 @@ is probably the most common reason for altering an environment variable.
 
 .. note:: Note that the ``$PROMPT`` variable will never be inherited from a
           parent process (regardless of whether that parent is a foreign shell
-          or an instance of xonsh).
+          or an instance of deepsh).
 
 The ``$PROMPT`` variable can be a string, or it can be a function (of no
 arguments) that returns a string.  The result can contain keyword arguments,
 which will be replaced automatically:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $PROMPT = '{user}@{hostname}:{cwd} @ '
     snail@home:~ @ # it works!
@@ -1750,11 +1750,11 @@ By default, the following variables are available for use:
     set a maximum width for this variable and ``$DYNAMIC_CWD_ELISION_CHAR`` to
     set the character used in shortened path.
   * ``short_cwd``: A shortened form of the current working directory; e.g.,
-    ``/path/to/xonsh`` becomes ``/p/t/xonsh``
+    ``/path/to/deepsh`` becomes ``/p/t/deepsh``
   * ``cwd_dir``: The dirname of the current working directory, e.g. ``/path/to/`` in
-    ``/path/to/xonsh``.
-  * ``cwd_base``: The basename of the current working directory, e.g. ``xonsh`` in
-    ``/path/to/xonsh``.
+    ``/path/to/deepsh``.
+  * ``cwd_base``: The basename of the current working directory, e.g. ``deepsh`` in
+    ``/path/to/deepsh``.
   * ``env_name``: The name of active virtual environment, if any. The rendering
     of this variable is affected by the ``$VIRTUAL_ENV_PROMPT`` and
     ``$VIRTUAL_ENV_DISABLE_PROMPT`` environment variables; see below.
@@ -1774,7 +1774,7 @@ By default, the following variables are available for use:
   * ``vte_new_tab_cwd``: Issues VTE escape sequence for opening new tabs in the
     current working directory on some linux terminals. This is not usually needed.
   * ``gitstatus``: Informative git status, like ``[main|MERGING|+1…2]``, you
-    may refer :py:mod:`xonsh.prompt.gitstatus` for customization options.
+    may refer :py:mod:`deepsh.prompt.gitstatus` for customization options.
   * ``localtime``: The current, local time as given by ``time.localtime()``.
     This is formatted with the time format string found in ``time_format``.
   * ``time_format``: A time format string, defaulting to ``"%H:%M:%S"``.
@@ -1783,14 +1783,14 @@ By default, the following variables are available for use:
 
 .. note:: See the section below on ``PROMPT_FIELDS`` for more information on changing.
 
-xonsh obeys the ``$VIRTUAL_ENV_DISABLE_PROMPT`` environment variable
+deepsh obeys the ``$VIRTUAL_ENV_DISABLE_PROMPT`` environment variable
 `as defined by virtualenv <https://virtualenv.pypa.io/en/latest/reference/
-#envvar-VIRTUAL_ENV_DISABLE_PROMPT>`__. If this variable is truthy, xonsh
+#envvar-VIRTUAL_ENV_DISABLE_PROMPT>`__. If this variable is truthy, deepsh
 will *always* substitute an empty string for ``{env_name}``. Note that unlike
 other shells, ``$VIRTUAL_ENV_DISABLE_PROMPT`` takes effect *immediately*
 after being set---it is not necessary to re-activate the environment.
 
-xonsh also allows for an explicit override of the rendering of ``{env_name}``,
+deepsh also allows for an explicit override of the rendering of ``{env_name}``,
 via the ``$VIRTUAL_ENV_PROMPT`` environment variable. If this variable is
 defined and has any value other than ``None``, ``{env_name}`` will *always*
 render as ``str($VIRTUAL_ENV_PROMPT)`` when an environment is activated.
@@ -1799,7 +1799,7 @@ It will still render as an empty string when no environment is active.
 
 For example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> $PROMPT = '{env_name}>>> '
     >>> source env/bin/activate.xsh
@@ -1910,8 +1910,8 @@ But let's consider a problem:
 
 .. code-block:: console
 
-    snail@home ~/xonsh @ $PROMPT = "{cwd_base} [{curr_branch}] @ "
-    xonsh [main] @ cd ..
+    snail@home ~/deepsh @ $PROMPT = "{cwd_base} [{curr_branch}] @ "
+    deepsh [main] @ cd ..
     ~ [] @
 
 We want the branch to be displayed in square brackets, but we also don't want
@@ -1921,8 +1921,8 @@ invoked only if the value is not ``None``:
 
 .. code-block:: console
 
-    snail@home ~/xonsh @ $PROMPT = "{cwd_base}{curr_branch: [{}]} @ "
-    xonsh [main] @ cd ..
+    snail@home ~/deepsh @ $PROMPT = "{cwd_base}{curr_branch: [{}]} @ "
+    deepsh [main] @ cd ..
     ~ @
 
 The curly brackets act as a placeholder, because the additional part is an
@@ -1935,24 +1935,24 @@ ordinary format string. What we're doing here is equivalent to this expression:
 
 Executing Commands and Scripts
 ==============================
-When started with the ``-c`` flag and a command, xonsh will execute that command
+When started with the ``-c`` flag and a command, deepsh will execute that command
 and exit, instead of entering the command loop.
 
 .. note::
-    When executing commands this way :doc:`the run control ("xonshrc") files </xonshrc>` are not applied.
+    When executing commands this way :doc:`the run control ("deepshrc") files </deepshrc>` are not applied.
 
 .. code-block:: console
 
-    @ xonsh -c "echo @(7+3)"
+    @ deepsh -c "echo @(7+3)"
     10
 
 Longer scripts can be run either by specifying a filename containing the script,
-or by feeding them to xonsh via stdin.  For example, consider the following
+or by feeding them to deepsh via stdin.  For example, consider the following
 script, stored in ``test.xsh``:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    #!/usr/bin/env xonsh
+    #!/usr/bin/env deepsh
 
     ls
 
@@ -1963,48 +1963,48 @@ script, stored in ``test.xsh``:
 
     print('adding files')
     # This is a comment
-    for i, x in enumerate("xonsh"):
+    for i, x in enumerate("deepsh"):
         echo @(x) > @("file{0}.txt".format(i))
 
     print($(ls).replace('\n', ' '))
 
 
-This script could be run by piping its contents to xonsh:
+This script could be run by piping its contents to deepsh:
 
 .. code-block:: console
 
-    @ cat test.xsh | xonsh
+    @ cat test.xsh | deepsh
     file0.txt  file1.txt  file2.txt  file3.txt  file4.txt  test_script.sh
     removing files
     test_script.sh
     adding files
     file0.txt file1.txt file2.txt file3.txt file4.txt test_script.sh
 
-or by invoking xonsh with its filename as an argument:
+or by invoking deepsh with its filename as an argument:
 
 .. code-block:: console
 
-    @ xonsh test.xsh
+    @ deepsh test.xsh
     file0.txt  file1.txt  file2.txt  file3.txt  file4.txt  test_script.sh
     removing files
     test_script.sh
     adding files
     file0.txt file1.txt file2.txt file3.txt file4.txt test_script.sh
 
-xonsh scripts can also accept command line arguments and parameters.
+deepsh scripts can also accept command line arguments and parameters.
 These arguments are made available to the script in two different ways:
 
 #. In either mode, as individual variables ``$ARG<n>`` (e.g., ``$ARG1``)
 #. In Python mode only, as a list ``$ARGS``
 
 For example, consider a slight variation of the example script from above that
-operates on a given argument, rather than on the string ``'xonsh'`` (notice how
+operates on a given argument, rather than on the string ``'deepsh'`` (notice how
 ``$ARGS`` and ``$ARG1`` are used):
 
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    #!/usr/bin/env xonsh
+    #!/usr/bin/env deepsh
 
     print($ARGS)
 
@@ -2026,7 +2026,7 @@ operates on a given argument, rather than on the string ``'xonsh'`` (notice how
 
 .. code-block:: console
 
-    @ xonsh test2.xsh snails
+    @ deepsh test2.xsh snails
     ['test_script.sh', 'snails']
     file0.txt  file1.txt  file2.txt  file3.txt  file4.txt  file5.txt  test_script.sh
     removing files
@@ -2046,27 +2046,27 @@ Furthermore, you can also toggle the ability to print source code lines with the
 ``trace on`` and ``trace off`` commands.  This is roughly equivalent to
 Bash's ``set -x`` or Python's ``python -m trace``, but you know, better.
 
-Importing Xonsh (``*.xsh``)
+Importing Deepsh (``*.xsh``)
 ==============================
-You can import xonsh source files with the ``*.xsh`` file extension using
+You can import deepsh source files with the ``*.xsh`` file extension using
 the normal Python syntax.  Say you had a file called ``mine.xsh``, you could,
 therefore, perform a Bash-like source into your current shell with the
 following:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     from mine import *
 
 
 That's All, Folks
 ======================
-To leave xonsh, hit ``Ctrl-D``, type ``EOF``, type ``quit``, or type ``exit``.
+To leave deepsh, hit ``Ctrl-D``, type ``EOF``, type ``quit``, or type ``exit``.
 On Windows, you can also type ``Ctrl-Z``.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> exit
 
-To exit from the xonsh script just call the ``exit(code)`` function.
+To exit from the deepsh script just call the ``exit(code)`` function.
 
 Now it is your turn.

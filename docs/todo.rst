@@ -1,18 +1,18 @@
 ==========================
 Wishlist & To-Dos
 ==========================
-Here is what is targeted for future versions of xonsh. Any one wishing
+Here is what is targeted for future versions of deepsh. Any one wishing
 to tackle any of these or add their own is encouraged to do so!
 
 Add xsh syntax highlighting on Github
 ----------------------------------------
 There is a way to `contribute to github/linguist <https://github.com/github/linguist/blob/master/CONTRIBUTING.md>`_
-to add xsh syntax highlighting. It would be great for someone to add xonsh to linguist.
+to add xsh syntax highlighting. It would be great for someone to add deepsh to linguist.
 For now we use Python syntax by adding the ``language`` to ``.gitattributes``:
 
 .. code-block::
 
-    *xonshrc text linguist-language=Python
+    *deepshrc text linguist-language=Python
     *.xsh text linguist-language=Python
 
 

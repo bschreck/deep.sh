@@ -16,11 +16,11 @@ permissions:
 
 jobs:
   build:
-    if: github.repository_owner == 'xonsh'
+    if: github.repository_owner == 'deepsh'
     runs-on: ubuntu-latest
     env:
       UV_CACHE_DIR: .cache/uv
-    name: Xonsh docs to gh-pages
+    name: Deepsh docs to gh-pages
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -47,13 +47,13 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          repository: xonsh/xonsh-docs
+          repository: deepsh/deepsh-docs
       - name: Deploy to dev if not tagged
         if: github.event_name != 'pull_request' && !startsWith(github.ref, 'refs/tags/v')
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ steps.generate-token.outputs.token }}
-          external_repository: xonsh/xonsh-docs
+          external_repository: deepsh/deepsh-docs
           publish_dir: ./docs/_build/html
           destination_dir: dev # latest as in main branch
       - name: Deploy to stable if tagged
@@ -61,7 +61,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ steps.generate-token.outputs.token }}
-          external_repository: xonsh/xonsh-docs
+          external_repository: deepsh/deepsh-docs
           publish_dir: ./docs/_build/html
 #          # todo: implement versioned docs
 

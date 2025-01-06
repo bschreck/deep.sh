@@ -1,11 +1,11 @@
-"""Testing xonsh json hooks"""
+"""Testing deepsh json hooks"""
 
 import json
 
 import pytest
 
-from xonsh.lib.jsonutils import serialize_xonsh_json
-from xonsh.tools import EnvPath
+from deepsh.lib.jsonutils import serialize_deepsh_json
+from deepsh.tools import EnvPath
 
 
 @pytest.mark.parametrize(
@@ -20,7 +20,7 @@ from xonsh.tools import EnvPath
         {"z": EnvPath(["wakka", "jawaka"])},
     ],
 )
-def test_serialize_xonsh_json_roundtrip(inp):
-    s = json.dumps(inp, default=serialize_xonsh_json)
+def test_serialize_deepsh_json_roundtrip(inp):
+    s = json.dumps(inp, default=serialize_deepsh_json)
     obs = json.loads(s)
     assert inp == obs

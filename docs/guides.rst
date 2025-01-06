@@ -9,8 +9,8 @@ Guides
     tutorial
     tutorial_hist
     tutorial_macros
-    tutorial_xontrib
-    tutorial_xonsh_projects
+    tutorial_contrib
+    tutorial_deepsh_projects
     tutorial_events
     tutorial_completers
     tutorial_history_backend

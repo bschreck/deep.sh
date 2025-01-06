@@ -6,9 +6,9 @@
 - name: vaaaaanquish
   email: 6syun9@gmail.com
   aliases:
-  - '@vaaaaanquish'
-  - vaaaaanquish
-  - 6syun9
+    - "@vaaaaanquish"
+    - vaaaaanquish
+    - 6syun9
   num_commits: 21
   first_commit: 2018-07-17 01:14:04
   github: vaaaaanquish
@@ -20,19 +20,19 @@
 - name: Lucas Inojosa
   email: lucas.inojosa@gmail.com
   alternate_emails:
-  - linojosa@lalinojosa.home
+    - linojosa@lalinojosa.home
   num_commits: 4
   first_commit: 2016-04-23 15:08:17
   github: lucasicf
 - name: Jamie Bliss
   email: jamie@ivylav.es
   aliases:
-  - James Bliss
+    - James Bliss
   alternate_emails:
-  - jamie@ivyleav.es
-  - jamie.bliss@ilq.com
-  - jbliss@nextgenerationenrollment.com
-  - astronouth7303@gmail.com
+    - jamie@ivyleav.es
+    - jamie.bliss@ilq.com
+    - jbliss@nextgenerationenrollment.com
+    - astronouth7303@gmail.com
   num_commits: 216
   first_commit: 2016-07-20 14:05:08
   github: astronouth7303
@@ -51,7 +51,7 @@
   first_commit: 2016-05-19 14:04:42
   github: adqm
   alternate_emails:
-  - hz@mit.edu
+    - hz@mit.edu
 - name: Travis Shirk
   email: travis@pobox.com
   num_commits: 24
@@ -60,10 +60,10 @@
 - name: Gil Forsyth
   email: gilforsyth@gmail.com
   alternate_emails:
-  - gforsyth@users.noreply.github.com
-  - Gilbert.Forsyth@capitalone.com
-  - gforsyth@gwu.edu
-  - gil@forsyth.dev
+    - gforsyth@users.noreply.github.com
+    - Gilbert.Forsyth@capitalone.com
+    - gforsyth@gwu.edu
+    - gil@forsyth.dev
   num_commits: 680
   first_commit: 2015-10-19 16:04:32
   github: gforsyth
@@ -94,7 +94,7 @@
 - name: Konstantin Molchanov
   email: kmolchanov@machinezone.com
   alternate_emails:
-  - moigagoo@live.com
+    - moigagoo@live.com
   num_commits: 27
   first_commit: 2016-02-11 03:47:16
   github: moigagoo
@@ -121,14 +121,14 @@
 - name: Alessio Bogon
   email: youtux@gmail.com
   alternate_emails:
-  - youtux@users.noreply.github.com
+    - youtux@users.noreply.github.com
   num_commits: 7
   first_commit: 2016-06-17 16:16:16
   github: youtux
 - name: Konstantinos Tsakiltzidis
   email: laerusk@gmail.com
   aliases:
-  - laerus
+    - laerus
   num_commits: 339
   first_commit: 2016-06-17 07:08:58
   github: Carreau
@@ -150,21 +150,21 @@
 - name: Burak Yiğit Kaya
   email: ben@byk.im
   aliases:
-  - Burak Yigit Kaya
+    - Burak Yigit Kaya
   num_commits: 40
   first_commit: 2015-06-18 04:00:34
   github: BYK
 - name: Guillaume Leclerc
   email: guillaume.leclerc@epfl.ch
   alternate_emails:
-  - guillaume.leclerc.work@gmail.com
+    - guillaume.leclerc.work@gmail.com
   num_commits: 26
   first_commit: 2016-05-12 12:16:15
   github: GuillaumeLeclerc
 - name: Sagar Tewari
   email: sagartewari01@gmail.com
   alternate_emails:
-  - sagartewariym@yahoo.com
+    - sagartewariym@yahoo.com
   num_commits: 33
   first_commit: 2018-06-05 10:51:44
   github: sagartewari01
@@ -181,13 +181,13 @@
 - name: Alexandre Ferland
   email: aferlandqc@gmail.com
   aliases:
-  - admiralobvious
+    - admiralobvious
   num_commits: 4
   first_commit: 2015-03-16 23:33:04
 - name: K.-Michael Aye
   email: kmichael.aye@gmail.com
   alternate_emails:
-  - michaelaye@users.noreply.github.com
+    - michaelaye@users.noreply.github.com
   num_commits: 8
   first_commit: 2015-07-25 03:46:15
   github: michaelaye
@@ -244,7 +244,7 @@
 - name: Bernardas Ališauskas
   email: bernardas.alisauskas@gmail.com
   aliases:
-  - Bernardas
+    - Bernardas
   num_commits: 20
   first_commit: 2016-06-27 09:39:26
   github: Granitosaurus
@@ -255,7 +255,7 @@
 - name: neruok
   email: codywentz@gmail.com
   alternate_emails:
-  - 6155000+neruok@users.noreply.github.com
+    - 6155000+neruok@users.noreply.github.com
   num_commits: 2
   first_commit: 2017-12-19 10:30:09
   github: neruok
@@ -311,7 +311,7 @@
 - name: halloleo
   email: git@halloleo.dot.hailmail.dot.net
   alternate_emails:
-  - halloleo@users.noreply.github.com
+    - halloleo@users.noreply.github.com
   num_commits: 8
   first_commit: 2018-11-06 00:00:27
   github: halloleo
@@ -336,7 +336,7 @@
 - name: Rob Brewer
   email: rwb123@gmail.com
   aliases:
-  - Robert W. Brewer
+    - Robert W. Brewer
   num_commits: 35
   first_commit: 2015-05-08 01:14:26
   github: scopatz
@@ -357,7 +357,7 @@
 - name: Klaus Alexander Seistrup
   email: klaus@seistrup.dk
   alternate_emails:
-  - kseistrup@users.noreply.github.com
+    - kseistrup@users.noreply.github.com
   num_commits: 47
   first_commit: 2015-07-28 13:29:31
   github: kseistrup
@@ -384,7 +384,7 @@
 - name: David Strobach
   email: lalochcz@gmail.com
   aliases:
-  - laloch
+    - laloch
   num_commits: 164
   first_commit: 2018-07-26 13:51:50
   github: laloch
@@ -400,8 +400,8 @@
 - name: Jean-Benoist Leger
   email: jb@leger.tf
   alternate_emails:
-  - jbleger@gertrude
-  - jbleger@hds.utc.fr
+    - jbleger@gertrude
+    - jbleger@hds.utc.fr
   num_commits: 53
   first_commit: 2017-01-01 19:27:34
 - name: Nigel Tea
@@ -412,9 +412,9 @@
 - name: JohnLunzer
   email: lunzer@gmail.com
   aliases:
-  - jlunz
+    - jlunz
   alternate_emails:
-  - lunz8748@usroc1miniwaas.corp.exelisinc.com
+    - lunz8748@usroc1miniwaas.corp.exelisinc.com
   num_commits: 18
   first_commit: 2016-05-25 15:01:30
 - name: Qiushi Pan
@@ -429,7 +429,7 @@
 - name: Frank Sachsenheim
   email: funkyfuture@riseup.net
   alternate_emails:
-  - funkyfuture@users.noreply.github.com
+    - funkyfuture@users.noreply.github.com
   num_commits: 14
   first_commit: 2016-05-15 06:55:38
   github: funkyfuture
@@ -529,14 +529,14 @@
 - name: Andre Weltsch
   email: andre.t.weltsch@campus.tu-berlin.de
   alternate_emails:
-  - andre@weltsch.de
+    - andre@weltsch.de
   num_commits: 6
   first_commit: 2017-01-16 16:38:45
   github: aweltsch
 - name: yuqing
   email: waywardson@126.com
   alternate_emails:
-  - yuqing@cmcm.com
+    - yuqing@cmcm.com
   num_commits: 3
   first_commit: 2016-05-13 02:42:19
   github: tsingakbar
@@ -642,7 +642,7 @@
 - name: Nathan Goldbaum
   email: ngoldbau@illinois.edu
   alternate_emails:
-  - goldbaum@ucolick.org
+    - goldbaum@ucolick.org
   num_commits: 6
   first_commit: 2015-05-16 22:01:01
   github: ngoldbaum
@@ -654,9 +654,9 @@
 - name: Raphael Das Gupta
   email: raphael.das.gupta@hsr.ch
   alternate_emails:
-  - git@raphael.dasgupta.ch
+    - git@raphael.dasgupta.ch
   aliases:
-  - Raphael Borun Das Gupta
+    - Raphael Borun Das Gupta
   num_commits: 12
   first_commit: 2017-01-03 06:56:44
 - name: Andrei
@@ -675,7 +675,7 @@
 - name: Paul Barton
   email: pablo.barton@gmail.com
   aliases:
-  - Pablo Barton
+    - Pablo Barton
   num_commits: 4
   first_commit: 2015-03-17 09:46:52
   github: SavinaRoja
@@ -726,9 +726,9 @@
 - name: Michał Zając
   email: emzajac@gmail.com
   alternate_emails:
-  - michal.zajac@swmansion.com
+    - michal.zajac@swmansion.com
   aliases:
-  - zajaczajac
+    - zajaczajac
   num_commits: 2
   first_commit: 2015-05-05 10:03:01
 - name: 74th
@@ -835,9 +835,9 @@
 - name: Adam Hartz
   email: hartz@mit.edu
   aliases:
-  - adam j hartz
+    - adam j hartz
   alternate_emails:
-  - hartz@mit.edu
+    - hartz@mit.edu
   num_commits: 1490
   first_commit: 2015-03-13 20:16:28
   github: adqm
@@ -959,7 +959,7 @@
   first_commit: 2016-06-26 16:48:47
   github: bobhy
   alternate_emails:
-  - bob.hyman@gmail.com
+    - bob.hyman@gmail.com
 - name: Fabien Dubosson
   email: fabien.dubosson@gmail.com
   num_commits: 4
@@ -997,7 +997,7 @@
 - name: Andrés García García
   email: a.garcia230395@gmail.com
   aliases:
-  - Ad115
+    - Ad115
   num_commits: 4
   github: Ad115
   first_commit: 2019-05-06 14:17:57
@@ -1013,7 +1013,7 @@
 - name: Eddie Peters
   email: edward.paul.peters@gmail.com
   alternate_emails:
-  - eddie@dinogalactic.com
+    - eddie@dinogalactic.com
   num_commits: 3
   first_commit: 2019-05-10 06:18:40
   github: eppeters
@@ -1029,7 +1029,7 @@
 - name: Ke Zhang
   email: kezhang@bnl.gov
   aliases:
-  - ke-zhang-rd
+    - ke-zhang-rd
   num_commits: 2
   first_commit: 2019-07-13 15:02:41
 - name: Daniel Smith
@@ -1098,20 +1098,20 @@
 - name: Mike Crowe
   email: drmikecrowe@gmail.com
   aliases:
-  - drmikecrowe
+    - drmikecrowe
   num_commits: 6
   first_commit: 2020-01-28 09:44:58
   github: drmikecrowe
 - name: anki-code
   email: anki-code@users.noreply.github.com
   alternate_emails:
-  - anki-code
-  - aaa@aaa.aaa
-  - 1@1.1
+    - anki-code
+    - aaa@aaa.aaa
+    - 1@1.1
   aliases:
-  - Andy Kipp
-  - Andy Kirby
-  - a
+    - Andy Kipp
+    - Andy Kirby
+    - a
   num_commits: 103
   first_commit: 2019-10-15 18:20:58
   github: xxh
@@ -1298,9 +1298,9 @@
   num_commits: 1
   first_commit: 2021-04-26 22:41:54
 - name: Peter Ye
-  email: 46109467+yaxollum@users.noreply.github.com
+  email: 46109467+yacollum@users.noreply.github.com
   alternate_emails:
-  - yaxollum@gmail.com
+    - yacollum@gmail.com
   num_commits: 36
   first_commit: 2021-06-11 14:11:19
 - name: Walter A. Boring IV
@@ -1330,7 +1330,7 @@
 - name: Vasilis Gerakaris
   email: vasilis.gerakaris@navarino.gr
   alternate_emails:
-  - vgerak@gmail.com
+    - vgerak@gmail.com
   num_commits: 6
   first_commit: 2021-10-14 17:00:39
 - name: Samuel Dion-Girardeau
@@ -1436,7 +1436,7 @@
 - name: Stefano Rivera
   email: github@rivera.za.net
   alternate_emails:
-  - stefano@rivera.za.net
+    - stefano@rivera.za.net
   num_commits: 4
   first_commit: 2022-05-08 00:26:57
 - name: dependabot[bot]

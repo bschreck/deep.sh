@@ -1,11 +1,11 @@
 import os
 import tempfile
 
-from xonsh.api.os import indir, rmtree
+from deepsh.api.os import indir, rmtree
 
 import pytest
 
-from xonsh.pytest.tools import ON_WINDOWS
+from deepsh.pytest.tools import ON_WINDOWS
 
 
 def test_indir():

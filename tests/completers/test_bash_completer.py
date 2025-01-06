@@ -1,13 +1,13 @@
 import pytest
 
-from xonsh.completers.bash import complete_from_bash
-from xonsh.completers.tools import RichCompletion
-from xonsh.parsers.completion_context import (
+from deepsh.completers.bash import complete_from_bash
+from deepsh.completers.tools import RichCompletion
+from deepsh.parsers.completion_context import (
     CommandArg,
     CommandContext,
     CompletionContext,
 )
-from xonsh.pytest.tools import skip_if_on_darwin, skip_if_on_windows
+from deepsh.pytest.tools import skip_if_on_darwin, skip_if_on_windows
 
 
 @pytest.fixture(autouse=True)

@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from xonsh.aliases import Aliases, ExecAlias, run_alias_by_params
+from deepsh.aliases import Aliases, ExecAlias, run_alias_by_params
 
 
 def cd(args, stdin=None):
@@ -60,7 +60,7 @@ def test_eval_callable(xession):
     assert isinstance(resolved[1], str)
 
 
-def test_eval_recursive_callable_partial(xonsh_execer, xession):
+def test_eval_recursive_callable_partial(deepsh_execer, xession):
     ales = make_aliases()
     xession.env["HOME"] = os.path.expanduser("~")
     assert ales.get(["indirect_cd", "arg2", "arg3"])[1:] == ["..", "arg2", "arg3"]
@@ -213,8 +213,8 @@ def test_exec_alias_args(xession):
     "exp_rtn",
     [0, 1, 2],
 )
-def test_exec_alias_return_value(exp_rtn, xonsh_session, monkeypatch):
-    monkeypatch.setitem(xonsh_session.env, "RAISE_SUBPROC_ERROR", False)
+def test_exec_alias_return_value(exp_rtn, deepsh_session, monkeypatch):
+    monkeypatch.setitem(deepsh_session.env, "RAISE_SUBPROC_ERROR", False)
     stack = inspect.stack()
     rtn = ExecAlias(f"{sys.executable} -c 'exit({exp_rtn})'")([], stack=stack)
     assert rtn == exp_rtn

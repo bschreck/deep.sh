@@ -5,7 +5,7 @@ Quotes
 
 .. epigraph::
 
-    “Just stumbled across xonsh by @scopatz -- holy cow it's amazing.  I've never
+    “Just stumbled across deepsh by @scopatz -- holy cow it's amazing.  I've never
     been so happy to rewrite a .rc file”
 
 
@@ -13,7 +13,7 @@ Quotes
 
 .. epigraph::
 
-    “I've tweeted about Xonsh before, and finally spent a day using it
+    “I've tweeted about Deepsh before, and finally spent a day using it
     exclusively. I must have it on ALL PLATFORMS now.”
 
 `@biochemistries <https://twitter.com/biochemistries>`_ **says,**
@@ -21,5 +21,5 @@ Quotes
 .. epigraph::
 
     “@pathogenomenick @btnaughton @lexnederbragt the dark wizardry of @scopatz :-)
-    check out xon.sh”
+    check out con.sh”
 

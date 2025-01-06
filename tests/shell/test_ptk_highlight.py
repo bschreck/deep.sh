@@ -1,4 +1,4 @@
-"""Test XonshLexer for pygments"""
+"""Test DeepshLexer for pygments"""
 
 import pytest
 from pygments.token import (
@@ -13,10 +13,10 @@ from pygments.token import (
     Text,
 )
 
-from xonsh.environ import LsColors
-from xonsh.events import EventManager, events
-from xonsh.pyghooks import Color, XonshLexer, XonshStyle, on_lscolors_change
-from xonsh.pytest.tools import DummyShell, skip_if_on_windows
+from deepsh.environ import LsColors
+from deepsh.events import EventManager, events
+from deepsh.pyghooks import Color, DeepshLexer, DeepshStyle, on_lscolors_change
+from deepsh.pytest.tools import DummyShell, skip_if_on_windows
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def xsh(xession, monkeypatch):
 def check_token(xsh):
     def factory(code, tokens):
         """Make sure that all tokens appears in code in order"""
-        lx = XonshLexer()
+        lx = DeepshLexer()
         tks = list(lx.get_tokens(code))
 
         for tk in tokens:
@@ -213,13 +213,13 @@ def _convert_cases_no_win():
 
 
 @pytest.mark.parametrize("inp, expected", list(_convert_cases()))
-def test_xonsh_lexer(inp, expected, check_token):
+def test_deepsh_lexer(inp, expected, check_token):
     check_token(inp, expected)
 
 
 @pytest.mark.parametrize("inp, expected", list(_convert_cases_no_win()))
 @skip_if_on_windows
-def test_xonsh_lexer_no_win(inp, expected, check_token):
+def test_deepsh_lexer_no_win(inp, expected, check_token):
     check_token(inp, expected)
 
 
@@ -231,12 +231,12 @@ def events_fxt():
 
 
 @pytest.fixture
-def xonsh_builtins_ls_colors(xession, events_fxt):
+def deepsh_builtins_ls_colors(xession, events_fxt):
     xession.shell = DummyShell()  # because load_command_cache zaps it.
     xession.shell.shell_type = "prompt_toolkit"
     lsc = LsColors(LsColors.default_settings)
     xession.env["LS_COLORS"] = lsc  # establish LS_COLORS before style.
-    xession.shell.shell.styler = XonshStyle()  # default style
+    xession.shell.shell.styler = DeepshStyle()  # default style
 
     events.on_lscolors_change(on_lscolors_change)
 
@@ -244,8 +244,8 @@ def xonsh_builtins_ls_colors(xession, events_fxt):
 
 
 @skip_if_on_windows
-def test_path(tmpdir, xonsh_builtins_ls_colors, check_token):
-    test_dir = str(tmpdir.mkdir("xonsh-test-highlight-path"))
+def test_path(tmpdir, deepsh_builtins_ls_colors, check_token):
+    test_dir = str(tmpdir.mkdir("deepsh-test-highlight-path"))
     check_token(f"cd {test_dir}", [(Name.Builtin, "cd"), (Color.BOLD_BLUE, test_dir)])
     check_token(
         f"cd {test_dir}-xxx",
@@ -253,16 +253,16 @@ def test_path(tmpdir, xonsh_builtins_ls_colors, check_token):
     )
     check_token(f"cd X={test_dir}", [(Color.BOLD_BLUE, test_dir)])
 
-    with xonsh_builtins_ls_colors.env.swap(AUTO_CD=True):
+    with deepsh_builtins_ls_colors.env.swap(AUTO_CD=True):
         check_token(test_dir, [(Name.Constant, test_dir)])
 
 
 @skip_if_on_windows
-def test_color_on_lscolors_change(tmpdir, xonsh_builtins_ls_colors, check_token):
+def test_color_on_lscolors_change(tmpdir, deepsh_builtins_ls_colors, check_token):
     """Verify colorizer returns Token.Text if file type not defined in LS_COLORS"""
 
-    lsc = xonsh_builtins_ls_colors.env["LS_COLORS"]
-    test_dir = str(tmpdir.mkdir("xonsh-test-highlight-path"))
+    lsc = deepsh_builtins_ls_colors.env["LS_COLORS"]
+    test_dir = str(tmpdir.mkdir("deepsh-test-highlight-path"))
 
     lsc["di"] = ("GREEN",)
 

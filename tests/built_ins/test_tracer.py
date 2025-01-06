@@ -2,8 +2,8 @@ import re
 
 import pytest
 
-from xonsh.procs.specs import cmds_to_specs
-from xonsh.tracer import tracermain
+from deepsh.procs.specs import cmds_to_specs
+from deepsh.tracer import tracermain
 
 
 def test_tracer_help(capsys, xsh_with_aliases):

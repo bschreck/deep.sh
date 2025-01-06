@@ -1,4 +1,4 @@
-"""Tests the xonsh parser."""
+"""Tests the deepsh parser."""
 
 import ast
 import itertools
@@ -6,10 +6,10 @@ import textwrap
 
 import pytest
 
-from xonsh.parser import Parser
-from xonsh.parsers.ast import AST, Call, Pass, With, is_const_str
-from xonsh.parsers.fstring_adaptor import FStringAdaptor
-from xonsh.pytest.tools import (
+from deepsh.parser import Parser
+from deepsh.parsers.ast import AST, Call, Pass, With, is_const_str
+from deepsh.parsers.fstring_adaptor import FStringAdaptor
+from deepsh.pytest.tools import (
     ON_WINDOWS,
     VER_MAJOR_MINOR,
     nodes_equal,
@@ -35,11 +35,11 @@ def check_ast(parser, xsh):
         __tracebackhide__ = True
         # expect a Python AST
         exp = ast.parse(inp, mode=mode)
-        # observe something from xonsh
+        # observe something from deepsh
         obs = parser.parse(inp, debug_level=debug_level)
         # Check that they are equal
         assert nodes_equal(exp, obs)
-        # round trip by running xonsh AST via Python
+        # round trip by running deepsh AST via Python
         if run:
             exec(compile(obs, "<test-ast>", mode))
 
@@ -58,7 +58,7 @@ def check_stmts(check_ast):
 
 
 @pytest.fixture
-def check_xonsh_ast(xsh, parser):
+def check_deepsh_ast(xsh, parser):
     def factory(
         xenv,
         inp,
@@ -73,7 +73,7 @@ def check_xonsh_ast(xsh, parser):
         obs = parser.parse(inp, debug_level=debug_level)
         if obs is None:
             return  # comment only
-        bytecode = compile(obs, "<test-xonsh-ast>", mode)
+        bytecode = compile(obs, "<test-deepsh-ast>", mode)
         if run:
             exec(bytecode, globals, locals)
         return obs if return_obs else True
@@ -82,12 +82,12 @@ def check_xonsh_ast(xsh, parser):
 
 
 @pytest.fixture
-def check_xonsh(check_xonsh_ast):
+def check_deepsh(check_deepsh_ast):
     def factory(xenv, inp, run=True, mode="exec"):
         __tracebackhide__ = True
         if not inp.endswith("\n"):
             inp += "\n"
-        check_xonsh_ast(xenv, inp, run=run, mode=mode)
+        check_deepsh_ast(xenv, inp, run=run, mode=mode)
 
     return factory
 
@@ -96,7 +96,7 @@ def check_xonsh(check_xonsh_ast):
 def eval_code(parser, xsh):
     def factory(inp, mode="eval", **loc_vars):
         obs = parser.parse(inp, debug_level=1)
-        bytecode = compile(obs, "<test-xonsh-ast>", mode)
+        bytecode = compile(obs, "<test-deepsh-ast>", mode)
         return eval(bytecode, loc_vars)
 
     return factory
@@ -169,12 +169,12 @@ def test_string_literal_concat(first_prefix, second_prefix, check_ast):
     )
 
 
-def test_f_env_var(check_xonsh_ast):
+def test_f_env_var(check_deepsh_ast):
     if VER_MAJOR_MINOR > (3, 11):
         pytest.xfail("f-string with special syntax are not supported yet")
-    check_xonsh_ast({}, 'f"{$HOME}"', run=False)
-    check_xonsh_ast({}, "f'{$XONSH_DEBUG}'", run=False)
-    check_xonsh_ast({}, 'F"{$PATH} and {$XONSH_DEBUG}"', run=False)
+    check_deepsh_ast({}, 'f"{$HOME}"', run=False)
+    check_deepsh_ast({}, "f'{$DEEPSH_DEBUG}'", run=False)
+    check_deepsh_ast({}, 'F"{$PATH} and {$DEEPSH_DEBUG}"', run=False)
 
 
 fstring_adaptor_parameters = [
@@ -1274,19 +1274,19 @@ def test_pipe_op_three(check_ast):
     check_ast("{42} | {65} | {1} | {7}")
 
 
-def test_xor_op(check_ast):
+def test_cor_op(check_ast):
     check_ast("{42} ^ {65}")
 
 
-def test_xor_op_two(check_ast):
+def test_cor_op_two(check_ast):
     check_ast("{42} ^ {65} ^ {1}")
 
 
-def test_xor_op_three(check_ast):
+def test_cor_op_three(check_ast):
     check_ast("{42} ^ {65} ^ {1} ^ {7}")
 
 
-def test_xor_pipe(check_ast):
+def test_cor_pipe(check_ast):
     check_ast("{42} ^ {65} | {1}")
 
 
@@ -1401,7 +1401,7 @@ def test_mod_eq(check_stmts):
     check_stmts("x = 42; x %= 2")
 
 
-def test_xor_eq(check_stmts):
+def test_cor_eq(check_stmts):
     check_stmts("x = 42; x ^= 2")
 
 
@@ -2195,73 +2195,73 @@ def test_named_expr_while(check_stmts):
 
 
 #
-# Xonsh specific syntax
+# Deepsh specific syntax
 #
 
 
-def test_path_literal(check_xonsh_ast):
-    check_xonsh_ast({}, 'p"/foo"', False)
-    check_xonsh_ast({}, 'pr"/foo"', False)
-    check_xonsh_ast({}, 'rp"/foo"', False)
-    check_xonsh_ast({}, 'pR"/foo"', False)
-    check_xonsh_ast({}, 'Rp"/foo"', False)
+def test_path_literal(check_deepsh_ast):
+    check_deepsh_ast({}, 'p"/foo"', False)
+    check_deepsh_ast({}, 'pr"/foo"', False)
+    check_deepsh_ast({}, 'rp"/foo"', False)
+    check_deepsh_ast({}, 'pR"/foo"', False)
+    check_deepsh_ast({}, 'Rp"/foo"', False)
 
 
-def test_path_fstring_literal(check_xonsh_ast):
-    check_xonsh_ast({}, 'pf"/foo"', False)
-    check_xonsh_ast({}, 'fp"/foo"', False)
-    check_xonsh_ast({}, 'pF"/foo"', False)
-    check_xonsh_ast({}, 'Fp"/foo"', False)
-    check_xonsh_ast({}, 'pf"/foo{1+1}"', False)
-    check_xonsh_ast({}, 'fp"/foo{1+1}"', False)
-    check_xonsh_ast({}, 'pF"/foo{1+1}"', False)
-    check_xonsh_ast({}, 'Fp"/foo{1+1}"', False)
+def test_path_fstring_literal(check_deepsh_ast):
+    check_deepsh_ast({}, 'pf"/foo"', False)
+    check_deepsh_ast({}, 'fp"/foo"', False)
+    check_deepsh_ast({}, 'pF"/foo"', False)
+    check_deepsh_ast({}, 'Fp"/foo"', False)
+    check_deepsh_ast({}, 'pf"/foo{1+1}"', False)
+    check_deepsh_ast({}, 'fp"/foo{1+1}"', False)
+    check_deepsh_ast({}, 'pF"/foo{1+1}"', False)
+    check_deepsh_ast({}, 'Fp"/foo{1+1}"', False)
 
 
 @pytest.mark.parametrize(
     "first_prefix, second_prefix",
     itertools.product(["p", "pf", "pr"], repeat=2),
 )
-def test_path_literal_concat(first_prefix, second_prefix, check_xonsh_ast):
-    check_xonsh_ast(
+def test_path_literal_concat(first_prefix, second_prefix, check_deepsh_ast):
+    check_deepsh_ast(
         {}, first_prefix + r"'11{a}22\n'" + " " + second_prefix + r"'33{b}44\n'", False
     )
 
 
-def test_dollar_name(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": 42}, "$WAKKA")
+def test_dollar_name(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": 42}, "$WAKKA")
 
 
-def test_dollar_py(check_xonsh):
-    check_xonsh({"WAKKA": 42}, 'x = "WAKKA"; y = ${x}')
+def test_dollar_py(check_deepsh):
+    check_deepsh({"WAKKA": 42}, 'x = "WAKKA"; y = ${x}')
 
 
-def test_dollar_py_test(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": 42}, '${None or "WAKKA"}')
+def test_dollar_py_test(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": 42}, '${None or "WAKKA"}')
 
 
-def test_dollar_py_recursive_name(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": 42, "JAWAKA": "WAKKA"}, "${$JAWAKA}")
+def test_dollar_py_recursive_name(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": 42, "JAWAKA": "WAKKA"}, "${$JAWAKA}")
 
 
-def test_dollar_py_test_recursive_name(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": 42, "JAWAKA": "WAKKA"}, "${None or $JAWAKA}")
+def test_dollar_py_test_recursive_name(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": 42, "JAWAKA": "WAKKA"}, "${None or $JAWAKA}")
 
 
-def test_dollar_py_test_recursive_test(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": 42, "JAWAKA": "WAKKA"}, '${${"JAWA" + $JAWAKA[-2:]}}')
+def test_dollar_py_test_recursive_test(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": 42, "JAWAKA": "WAKKA"}, '${${"JAWA" + $JAWAKA[-2:]}}')
 
 
-def test_dollar_name_set(check_xonsh):
-    check_xonsh({"WAKKA": 42}, "$WAKKA = 42")
+def test_dollar_name_set(check_deepsh):
+    check_deepsh({"WAKKA": 42}, "$WAKKA = 42")
 
 
-def test_dollar_py_set(check_xonsh):
-    check_xonsh({"WAKKA": 42}, 'x = "WAKKA"; ${x} = 65')
+def test_dollar_py_set(check_deepsh):
+    check_deepsh({"WAKKA": 42}, 'x = "WAKKA"; ${x} = 65')
 
 
-def test_dollar_sub(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls)", False)
+def test_dollar_sub(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls)", False)
 
 
 @pytest.mark.parametrize(
@@ -2272,70 +2272,70 @@ def test_dollar_sub(check_xonsh_ast):
         "$( ls )",
     ],
 )
-def test_dollar_sub_space(expr, check_xonsh_ast):
-    check_xonsh_ast({}, expr, False)
+def test_dollar_sub_space(expr, check_deepsh_ast):
+    check_deepsh_ast({}, expr, False)
 
 
-def test_ls_dot(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls .)", False)
+def test_ls_dot(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls .)", False)
 
 
-def test_lambda_in_atparens(check_xonsh_ast):
-    check_xonsh_ast(
+def test_lambda_in_atparens(check_deepsh_ast):
+    check_deepsh_ast(
         {}, '$(echo hello | @(lambda a, s=None: "hey!") foo bar baz)', False
     )
 
 
-def test_generator_in_atparens(check_xonsh_ast):
-    check_xonsh_ast({}, "$(echo @(i**2 for i in range(20)))", False)
+def test_generator_in_atparens(check_deepsh_ast):
+    check_deepsh_ast({}, "$(echo @(i**2 for i in range(20)))", False)
 
 
-def test_bare_tuple_in_atparens(check_xonsh_ast):
-    check_xonsh_ast({}, '$(echo @("a", 7))', False)
+def test_bare_tuple_in_atparens(check_deepsh_ast):
+    check_deepsh_ast({}, '$(echo @("a", 7))', False)
 
 
-def test_nested_madness(check_xonsh_ast):
-    check_xonsh_ast(
+def test_nested_madness(check_deepsh_ast):
+    check_deepsh_ast(
         {},
         "$(@$(which echo) ls | @(lambda a, s=None: $(@(s.strip()) @(a[1]))) foo -la baz)",
         False,
     )
 
 
-def test_atparens_intoken(check_xonsh_ast):
-    check_xonsh_ast({}, "![echo /x/@(y)/z]", False)
+def test_atparens_intoken(check_deepsh_ast):
+    check_deepsh_ast({}, "![echo /x/@(y)/z]", False)
 
 
-def test_ls_dot_nesting(check_xonsh_ast):
-    check_xonsh_ast({}, '$(ls @(None or "."))', False)
+def test_ls_dot_nesting(check_deepsh_ast):
+    check_deepsh_ast({}, '$(ls @(None or "."))', False)
 
 
-def test_ls_dot_nesting_var(check_xonsh):
-    check_xonsh({}, 'x = "."; $(ls @(None or x))', False)
+def test_ls_dot_nesting_var(check_deepsh):
+    check_deepsh({}, 'x = "."; $(ls @(None or x))', False)
 
 
-def test_ls_dot_str(check_xonsh_ast):
-    check_xonsh_ast({}, '$(ls ".")', False)
+def test_ls_dot_str(check_deepsh_ast):
+    check_deepsh_ast({}, '$(ls ".")', False)
 
 
-def test_ls_nest_ls(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls $(ls))", False)
+def test_ls_nest_ls(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls $(ls))", False)
 
 
-def test_ls_nest_ls_dashl(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls $(ls) -l)", False)
+def test_ls_nest_ls_dashl(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls $(ls) -l)", False)
 
 
-def test_ls_envvar_strval(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": "."}, "$(ls $WAKKA)", False)
+def test_ls_envvar_strval(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": "."}, "$(ls $WAKKA)", False)
 
 
-def test_ls_envvar_listval(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": [".", "."]}, "$(ls $WAKKA)", False)
+def test_ls_envvar_listval(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": [".", "."]}, "$(ls $WAKKA)", False)
 
 
-def test_bang_sub(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls)", False)
+def test_bang_sub(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls)", False)
 
 
 @pytest.mark.parametrize(
@@ -2346,186 +2346,186 @@ def test_bang_sub(check_xonsh_ast):
         "!( ls )",
     ],
 )
-def test_bang_sub_space(expr, check_xonsh_ast):
-    check_xonsh_ast({}, expr, False)
+def test_bang_sub_space(expr, check_deepsh_ast):
+    check_deepsh_ast({}, expr, False)
 
 
-def test_bang_ls_dot(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls .)", False)
+def test_bang_ls_dot(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls .)", False)
 
 
-def test_bang_ls_dot_nesting(check_xonsh_ast):
-    check_xonsh_ast({}, '!(ls @(None or "."))', False)
+def test_bang_ls_dot_nesting(check_deepsh_ast):
+    check_deepsh_ast({}, '!(ls @(None or "."))', False)
 
 
-def test_bang_ls_dot_nesting_var(check_xonsh):
-    check_xonsh({}, 'x = "."; !(ls @(None or x))', False)
+def test_bang_ls_dot_nesting_var(check_deepsh):
+    check_deepsh({}, 'x = "."; !(ls @(None or x))', False)
 
 
-def test_bang_ls_dot_str(check_xonsh_ast):
-    check_xonsh_ast({}, '!(ls ".")', False)
+def test_bang_ls_dot_str(check_deepsh_ast):
+    check_deepsh_ast({}, '!(ls ".")', False)
 
 
-def test_bang_ls_nest_ls(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls $(ls))", False)
+def test_bang_ls_nest_ls(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls $(ls))", False)
 
 
-def test_bang_ls_nest_ls_dashl(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls $(ls) -l)", False)
+def test_bang_ls_nest_ls_dashl(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls $(ls) -l)", False)
 
 
-def test_bang_ls_envvar_strval(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": "."}, "!(ls $WAKKA)", False)
+def test_bang_ls_envvar_strval(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": "."}, "!(ls $WAKKA)", False)
 
 
-def test_bang_ls_envvar_listval(check_xonsh_ast):
-    check_xonsh_ast({"WAKKA": [".", "."]}, "!(ls $WAKKA)", False)
+def test_bang_ls_envvar_listval(check_deepsh_ast):
+    check_deepsh_ast({"WAKKA": [".", "."]}, "!(ls $WAKKA)", False)
 
 
-def test_bang_envvar_args(check_xonsh_ast):
-    check_xonsh_ast({"LS": "ls"}, "!($LS .)", False)
+def test_bang_envvar_args(check_deepsh_ast):
+    check_deepsh_ast({"LS": "ls"}, "!($LS .)", False)
 
 
-def test_question(check_xonsh_ast):
-    check_xonsh_ast({}, "range?")
+def test_question(check_deepsh_ast):
+    check_deepsh_ast({}, "range?")
 
 
-def test_dobquestion(check_xonsh_ast):
-    check_xonsh_ast({}, "range??")
+def test_dobquestion(check_deepsh_ast):
+    check_deepsh_ast({}, "range??")
 
 
-def test_question_chain(check_xonsh_ast):
-    check_xonsh_ast({}, "range?.index?")
+def test_question_chain(check_deepsh_ast):
+    check_deepsh_ast({}, "range?.index?")
 
 
-def test_ls_regex(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls `[Ff]+i*LE` -l)", False)
+def test_ls_regex(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls `[Ff]+i*LE` -l)", False)
 
 
 @pytest.mark.parametrize("p", ["", "p"])
 @pytest.mark.parametrize("f", ["", "f"])
 @pytest.mark.parametrize("glob_type", ["", "r", "g"])
-def test_backtick(p, f, glob_type, check_xonsh_ast):
-    check_xonsh_ast({}, f"print({p}{f}{glob_type}`.*`)", False)
+def test_backtick(p, f, glob_type, check_deepsh_ast):
+    check_deepsh_ast({}, f"print({p}{f}{glob_type}`.*`)", False)
 
 
-def test_ls_regex_octothorpe(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls `#[Ff]+i*LE` -l)", False)
+def test_ls_regex_octothorpe(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls `#[Ff]+i*LE` -l)", False)
 
 
-def test_ls_explicitregex(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls r`[Ff]+i*LE` -l)", False)
+def test_ls_explicitregex(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls r`[Ff]+i*LE` -l)", False)
 
 
-def test_ls_explicitregex_octothorpe(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls r`#[Ff]+i*LE` -l)", False)
+def test_ls_explicitregex_octothorpe(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls r`#[Ff]+i*LE` -l)", False)
 
 
-def test_ls_glob(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls g`[Ff]+i*LE` -l)", False)
+def test_ls_glob(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls g`[Ff]+i*LE` -l)", False)
 
 
-def test_ls_glob_octothorpe(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls g`#[Ff]+i*LE` -l)", False)
+def test_ls_glob_octothorpe(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls g`#[Ff]+i*LE` -l)", False)
 
 
-def test_ls_customsearch(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls @foo`[Ff]+i*LE` -l)", False)
+def test_ls_customsearch(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls @foo`[Ff]+i*LE` -l)", False)
 
 
-def test_custombacktick(check_xonsh_ast):
-    check_xonsh_ast({}, "print(@foo`.*`)", False)
+def test_custombacktick(check_deepsh_ast):
+    check_deepsh_ast({}, "print(@foo`.*`)", False)
 
 
-def test_ls_customsearch_octothorpe(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls @foo`#[Ff]+i*LE` -l)", False)
+def test_ls_customsearch_octothorpe(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls @foo`#[Ff]+i*LE` -l)", False)
 
 
-def test_injection(check_xonsh_ast):
-    check_xonsh_ast({}, "$[@$(which python)]", False)
+def test_injection(check_deepsh_ast):
+    check_deepsh_ast({}, "$[@$(which python)]", False)
 
 
-def test_rhs_nested_injection(check_xonsh_ast):
-    check_xonsh_ast({}, "$[ls @$(dirname @$(which python))]", False)
+def test_rhs_nested_injection(check_deepsh_ast):
+    check_deepsh_ast({}, "$[ls @$(dirname @$(which python))]", False)
 
 
-def test_merged_injection(check_xonsh_ast):
-    tree = check_xonsh_ast({}, "![a@$(echo 1 2)b]", False, return_obs=True)
+def test_merged_injection(check_deepsh_ast):
+    tree = check_deepsh_ast({}, "![a@$(echo 1 2)b]", False, return_obs=True)
     assert isinstance(tree, AST)
     func = tree.body.args[0].right.func
     assert func.attr == "list_of_list_of_strs_outer_product"
 
 
-def test_backtick_octothorpe(check_xonsh_ast):
-    check_xonsh_ast({}, "print(`#.*`)", False)
+def test_backtick_octothorpe(check_deepsh_ast):
+    check_deepsh_ast({}, "print(`#.*`)", False)
 
 
-def test_uncaptured_sub(check_xonsh_ast):
-    check_xonsh_ast({}, "$[ls]", False)
+def test_uncaptured_sub(check_deepsh_ast):
+    check_deepsh_ast({}, "$[ls]", False)
 
 
-def test_hiddenobj_sub(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls]", False)
+def test_hiddenobj_sub(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls]", False)
 
 
-def test_slash_envarv_echo(check_xonsh_ast):
-    check_xonsh_ast({}, "![echo $HOME/place]", False)
+def test_slash_envarv_echo(check_deepsh_ast):
+    check_deepsh_ast({}, "![echo $HOME/place]", False)
 
 
-def test_echo_double_eq(check_xonsh_ast):
-    check_xonsh_ast({}, "![echo yo==yo]", False)
+def test_echo_double_eq(check_deepsh_ast):
+    check_deepsh_ast({}, "![echo yo==yo]", False)
 
 
-def test_bang_two_cmds_one_pipe(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls | grep wakka)", False)
+def test_bang_two_cmds_one_pipe(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls | grep wakka)", False)
 
 
-def test_bang_three_cmds_two_pipes(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls | grep wakka | grep jawaka)", False)
+def test_bang_three_cmds_two_pipes(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls | grep wakka | grep jawaka)", False)
 
 
-def test_bang_one_cmd_write(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls > x.py)", False)
+def test_bang_one_cmd_write(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls > x.py)", False)
 
 
-def test_bang_one_cmd_append(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls >> x.py)", False)
+def test_bang_one_cmd_append(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls >> x.py)", False)
 
 
-def test_bang_two_cmds_write(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls | grep wakka > x.py)", False)
+def test_bang_two_cmds_write(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls | grep wakka > x.py)", False)
 
 
-def test_bang_two_cmds_append(check_xonsh_ast):
-    check_xonsh_ast({}, "!(ls | grep wakka >> x.py)", False)
+def test_bang_two_cmds_append(check_deepsh_ast):
+    check_deepsh_ast({}, "!(ls | grep wakka >> x.py)", False)
 
 
-def test_bang_cmd_background(check_xonsh_ast):
-    check_xonsh_ast({}, "!(emacs ugggh &)", False)
+def test_bang_cmd_background(check_deepsh_ast):
+    check_deepsh_ast({}, "!(emacs ugggh &)", False)
 
 
-def test_bang_cmd_background_nospace(check_xonsh_ast):
-    check_xonsh_ast({}, "!(emacs ugggh&)", False)
+def test_bang_cmd_background_nospace(check_deepsh_ast):
+    check_deepsh_ast({}, "!(emacs ugggh&)", False)
 
 
-def test_bang_git_quotes_no_space(check_xonsh_ast):
-    check_xonsh_ast({}, '![git commit -am "wakka"]', False)
+def test_bang_git_quotes_no_space(check_deepsh_ast):
+    check_deepsh_ast({}, '![git commit -am "wakka"]', False)
 
 
-def test_bang_git_quotes_space(check_xonsh_ast):
-    check_xonsh_ast({}, '![git commit -am "wakka jawaka"]', False)
+def test_bang_git_quotes_space(check_deepsh_ast):
+    check_deepsh_ast({}, '![git commit -am "wakka jawaka"]', False)
 
 
-def test_bang_git_two_quotes_space(check_xonsh):
-    check_xonsh(
+def test_bang_git_two_quotes_space(check_deepsh):
+    check_deepsh(
         {},
         '![git commit -am "wakka jawaka"]\n' '![git commit -am "flock jawaka"]\n',
         False,
     )
 
 
-def test_bang_git_two_quotes_space_space(check_xonsh):
-    check_xonsh(
+def test_bang_git_two_quotes_space_space(check_deepsh):
+    check_deepsh(
         {},
         '![git commit -am "wakka jawaka" ]\n'
         '![git commit -am "flock jawaka milwaka" ]\n',
@@ -2533,92 +2533,92 @@ def test_bang_git_two_quotes_space_space(check_xonsh):
     )
 
 
-def test_bang_ls_quotes_3_space(check_xonsh_ast):
-    check_xonsh_ast({}, '![ls "wakka jawaka baraka"]', False)
+def test_bang_ls_quotes_3_space(check_deepsh_ast):
+    check_deepsh_ast({}, '![ls "wakka jawaka baraka"]', False)
 
 
-def test_two_cmds_one_pipe(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls | grep wakka)", False)
+def test_two_cmds_one_pipe(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls | grep wakka)", False)
 
 
-def test_three_cmds_two_pipes(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls | grep wakka | grep jawaka)", False)
+def test_three_cmds_two_pipes(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls | grep wakka | grep jawaka)", False)
 
 
-def test_two_cmds_one_and_brackets(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls me] and ![grep wakka]", False)
+def test_two_cmds_one_and_brackets(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls me] and ![grep wakka]", False)
 
 
-def test_three_cmds_two_ands(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] and ![grep wakka] and ![grep jawaka]", False)
+def test_three_cmds_two_ands(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] and ![grep wakka] and ![grep jawaka]", False)
 
 
-def test_two_cmds_one_doubleamps(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] && ![grep wakka]", False)
+def test_two_cmds_one_doubleamps(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] && ![grep wakka]", False)
 
 
-def test_three_cmds_two_doubleamps(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] && ![grep wakka] && ![grep jawaka]", False)
+def test_three_cmds_two_doubleamps(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] && ![grep wakka] && ![grep jawaka]", False)
 
 
-def test_two_cmds_one_or(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] or ![grep wakka]", False)
+def test_two_cmds_one_or(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] or ![grep wakka]", False)
 
 
-def test_three_cmds_two_ors(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] or ![grep wakka] or ![grep jawaka]", False)
+def test_three_cmds_two_ors(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] or ![grep wakka] or ![grep jawaka]", False)
 
 
-def test_two_cmds_one_doublepipe(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] || ![grep wakka]", False)
+def test_two_cmds_one_doublepipe(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] || ![grep wakka]", False)
 
 
-def test_three_cmds_two_doublepipe(check_xonsh_ast):
-    check_xonsh_ast({}, "![ls] || ![grep wakka] || ![grep jawaka]", False)
+def test_three_cmds_two_doublepipe(check_deepsh_ast):
+    check_deepsh_ast({}, "![ls] || ![grep wakka] || ![grep jawaka]", False)
 
 
-def test_one_cmd_write(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls > x.py)", False)
+def test_one_cmd_write(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls > x.py)", False)
 
 
-def test_one_cmd_append(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls >> x.py)", False)
+def test_one_cmd_append(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls >> x.py)", False)
 
 
-def test_two_cmds_write(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls | grep wakka > x.py)", False)
+def test_two_cmds_write(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls | grep wakka > x.py)", False)
 
 
-def test_two_cmds_append(check_xonsh_ast):
-    check_xonsh_ast({}, "$(ls | grep wakka >> x.py)", False)
+def test_two_cmds_append(check_deepsh_ast):
+    check_deepsh_ast({}, "$(ls | grep wakka >> x.py)", False)
 
 
-def test_cmd_background(check_xonsh_ast):
-    check_xonsh_ast({}, "$(emacs ugggh &)", False)
+def test_cmd_background(check_deepsh_ast):
+    check_deepsh_ast({}, "$(emacs ugggh &)", False)
 
 
-def test_cmd_background_nospace(check_xonsh_ast):
-    check_xonsh_ast({}, "$(emacs ugggh&)", False)
+def test_cmd_background_nospace(check_deepsh_ast):
+    check_deepsh_ast({}, "$(emacs ugggh&)", False)
 
 
-def test_git_quotes_no_space(check_xonsh_ast):
-    check_xonsh_ast({}, '$[git commit -am "wakka"]', False)
+def test_git_quotes_no_space(check_deepsh_ast):
+    check_deepsh_ast({}, '$[git commit -am "wakka"]', False)
 
 
-def test_git_quotes_space(check_xonsh_ast):
-    check_xonsh_ast({}, '$[git commit -am "wakka jawaka"]', False)
+def test_git_quotes_space(check_deepsh_ast):
+    check_deepsh_ast({}, '$[git commit -am "wakka jawaka"]', False)
 
 
-def test_git_two_quotes_space(check_xonsh):
-    check_xonsh(
+def test_git_two_quotes_space(check_deepsh):
+    check_deepsh(
         {},
         '$[git commit -am "wakka jawaka"]\n' '$[git commit -am "flock jawaka"]\n',
         False,
     )
 
 
-def test_git_two_quotes_space_space(check_xonsh):
-    check_xonsh(
+def test_git_two_quotes_space_space(check_deepsh):
+    check_deepsh(
         {},
         '$[git commit -am "wakka jawaka" ]\n'
         '$[git commit -am "flock jawaka milwaka" ]\n',
@@ -2626,28 +2626,28 @@ def test_git_two_quotes_space_space(check_xonsh):
     )
 
 
-def test_ls_quotes_3_space(check_xonsh_ast):
-    check_xonsh_ast({}, '$[ls "wakka jawaka baraka"]', False)
+def test_ls_quotes_3_space(check_deepsh_ast):
+    check_deepsh_ast({}, '$[ls "wakka jawaka baraka"]', False)
 
 
-def test_leading_envvar_assignment(check_xonsh_ast):
-    check_xonsh_ast({}, "![$FOO='foo' $BAR=2 echo r'$BAR']", False)
+def test_leading_envvar_assignment(check_deepsh_ast):
+    check_deepsh_ast({}, "![$FOO='foo' $BAR=2 echo r'$BAR']", False)
 
 
-def test_echo_comma(check_xonsh_ast):
-    check_xonsh_ast({}, "![echo ,]", False)
+def test_echo_comma(check_deepsh_ast):
+    check_deepsh_ast({}, "![echo ,]", False)
 
 
-def test_echo_internal_comma(check_xonsh_ast):
-    check_xonsh_ast({}, "![echo 1,2]", False)
+def test_echo_internal_comma(check_deepsh_ast):
+    check_deepsh_ast({}, "![echo 1,2]", False)
 
 
-def test_comment_only(check_xonsh_ast):
-    check_xonsh_ast({}, "# hello")
+def test_comment_only(check_deepsh_ast):
+    check_deepsh_ast({}, "# hello")
 
 
-def test_echo_slash_question(check_xonsh_ast):
-    check_xonsh_ast({}, "![echo /?]", False)
+def test_echo_slash_question(check_deepsh_ast):
+    check_deepsh_ast({}, "![echo /?]", False)
 
 
 @pytest.mark.parametrize(
@@ -2672,18 +2672,18 @@ def test_echo_slash_question(check_xonsh_ast):
         "[a@([1,2])]@([3,4])",
     ],
 )
-def test_echo_brackets(case, check_xonsh_ast):
-    check_xonsh_ast({}, f"![echo {case}]")
+def test_echo_brackets(case, check_deepsh_ast):
+    check_deepsh_ast({}, f"![echo {case}]")
 
 
-def test_bad_quotes(check_xonsh_ast):
+def test_bad_quotes(check_deepsh_ast):
     with pytest.raises(SyntaxError):
-        check_xonsh_ast({}, '![echo """hello]', False)
+        check_deepsh_ast({}, '![echo """hello]', False)
 
 
-def test_redirect(check_xonsh_ast):
-    assert check_xonsh_ast({}, "$[cat < input.txt]", False)
-    assert check_xonsh_ast({}, "$[< input.txt cat]", False)
+def test_redirect(check_deepsh_ast):
+    assert check_deepsh_ast({}, "$[cat < input.txt]", False)
+    assert check_deepsh_ast({}, "$[< input.txt cat]", False)
 
 
 @pytest.mark.parametrize(
@@ -2697,8 +2697,8 @@ def test_redirect(check_xonsh_ast):
         "![(if True:\n   ls\nelse:\n   echo not true)]",
     ],
 )
-def test_use_subshell(case, check_xonsh_ast):
-    check_xonsh_ast({}, case, False, debug_level=0)
+def test_use_subshell(case, check_deepsh_ast):
+    check_deepsh_ast({}, case, False, debug_level=0)
 
 
 @pytest.mark.parametrize(
@@ -2711,29 +2711,29 @@ def test_use_subshell(case, check_xonsh_ast):
         "![< /path/to/input.txt > /path/to/output.txt]",
     ],
 )
-def test_redirect_abspath(case, check_xonsh_ast):
-    assert check_xonsh_ast({}, case, False)
+def test_redirect_abspath(case, check_deepsh_ast):
+    assert check_deepsh_ast({}, case, False)
 
 
 @pytest.mark.parametrize("case", ["", "o", "out", "1"])
-def test_redirect_output(case, check_xonsh_ast):
-    assert check_xonsh_ast({}, f'$[echo "test" {case}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[< input.txt echo "test" {case}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[echo "test" {case}> test.txt < input.txt]', False)
+def test_redirect_output(case, check_deepsh_ast):
+    assert check_deepsh_ast({}, f'$[echo "test" {case}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[< input.txt echo "test" {case}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[echo "test" {case}> test.txt < input.txt]', False)
 
 
 @pytest.mark.parametrize("case", ["e", "err", "2"])
-def test_redirect_error(case, check_xonsh_ast):
-    assert check_xonsh_ast({}, f'$[echo "test" {case}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[< input.txt echo "test" {case}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[echo "test" {case}> test.txt < input.txt]', False)
+def test_redirect_error(case, check_deepsh_ast):
+    assert check_deepsh_ast({}, f'$[echo "test" {case}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[< input.txt echo "test" {case}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[echo "test" {case}> test.txt < input.txt]', False)
 
 
 @pytest.mark.parametrize("case", ["a", "all", "&"])
-def test_redirect_all(case, check_xonsh_ast):
-    assert check_xonsh_ast({}, f'$[echo "test" {case}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[< input.txt echo "test" {case}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[echo "test" {case}> test.txt < input.txt]', False)
+def test_redirect_all(case, check_deepsh_ast):
+    assert check_deepsh_ast({}, f'$[echo "test" {case}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[< input.txt echo "test" {case}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[echo "test" {case}> test.txt < input.txt]', False)
 
 
 @pytest.mark.parametrize(
@@ -2753,10 +2753,10 @@ def test_redirect_all(case, check_xonsh_ast):
     ],
 )
 @pytest.mark.parametrize("o", ["", "o", "out", "1"])
-def test_redirect_error_to_output(r, o, check_xonsh_ast):
-    assert check_xonsh_ast({}, f'$[echo "test" {r} {o}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[< input.txt echo "test" {r} {o}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[echo "test" {r} {o}> test.txt < input.txt]', False)
+def test_redirect_error_to_output(r, o, check_deepsh_ast):
+    assert check_deepsh_ast({}, f'$[echo "test" {r} {o}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[< input.txt echo "test" {r} {o}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[echo "test" {r} {o}> test.txt < input.txt]', False)
 
 
 @pytest.mark.parametrize(
@@ -2776,14 +2776,14 @@ def test_redirect_error_to_output(r, o, check_xonsh_ast):
     ],
 )
 @pytest.mark.parametrize("e", ["e", "err", "2"])
-def test_redirect_output_to_error(r, e, check_xonsh_ast):
-    assert check_xonsh_ast({}, f'$[echo "test" {r} {e}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[< input.txt echo "test" {r} {e}> test.txt]', False)
-    assert check_xonsh_ast({}, f'$[echo "test" {r} {e}> test.txt < input.txt]', False)
+def test_redirect_output_to_error(r, e, check_deepsh_ast):
+    assert check_deepsh_ast({}, f'$[echo "test" {r} {e}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[< input.txt echo "test" {r} {e}> test.txt]', False)
+    assert check_deepsh_ast({}, f'$[echo "test" {r} {e}> test.txt < input.txt]', False)
 
 
-def test_macro_call_empty(check_xonsh_ast):
-    assert check_xonsh_ast({}, "f!()", False)
+def test_macro_call_empty(check_deepsh_ast):
+    assert check_deepsh_ast({}, "f!()", False)
 
 
 MACRO_ARGS = [
@@ -2815,14 +2815,14 @@ MACRO_ARGS = [
     "$(ls -l)",
     "${x + y}",
     "$[ls -l]",
-    "@$(which xonsh)",
+    "@$(which deepsh)",
 ]
 
 
 @pytest.mark.parametrize("s", MACRO_ARGS)
-def test_macro_call_one_arg(check_xonsh_ast, s):
+def test_macro_call_one_arg(check_deepsh_ast, s):
     f = f"f!({s})"
-    tree = check_xonsh_ast({}, f, False, return_obs=True)
+    tree = check_deepsh_ast({}, f, False, return_obs=True)
     assert isinstance(tree, AST)
     args = tree.body.args[1].elts
     assert len(args) == 1
@@ -2830,9 +2830,9 @@ def test_macro_call_one_arg(check_xonsh_ast, s):
 
 
 @pytest.mark.parametrize("s,t", itertools.product(MACRO_ARGS[::2], MACRO_ARGS[1::2]))
-def test_macro_call_two_args(check_xonsh_ast, s, t):
+def test_macro_call_two_args(check_deepsh_ast, s, t):
     f = f"f!({s}, {t})"
-    tree = check_xonsh_ast({}, f, False, return_obs=True)
+    tree = check_deepsh_ast({}, f, False, return_obs=True)
     assert isinstance(tree, AST)
     args = tree.body.args[1].elts
     assert len(args) == 2
@@ -2843,9 +2843,9 @@ def test_macro_call_two_args(check_xonsh_ast, s, t):
 @pytest.mark.parametrize(
     "s,t,u", itertools.product(MACRO_ARGS[::3], MACRO_ARGS[1::3], MACRO_ARGS[2::3])
 )
-def test_macro_call_three_args(check_xonsh_ast, s, t, u):
+def test_macro_call_three_args(check_deepsh_ast, s, t, u):
     f = f"f!({s}, {t}, {u})"
-    tree = check_xonsh_ast({}, f, False, return_obs=True)
+    tree = check_deepsh_ast({}, f, False, return_obs=True)
     assert isinstance(tree, AST)
     args = tree.body.args[1].elts
     assert len(args) == 3
@@ -2855,9 +2855,9 @@ def test_macro_call_three_args(check_xonsh_ast, s, t, u):
 
 
 @pytest.mark.parametrize("s", MACRO_ARGS)
-def test_macro_call_one_trailing(check_xonsh_ast, s):
+def test_macro_call_one_trailing(check_deepsh_ast, s):
     f = f"f!({s},)"
-    tree = check_xonsh_ast({}, f, False, return_obs=True)
+    tree = check_deepsh_ast({}, f, False, return_obs=True)
     assert isinstance(tree, AST)
     args = tree.body.args[1].elts
     assert len(args) == 1
@@ -2865,9 +2865,9 @@ def test_macro_call_one_trailing(check_xonsh_ast, s):
 
 
 @pytest.mark.parametrize("s", MACRO_ARGS)
-def test_macro_call_one_trailing_space(check_xonsh_ast, s):
+def test_macro_call_one_trailing_space(check_deepsh_ast, s):
     f = f"f!( {s}, )"
-    tree = check_xonsh_ast({}, f, False, return_obs=True)
+    tree = check_deepsh_ast({}, f, False, return_obs=True)
     assert isinstance(tree, AST)
     args = tree.body.args[1].elts
     assert len(args) == 1
@@ -2879,8 +2879,8 @@ SUBPROC_MACRO_OC = [("!(", ")"), ("$(", ")"), ("![", "]"), ("$[", "]")]
 
 @pytest.mark.parametrize("opener, closer", SUBPROC_MACRO_OC)
 @pytest.mark.parametrize("body", ["echo!", "echo !", "echo ! "])
-def test_empty_subprocbang(opener, closer, body, check_xonsh_ast):
-    tree = check_xonsh_ast({}, opener + body + closer, False, return_obs=True)
+def test_empty_subprocbang(opener, closer, body, check_deepsh_ast):
+    tree = check_deepsh_ast({}, opener + body + closer, False, return_obs=True)
     assert isinstance(tree, AST)
     cmd = tree.body.args[0].elts
     assert len(cmd) == 2
@@ -2889,8 +2889,8 @@ def test_empty_subprocbang(opener, closer, body, check_xonsh_ast):
 
 @pytest.mark.parametrize("opener, closer", SUBPROC_MACRO_OC)
 @pytest.mark.parametrize("body", ["echo!x", "echo !x", "echo !x", "echo ! x"])
-def test_single_subprocbang(opener, closer, body, check_xonsh_ast):
-    tree = check_xonsh_ast({}, opener + body + closer, False, return_obs=True)
+def test_single_subprocbang(opener, closer, body, check_deepsh_ast):
+    tree = check_deepsh_ast({}, opener + body + closer, False, return_obs=True)
     assert isinstance(tree, AST)
     cmd = tree.body.args[0].elts
     assert len(cmd) == 2
@@ -2901,8 +2901,8 @@ def test_single_subprocbang(opener, closer, body, check_xonsh_ast):
 @pytest.mark.parametrize(
     "body", ["echo -n!x", "echo -n!x", "echo -n !x", "echo -n ! x"]
 )
-def test_arg_single_subprocbang(opener, closer, body, check_xonsh_ast):
-    tree = check_xonsh_ast({}, opener + body + closer, False, return_obs=True)
+def test_arg_single_subprocbang(opener, closer, body, check_deepsh_ast):
+    tree = check_deepsh_ast({}, opener + body + closer, False, return_obs=True)
     assert isinstance(tree, AST)
     cmd = tree.body.args[0].elts
     assert len(cmd) == 3
@@ -2915,9 +2915,9 @@ def test_arg_single_subprocbang(opener, closer, body, check_xonsh_ast):
     "body", ["echo -n!x", "echo -n!x", "echo -n !x", "echo -n ! x"]
 )
 def test_arg_single_subprocbang_nested(
-    opener, closer, ipener, iloser, body, check_xonsh_ast
+    opener, closer, ipener, iloser, body, check_deepsh_ast
 ):
-    tree = check_xonsh_ast({}, opener + body + closer, False, return_obs=True)
+    tree = check_deepsh_ast({}, opener + body + closer, False, return_obs=True)
     assert isinstance(tree, AST)
     cmd = tree.body.args[0].elts
     assert len(cmd) == 3
@@ -2947,8 +2947,8 @@ def test_arg_single_subprocbang_nested(
         'timeit!"!)"',
     ],
 )
-def test_many_subprocbang(opener, closer, body, check_xonsh_ast):
-    tree = check_xonsh_ast({}, opener + body + closer, False, return_obs=True)
+def test_many_subprocbang(opener, closer, body, check_deepsh_ast):
+    tree = check_deepsh_ast({}, opener + body + closer, False, return_obs=True)
     assert isinstance(tree, AST)
     cmd = tree.body.args[0].elts
     assert len(cmd) == 2
@@ -2976,9 +2976,9 @@ WITH_BANG_RAWSUITES = [
 
 
 @pytest.mark.parametrize("body", WITH_BANG_RAWSUITES)
-def test_withbang_single_suite(body, check_xonsh_ast):
+def test_withbang_single_suite(body, check_deepsh_ast):
     code = "with! x:\n{}".format(textwrap.indent(body, "    "))
-    tree = check_xonsh_ast({}, code, False, return_obs=True, mode="exec")
+    tree = check_deepsh_ast({}, code, False, return_obs=True, mode="exec")
     assert isinstance(tree, AST)
     wither = tree.body[0]
     assert isinstance(wither, With)
@@ -2991,9 +2991,9 @@ def test_withbang_single_suite(body, check_xonsh_ast):
 
 
 @pytest.mark.parametrize("body", WITH_BANG_RAWSUITES)
-def test_withbang_as_single_suite(body, check_xonsh_ast):
+def test_withbang_as_single_suite(body, check_deepsh_ast):
     code = "with! x as y:\n{}".format(textwrap.indent(body, "    "))
-    tree = check_xonsh_ast({}, code, False, return_obs=True, mode="exec")
+    tree = check_deepsh_ast({}, code, False, return_obs=True, mode="exec")
     assert isinstance(tree, AST)
     wither = tree.body[0]
     assert isinstance(wither, With)
@@ -3007,9 +3007,9 @@ def test_withbang_as_single_suite(body, check_xonsh_ast):
 
 
 @pytest.mark.parametrize("body", WITH_BANG_RAWSUITES)
-def test_withbang_single_suite_trailing(body, check_xonsh_ast):
+def test_withbang_single_suite_trailing(body, check_deepsh_ast):
     code = "with! x:\n{}\nprint(x)\n".format(textwrap.indent(body, "    "))
-    tree = check_xonsh_ast(
+    tree = check_deepsh_ast(
         {},
         code,
         False,
@@ -3037,9 +3037,9 @@ WITH_BANG_RAWSIMPLE = [
 
 
 @pytest.mark.parametrize("body", WITH_BANG_RAWSIMPLE)
-def test_withbang_single_simple(body, check_xonsh_ast):
+def test_withbang_single_simple(body, check_deepsh_ast):
     code = f"with! x: {body}\n"
-    tree = check_xonsh_ast({}, code, False, return_obs=True, mode="exec")
+    tree = check_deepsh_ast({}, code, False, return_obs=True, mode="exec")
     assert isinstance(tree, AST)
     wither = tree.body[0]
     assert isinstance(wither, With)
@@ -3052,9 +3052,9 @@ def test_withbang_single_simple(body, check_xonsh_ast):
 
 
 @pytest.mark.parametrize("body", WITH_BANG_RAWSIMPLE)
-def test_withbang_single_simple_opt(body, check_xonsh_ast):
+def test_withbang_single_simple_opt(body, check_deepsh_ast):
     code = f"with! x as y: {body}\n"
-    tree = check_xonsh_ast({}, code, False, return_obs=True, mode="exec")
+    tree = check_deepsh_ast({}, code, False, return_obs=True, mode="exec")
     assert isinstance(tree, AST)
     wither = tree.body[0]
     assert isinstance(wither, With)
@@ -3068,10 +3068,10 @@ def test_withbang_single_simple_opt(body, check_xonsh_ast):
 
 
 @pytest.mark.parametrize("body", WITH_BANG_RAWSUITES)
-def test_withbang_as_many_suite(body, check_xonsh_ast):
+def test_withbang_as_many_suite(body, check_deepsh_ast):
     code = "with! x as a, y as b, z as c:\n{}"
     code = code.format(textwrap.indent(body, "    "))
-    tree = check_xonsh_ast({}, code, False, return_obs=True, mode="exec")
+    tree = check_deepsh_ast({}, code, False, return_obs=True, mode="exec")
     assert isinstance(tree, AST)
     wither = tree.body[0]
     assert isinstance(wither, With)
@@ -3085,14 +3085,14 @@ def test_withbang_as_many_suite(body, check_xonsh_ast):
         assert s == body
 
 
-def test_subproc_raw_str_literal(check_xonsh_ast):
-    tree = check_xonsh_ast({}, "!(echo '$foo')", run=False, return_obs=True)
+def test_subproc_raw_str_literal(check_deepsh_ast):
+    tree = check_deepsh_ast({}, "!(echo '$foo')", run=False, return_obs=True)
     assert isinstance(tree, AST)
     subproc = tree.body
     assert isinstance(subproc.args[0].elts[1], Call)
     assert subproc.args[0].elts[1].func.attr == "expand_path"
 
-    tree = check_xonsh_ast({}, "!(echo r'$foo')", run=False, return_obs=True)
+    tree = check_deepsh_ast({}, "!(echo r'$foo')", run=False, return_obs=True)
     assert isinstance(tree, AST)
     subproc = tree.body
     assert is_const_str(subproc.args[0].elts[1])
@@ -3331,7 +3331,7 @@ def test_get_repo_url(parser):
 
 
 # match statement
-# (tests asserting that pure python match statements produce the same ast with the xonsh parser as they do with the python parser)
+# (tests asserting that pure python match statements produce the same ast with the deepsh parser as they do with the python parser)
 
 
 def test_match_and_case_are_not_keywords(check_stmts):

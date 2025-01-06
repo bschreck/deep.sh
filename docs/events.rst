@@ -1,6 +1,6 @@
 Core Events
 ===========
-The following events are defined by xonsh itself. For more information about events,
+The following events are defined by deepsh itself. For more information about events,
 see `the events tutorial <tutorial_events.html>`_.
 
 .. include:: eventsbody
@@ -52,7 +52,7 @@ method called.  This is fired after to the run call has executed
 everything except returning. This recieves the ``SubprocSpec`` object as
 ``spec`` that triggered the event, allowing the handler to modify the spec
 if needed. Note that because of the way process pipelines and specs work
-in xonsh, the command will have started running, but won't necessarily have
+in deepsh, the command will have started running, but won't necessarily have
 completed. This is because ``SubprocSpec.run()`` does not block.
 For example, if we wanted to get any spec after a command has started running,
 we could write:
@@ -72,7 +72,7 @@ has its ``SubprocSpec.run()`` method called.  This is fired
 after to the run call has executed everything except returning. This recieves the
 ``SubprocSpec`` object as ``spec`` that triggered the event, allowing
 the handler to modify the spec if needed. Note that because of the
-way process pipelines and specs work in xonsh, the command will have
+way process pipelines and specs work in deepsh, the command will have
 started running, but won't necessarily have completed. This is because
 ``SubprocSpec.run()`` does not block.
 For example, if we wanted to get an ``ls`` spec after ls has started running,

@@ -50,15 +50,15 @@ magics ``%`` and ``%%`` are macros!
 
 Function Macros
 ===============
-Xonsh supports Rust-like macros that are based on normal Python callables.
-Macros do not require a special definition in xonsh. However, like in Rust,
+Deepsh supports Rust-like macros that are based on normal Python callables.
+Macros do not require a special definition in deepsh. However, like in Rust,
 they must be called with an exclamation point ``!`` between the callable
 and the opening parentheses ``(``. Macro arguments are split on the top-level
 commas ``,``, like normal Python functions.  For example, say we have the
 functions ``f`` and ``g``. We could perform a macro call on these functions
 with the following:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     # No macro args
     f!()
@@ -77,7 +77,7 @@ particular, each argument in the macro call is matched up with the corresponding
 parameter annotation in the callable's signature.  For example, say we have
 an ``identity()`` function that annotates its sole argument as a string:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     def identity(x : str):
         return x
@@ -85,7 +85,7 @@ an ``identity()`` function that annotates its sole argument as a string:
 If we call this normally, we'll just get whatever object we put in back out,
 even if that object is not a string:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> identity('me')
     'me'
@@ -99,7 +99,7 @@ even if that object is not a string:
 However, if we perform macro calls instead we are now guaranteed to get
 the string of the source code that is in the macro call:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> identity!('me')
     "'me'"
@@ -113,7 +113,7 @@ the string of the source code that is in the macro call:
 Also note that each macro argument is stripped prior to passing it to the
 macro itself. This is done for consistency.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> identity!(42)
     '42'
@@ -125,7 +125,7 @@ Importantly, because we are capturing and not evaluating the source code,
 a macro call can contain input that is beyond the usual syntax. In fact, that
 is sort of the whole point. Here are some cases to start your gears turning:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> identity!(import os)
     'import os'
@@ -146,7 +146,7 @@ that passing in arguments by name will not behave as expected. This is because
 the ``<name>=`` is captured by the macro itself. Using the ``identity()``
 function from above:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> identity!(x=42)
     'x=42'
@@ -158,7 +158,7 @@ The top-level commas are not included in any argument.
 This behaves analogously to normal Python function calls. For instance,
 say we have the following ``g()`` function that accepts two arguments:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     def g(x : str, y : str):
         print('x = ' + repr(x))
@@ -167,7 +167,7 @@ say we have the following ``g()`` function that accepts two arguments:
 Then you can see the splitting and stripping behavior on each macro
 argument:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> g!(42, 65)
     x = '42'
@@ -187,11 +187,11 @@ argument:
 
 Sometimes you may only want to pass in the first few arguments as macro
 arguments and you want the rest to be treated as normal Python arguments.
-By convention, xonsh's macro caller will look for a lone ``*`` argument
+By convention, deepsh's macro caller will look for a lone ``*`` argument
 in order to split the macro arguments and the regular arguments. So for
 example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> g!(42, *, 65)
     x = '42'
@@ -271,7 +271,7 @@ If an argument does not have an annotation, ``str`` is selected.
 This makes the macro function call behave like the subprocess macros and
 context manager macros below. For example,
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     def func(a, b : 'AST', c : compile):
         pass
@@ -290,7 +290,7 @@ done by annotating with a (kind, mode) tuple.  The first element can
 be any valid object or flag. The second element must be a corresponding
 mode as a string.  For instance,
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     def gunc(d : (exec, 'single'), e : ('c', 'exec')):
         pass
@@ -316,7 +316,7 @@ For example, consider a macro which replaces all literal ``1`` digits
 with the literal ``2``, evaluates the modification, and returns the results.
 To eval, the macro will need to pull off its globals and locals:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     def one_to_two(x : str):
         s = x.replace('1', '2')
@@ -326,7 +326,7 @@ To eval, the macro will need to pull off its globals and locals:
 
 Running this with a few of different inputs, we see:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> one_to_two!(1 + 1)
     4
@@ -353,7 +353,7 @@ command. And when it does, there is the ``@()`` syntax!
 In the simplest case, subprocess macros look like the equivalent of their
 function macro counterparts:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> echo! I'm Mr. Meeseeks.
     I'm Mr. Meeseeks.
@@ -362,9 +362,9 @@ Again, note that everything to the right of the ``!`` is passed down to the
 ``echo`` command as the final, single argument. This is space preserving,
 like wrapping with quotes:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
-    # normally, xonsh will split on whitespace,
+    # normally, deepsh will split on whitespace,
     # so each argument is passed in separately
     >>> echo x  y       z
     x y z
@@ -381,7 +381,7 @@ like wrapping with quotes:
 However, the macro will pause everything, including path and environment variable
 expansion, that might be present even with quotes.  For example:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     # without macros, environment variable are expanded
     >>> echo $USER
@@ -397,11 +397,11 @@ commands to function in cases where quoting or piping might be more burdensome.
 The ``timeit`` command is a great example where simple syntax will often fail,
 but will be easily executable as a macro:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     # fails normally
     >>> timeit "hello mom " + "and dad"
-    xonsh: subprocess mode: command not found: hello
+    deepsh: subprocess mode: command not found: hello
 
     # macro success!
     >>> timeit! "hello mom " + "and dad"
@@ -412,7 +412,7 @@ are not treated as the special macro argument. This allows the mixing of
 simple and complex command line arguments. For example, sometimes you might
 really want to write some code in another language:
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     # don't worry, it is temporary!
     >>> bash -c ! export var=42; echo $var
@@ -430,13 +430,13 @@ Context Manager Macros
 Now that we have seen what life can be like with macro expressions, it is time
 to introduce the macro statement: ``with!``.  With-bang provides macros
 on top of existing Python context managers. This provides both anonymous
-and onymous blocks in xonsh.
+and onymous blocks in deepsh.
 
 The syntax for context manager macros is the same as the usual with-statement
 in Python, but with an additional exclamation point between the ``with`` word
 and the first context manager expression. As a simple example,
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     with! x:
         y = 10
@@ -449,7 +449,7 @@ globals and locals, prior to the body even being entered. The body is then
 replaced with a ``pass`` statement. You can think of the above as being
 transformed into the following:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     x.macro_block = 'y = 10\nprint(y)\n'
     x.macro_globals = globals()
@@ -468,14 +468,14 @@ There are a few important things about this to notice:
 
 By default, macro blocks are returned as a string. However, like with function
 macro arguments, the kind of ``macro_block`` is determined by a special
-annotation.  This annotation is given via the ``__xonsh_block__`` attribute
+annotation.  This annotation is given via the ``__deepsh_block__`` attribute
 on the context manager itself.  This allows the block to be interpreted as
 an AST, byte compiled, etc.
 
 The convenient part about this syntax is that the macro block is only
 exited once it sees a dedent back to the level of the ``with!``. All other
 code is indiscriminately skipped! This allows you to write blocks of code in
-languages other than xonsh without pause.
+languages other than deepsh without pause.
 
 For example, consider a simple
 XML macro context manager. This will return the parsed XML tree from a
@@ -489,7 +489,7 @@ macro block. The context manager itself can be written as:
     class XmlBlock:
 
         # make sure the macro_block comes back as a string
-        __xonsh_block__ = str
+        __deepsh_block__ = str
 
         def __enter__(self):
             # parse and return the block on entry
@@ -503,12 +503,12 @@ macro block. The context manager itself can be written as:
 
 The above class may then be used in a with-bang as follows:
 
-.. code-block:: xonsh
+.. code-block:: deepsh
 
     with! XmlBlock() as tree:
         <note>
           <to>You</to>
-          <from>Xonsh</from>
+          <from>Deepsh</from>
           <heading>Don't You Want Me, Baby</heading>
           <body>
             You know I don't believe you when you say that you don't need me.
@@ -518,20 +518,20 @@ The above class may then be used in a with-bang as follows:
 And if you run this, you'll see that the ``tree`` object really is a parsed
 XML object.
 
-.. code-block:: xonshcon
+.. code-block:: deepshcon
 
     >>> print(tree.tag)
     note
 
 
-So in roughly eight lines of xonsh code, you can seamlessly interface
+So in roughly eight lines of deepsh code, you can seamlessly interface
 with another, vastly different language.
 
 The possibilities for this are not limited to just markup languages or other
 party tricks. You could be a remote execution interface via SSH, RPC,
 dask / distributed, etc. The real benefit of context manager macros is
 that they allow you to select when, where, and what code is executed as a
-part of the xonsh language itself.
+part of the deepsh language itself.
 
 The power is there; use it without reservation!
 

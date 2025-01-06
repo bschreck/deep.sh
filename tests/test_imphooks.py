@@ -1,11 +1,11 @@
-"""Testing xonsh import hooks"""
+"""Testing deepsh import hooks"""
 
 import os
 from importlib import import_module
 
 import pytest
 
-from xonsh import imphooks
+from deepsh import imphooks
 
 
 @pytest.fixture(autouse=True)

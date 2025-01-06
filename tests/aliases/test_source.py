@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from xonsh.aliases import make_default_aliases, source_alias
+from deepsh.aliases import make_default_aliases, source_alias
 
 
 @pytest.fixture

@@ -1,17 +1,17 @@
 ---
 name: New Issue
 about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
 ## Current Behavior
+
 <!---
-For general xonsh issues, please try to replicate the failure using `xonsh --no-rc --no-env`.
+For general deepsh issues, please try to replicate the failure using `deepsh --no-rc --no-env`.
 Short, reproducible code snippets are highly appreciated.
-You can use `$XONSH_SHOW_TRACEBACK=1`, `$XONSH_TRACE_SUBPROC=2`, or `$XONSH_DEBUG=1`
+You can use `$DEEPSH_SHOW_TRACEBACK=1`, `$DEEPSH_TRACE_SUBPROC=2`, or `$DEEPSH_DEBUG=1`
 to collect more information about the failure.
 -->
 
@@ -26,17 +26,19 @@ Traceback (if applicable):
 </details>
 
 ## Expected Behavior
+
 <!--- What you expect and what is your real life use case. -->
 
-## xonfig
+## config
 
 <details>
 
 ```xsh
-# Please paste the output of the `xonfig` command here.
+# Please paste the output of the `config` command here.
 ```
 
 </details>
 
 ## For community
-⬇️  **Please click the 👍 reaction instead of leaving a `+1` or 👍  comment**
+
+⬇️ **Please click the 👍 reaction instead of leaving a `+1` or 👍 comment**

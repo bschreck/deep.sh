@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 import pytest
 
-from xonsh.commands_cache import (
+from deepsh.commands_cache import (
     SHELL_PREDICTOR_PARSER,
     CaseInsensitiveDict,
     CommandsCache,
@@ -16,15 +16,15 @@ from xonsh.commands_cache import (
     predict_shell,
     predict_true,
 )
-from xonsh.platform import ON_WINDOWS
-from xonsh.pytest.tools import skip_if_on_windows
+from deepsh.platform import ON_WINDOWS
+from deepsh.pytest.tools import skip_if_on_windows
 
 PATHEXT_ENV = {"PATHEXT": [".COM", ".EXE", ".BAT"]}
 
 
 def test_commands_cache_lazy(xession):
     cc = xession.commands_cache
-    assert not cc.lazyin("xonsh")
+    assert not cc.lazyin("deepsh")
     assert 0 == len(list(cc.lazyiter()))
     assert 0 == cc.lazylen()
 
@@ -242,8 +242,8 @@ def test_exes_in_cwd_are_not_matched(faux_binary, monkeypatch):
     assert cache.locate_binary(faux_binary.name) is None
 
 
-def test_nixos_coreutils(tmp_path):
-    """On NixOS the core tools are the symlinks to one universal ``coreutils`` binary file."""
+def test_nicos_coreutils(tmp_path):
+    """On NicoS the core tools are the symlinks to one universal ``coreutils`` binary file."""
     path = tmp_path / "core"
     coreutils = path / "coreutils"
     echo = path / "echo"

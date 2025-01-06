@@ -1,10 +1,10 @@
-"""Tests the xonsh lexer."""
+"""Tests the deepsh lexer."""
 
 import os
 
 import pytest  # noqa F401
 
-from xonsh.wizard import (
+from deepsh.wizard import (
     FileInserter,
     Message,
     Pass,
@@ -65,7 +65,7 @@ def test_state_visitor_store():
     assert flat_exp == flat_obs
 
 
-def dump_xonfig_env_mock(path, value):
+def dump_config_env_mock(path, value):
     name = os.path.basename(path.rstrip("/"))
     return f"${name} = {value!r}"
 
@@ -73,16 +73,16 @@ def dump_xonfig_env_mock(path, value):
 def test_tuple_store_and_write():
     # setup
     sv = StateVisitor()
-    sv.store("/env/XONSH_HISTORY_SIZE", (1073741824, "b"))
+    sv.store("/env/DEEPSH_HISTORY_SIZE", (1073741824, "b"))
     dump_rules = {
         "/": None,
         "/env/": None,
-        "/env/*": dump_xonfig_env_mock,
+        "/env/*": dump_config_env_mock,
         "/env/*/[0-9]*": None,
     }
     fi = FileInserter(
-        prefix="# XONSH WIZARD START",
-        suffix="# XONSH WIZARD END",
+        prefix="# DEEPSH WIZARD START",
+        suffix="# DEEPSH WIZARD END",
         dump_rules=dump_rules,
         default_file=None,
         check=False,
@@ -90,9 +90,9 @@ def test_tuple_store_and_write():
     )
     # run test
     exp = (
-        "# XONSH WIZARD START\n"
-        "$XONSH_HISTORY_SIZE = (1073741824, 'b')\n"
-        "# XONSH WIZARD END\n"
+        "# DEEPSH WIZARD START\n"
+        "$DEEPSH_HISTORY_SIZE = (1073741824, 'b')\n"
+        "# DEEPSH WIZARD END\n"
     )
     obs = fi.dumps(sv.flatten())
     assert exp == obs

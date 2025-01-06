@@ -4,7 +4,7 @@
 Tutorial: Write Your Own History Backend
 ****************************************
 
-One of the great things about xonsh is how easy it is to customize. In
+One of the great things about deepsh is how easy it is to customize. In
 this tutorial, let's write our own history backend based on CouchDB.
 
 
@@ -16,7 +16,7 @@ Here is a minimal history backend to start with:
 .. code-block:: python
 
     import collections
-    from xonsh.history.base import History
+    from deepsh.history.base import History
 
     class CouchDBHistory(History):
         def append(self, cmd):
@@ -34,25 +34,25 @@ Here is a minimal history backend to start with:
             data['sessionid'] = str(self.sessionid)
             return data
 
-Go ahead and create the file ``~/.xonsh/history_couchdb.py`` and put the
+Go ahead and create the file ``~/.deepsh/history_couchdb.py`` and put the
 content above into it.
 
-Now we need to tell xonsh to use it as the history backend. To do this
-we need xonsh to be able to find our file and this ``CouchDBHistory`` class.
-Putting the following code into `xonshrc <xonshrc.rst>`_ file can achieve this.
+Now we need to tell deepsh to use it as the history backend. To do this
+we need deepsh to be able to find our file and this ``CouchDBHistory`` class.
+Putting the following code into `deepshrc <deepshrc.rst>`_ file can achieve this.
 
 .. code-block:: none
 
     import os.path
     import sys
-    xonsh_ext_dir = os.path.expanduser('~/.xonsh')
-    if os.path.isdir(xonsh_ext_dir):
-        sys.path.append(xonsh_ext_dir)
+    deepsh_ext_dir = os.path.expanduser('~/.deepsh')
+    if os.path.isdir(deepsh_ext_dir):
+        sys.path.append(deepsh_ext_dir)
 
     from history_couchdb import CouchDBHistory
-    $XONSH_HISTORY_BACKEND = CouchDBHistory
+    $DEEPSH_HISTORY_BACKEND = CouchDBHistory
 
-After starting a new xonsh session, try the following commands:
+After starting a new deepsh session, try the following commands:
 
 .. code-block:: none
 
@@ -96,7 +96,7 @@ After installing, check that it's configured correctly with ``curl``:
     }
 
 Okay, CouchDB is working. Now open `<http://127.0.0.1:5984/_utils/>`_ with
-your browser, and create a new database called ``xonsh-history``.
+your browser, and create a new database called ``deepsh-history``.
 
 
 Initialize History Backend
@@ -118,8 +118,8 @@ Initialize History Backend
         return '{}-{}'.format(ts, str(uuid.uuid4())[:18])
 
 In the ``__init__()`` method, let's initialize
-`Some Public Attributes <api/history/base.html#xonsh.history.base.History>`_
-which xonsh uses in various places. Note that we use Unix timestamp and
+`Some Public Attributes <api/history/base.html#deepsh.history.base.History>`_
+which deepsh uses in various places. Note that we use Unix timestamp and
 some random char to make ``self.sessionid`` unique and to keep the entries
 ordered in time. We will cover it with a bit more detail in the next section.
 
@@ -138,7 +138,7 @@ First, we need some helper functions to write docs to CouchDB.
             data.pop('out')
         data['_id'] = self._build_doc_id()
         try:
-            self._request_db_data('/xonsh-history', data=data)
+            self._request_db_data('/deepsh-history', data=data)
         except Exception as e:
             msg = 'failed to save history: {}: {}'.format(e.__class__.__name__, e)
             print(msg, file=sys.stderr)
@@ -163,7 +163,7 @@ about a command that user input, and saves it into CouchDB.
 Instead of letting CouchDB provide us a random Document ID (i.e. the
 ``data['_id']`` in our code), we build it for ourselves.  We use the Unix
 timestamp and UUID string for a second time. Prefixing this with
-``self.sessionid``, we make history entries in order inside a single xonsh
+``self.sessionid``, we make history entries in order inside a single deepsh
 session too. So that we don't need any extra CouchDB's
 `Design Documents and Views <http://docs.couchdb.org/en/2.0.0/couchapp/ddocs.html>`_
 feature. Just with a bare ``_all_docs`` API, we can fetch history items back
@@ -181,7 +181,7 @@ to do the real job - save history into DB.
         self.tss.append(cmd.get('ts', (None, None)))
         self._save_to_db(cmd)
 
-This method will be called by xonsh every time it runs a new command from user.
+This method will be called by deepsh every time it runs a new command from user.
 
 
 Retrieve History Items
@@ -196,14 +196,14 @@ Retrieve History Items
         yield from self._get_db_items()
 
 These two methods are responsible for getting history items for the current
-xonsh session and all historical sessions respectively.
+deepsh session and all historical sessions respectively.
 
 And here is our helper method to get docs from DB:
 
 .. code-block:: python
 
     def _get_db_items(self, sessionid=None):
-        path = '/xonsh-history/_all_docs?include_docs=true'
+        path = '/deepsh-history/_all_docs?include_docs=true'
         if sessionid is not None:
             path += '&start_key="{0}"&end_key="{0}-z"'.format(sessionid)
         try:
@@ -231,7 +231,7 @@ an extra Python library is used: ``requests``. You could easily install it
 with ``pip`` or other library managers. You can find the full code here:
 `<https://gist.github.com/mitnk/2d08dc60aab33d8b8b758c544b37d570>`_
 
-Let's start a new xonsh session:
+Let's start a new deepsh session:
 
 .. code-block:: none
 
@@ -245,7 +245,7 @@ Let's start a new xonsh session:
     @ echo hi
     hi
 
-Start a second xonsh session:
+Start a second deepsh session:
 
 .. code-block:: none
 
@@ -275,9 +275,9 @@ History Garbage Collection
 ==========================
 
 For the built-in history backends ``json`` and ``sqlite``, garbage collection
-is triggered when xonsh is started or when the user runs ``history gc``.
+is triggered when deepsh is started or when the user runs ``history gc``.
 History items outside of the range defined by
-`$XONSH_HISTORY_SIZE <envvars.html#xonsh-history-size>`_ are deleted.
+`$DEEPSH_HISTORY_SIZE <envvars.html#deepsh-history-size>`_ are deleted.
 
 .. code-block:: python
 
@@ -305,17 +305,17 @@ Other History Options
 
 There are some environment variables that can change the behavior of the
 history backend. Such as `$HISTCONTROL <envvars.html#histcontrol>`_,
-`$XONSH_HISTORY_SIZE <envvars.html#xonsh-history-size>`_,
-`$XONSH_STORE_STDOUT <envvars.html#xonsh-store-stdout>`_, etc.
+`$DEEPSH_HISTORY_SIZE <envvars.html#deepsh-history-size>`_,
+`$DEEPSH_STORE_STDOUT <envvars.html#deepsh-store-stdout>`_, etc.
 
 We should implement these ENVs in our CouchDB backend. Luckily, it's not a
 hard thing. We'll leave the implementation of those features to you,
 but you can see how it's handled for
-`the sqlite backend <_modules/xonsh/history/sqlite.html#SqliteHistory>`_.
+`the sqlite backend <_modules/deepsh/history/sqlite.html#SqliteHistory>`_.
 
 
 Wrap Up
 =======
 
 This is a barebones implementation but hopefully it will give you a sense
-of how you can customize xonsh's history backend for your own needs!
+of how you can customize deepsh's history backend for your own needs!

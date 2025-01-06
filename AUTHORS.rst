@@ -1,4 +1,4 @@
-All of the people who have made at least one contribution to xonsh.
+All of the people who have made at least one contribution to deepsh.
 Authors are sorted by number of commits.
 
 * Anthony Scopatz

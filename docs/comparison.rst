@@ -1,6 +1,6 @@
 Comparison
 ==========
-Xonsh is significantly different from most other shells or shell tools. The following
+Deepsh is significantly different from most other shells or shell tools. The following
 table lists built in features and capabilities that various tools may or may not share.
 
 .. list-table::
@@ -14,7 +14,7 @@ table lists built in features and capabilities that various tools may or may not
       - plumbum
       - fish
       - IPython
-      - xonsh
+      - deepsh
     * - Practical language
       -
       -
