@@ -694,4 +694,3 @@ def setup(
 
     if threadable_predictors:
         XSH.commands_cache.threadable_predictors.update(threadable_predictors)
-print("Hello, World")
