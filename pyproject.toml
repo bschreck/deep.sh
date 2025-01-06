@@ -12,7 +12,7 @@ name = "deepsh"
 dynamic = ["version", "readme"]
 description = "LLM-powered shell."
 authors = [{ name = "Ben Schreck" }, { email = "ben@benschreck.com" }]
-maintainers = [{ name = "Deep.sh Community" }, { email = "ben@benschreck.com" }]
+maintainers = [{ name = "Deep.sh Community" }, { email = "" }]
 license = { text = "BSD 2-Clause License" }
 requires-python = ">=3.9"
 dependencies = []

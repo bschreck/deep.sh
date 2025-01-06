@@ -99,7 +99,7 @@ Extensions
 
 Deepsh has an extension/plugin system.  We call these additions ``contribs``.
 
-- `contribs on Github <https://github.com/topics/contrib>`_
+- `Contribs on Github <https://github.com/topics/contrib>`_
 - `Awesome contribs <https://github.com/deepsh/awesome-contribs>`_
 - `Core contribs <https://con.sh/api/_autosummary/contribs/contrib.html>`_
 - `Create a contrib step by step from template <https://github.com/deepsh/contrib-template>`_

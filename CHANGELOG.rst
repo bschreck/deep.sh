@@ -178,7 +178,7 @@ v0.17.0
 * Added section "Use the Nix Package manager with Deepsh" to "Platform-specific tips and tricks".
 * Added ``env.detype_all()`` to get all available variables that is possible to detype.
 * Reading stop signals from the process and update the process state (#5361).
-* Added support of NicoS core tools in ``predict_threadable``.
+* Added support of NixOS core tools in ``predict_threadable``.
 * Added catching an exceptions during load a history backend to avoid shell exiting e.g. on permission error.
 * Added catching an exception when cache file is not writable.
 * Added FuncAlias to process callable aliases.
@@ -202,7 +202,7 @@ v0.17.0
 * Added ``SpecModifierAlias`` class to have an ability to create alias that modifies spec before run e.g. ``xthread`` alias.
 * Added mode ``$DEEPSH_TRACE_SUBPROC=3`` to show more information about pipeline.
 * Added "Callable alias and capturing" to the tutorial.
-* config: show sensitive env variables that could affect the shell behavior.
+* Config: show sensitive env variables that could affect the shell behavior.
 * We started `Zulip Community <https://deepsh.zulipchat.com/join/hbvue5rimpdkwkdjuiqfs7tv/>`_ to publish news and chatting.
 
 **Changed:**
@@ -740,7 +740,7 @@ v0.12.3
 **Changed:**
 
 * fix: remove os.path.basename from _get_git_branch()
-* now 3rd party contrib list is maintained at `Awesome contribs <https://github.com/deepsh/awesome-contribs/>`_ page.
+* now 3rd party contrib list is maintained at `Awesome Contribs <https://github.com/deepsh/awesome-contribs/>`_ page.
   Going forward, new contributions will be updated here, making it not depending on `the deepsh release <https://github.com/deepsh/deepsh/issues/4679>`_.
 
 **Removed:**
@@ -859,7 +859,7 @@ v0.12.0
 * run_code_with_cache takes a new parameter display_filename to override the filename shown in exceptions (this is independent of caching)
 * Update uptime lib by the last one from Pypi
 * ``umask``, ``ulimit`` commands will not override the system's commands unless requested
-* contribs that require other third party packages are moved to its own packages.
+* Contribs that require other third party packages are moved to its own packages.
   The following contribs are moved and can be loaded after install as usual
 
   * mpl
@@ -3634,7 +3634,7 @@ v0.6.3
   do not end in a newline from writing over the next prompt and vice versa.
 * Fix bug on Windows when ``PATHEXT`` environment variable did not exist.
   This also fixes building the deepsh documentation on Windows.
-* Fixed a bug in the `free_cwd <http://con.sh/contribs.html#free-cwd>`__ Windows contrib, which caused the prompt to error if the current directory is
+* Fixed a bug in the `free_cwd <http://con.sh/contribs.html#free-cwd>`__ Windows Contrib, which caused the prompt to error if the current directory is
   deleted/renamed from an other process.
 * Fixed issue with ``$DEEPSH_SHOW_TRACEBACK`` not being respected in subprocess
   mode when the command could not be found or had incorrect permissions.
@@ -4338,7 +4338,7 @@ v0.5.0
 
 **Added:**
 
-* $coNTRIB_MPL_MINIMAL environment variable can be set to change if plots are minimalist or as-seen
+* $CONTRIB_MPL_MINIMAL environment variable can be set to change if plots are minimalist or as-seen
 * contrib-mpl now supports iTerm2 inline image display if iterm2_tools python package is installed
 * Deepsh now will fallback to other shells if encountered errors when
   starting up.
@@ -4786,7 +4786,7 @@ v0.4.5
 * ``deepsh.completers`` sub-package is now fully lazy.
 * The vox contrib now takes flags very similar to Python's venv tool. Use
   ``vox --help <command>`` to learn more.
-* contribs may now define ``__all__`` as a module top-level to limit what gets exported to the shell context
+* Contribs may now define ``__all__`` as a module top-level to limit what gets exported to the shell context
 * con.sh uses the interpreter used to install instead of the default python3.
 * ``imphooks`` now checks directory access rights.
 * $TITLE now changes both icon (tab) and window title

@@ -53,7 +53,7 @@ The page has:
   their actual appearance is not and do vary widely.  Seeing is believing!
 :Prompts: shows various sample prompts.  It is recommended to select one but to then edit
   the ``deepshrc`` file to further refine your prompt.
-:contribs: are community-contributed add-ins often used to enhance command completion and line editing,
+:Contribs: are community-contributed add-ins often used to enhance command completion and line editing,
   but can affect any aspect of Deepsh behavior.
   Choose one or more to suit your needs but note that they will require installation of additional
   packages.  You can extend Deepsh by `writing your own contrib <tutorial_contrib.html>`_, and are invited/urged to do so!

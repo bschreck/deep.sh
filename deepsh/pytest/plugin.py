@@ -1,6 +1,6 @@
 """Pytest plugin for testing Deepsh.
 
-These fixture names are Public API and need to be handled carefully as there are contribs dependent on them for testing
+These fixture names are Public API and need to be handled carefully as there are Contribs dependent on them for testing
 """
 
 import importlib

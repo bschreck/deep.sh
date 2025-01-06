@@ -25,11 +25,11 @@ class ExitCode(IntEnum):
     INIT_FAILED = 2
 
 
-class contribNotInstalled(Exception):
+class ContribNotInstalled(Exception):
     """raised when the requested contrib is not found"""
 
 
-class contrib(tp.NamedTuple):
+class Contrib(tp.NamedTuple):
     """Meta class that is used to describe a contrib"""
 
     module: str
@@ -78,7 +78,7 @@ def get_module_docstring(module: str) -> str:
     return ""
 
 
-def get_contribs() -> dict[str, contrib]:
+def get_contribs() -> dict[str, Contrib]:
     """Return contrib definitions lazily."""
     return dict(_get_installed_contribs())
 
@@ -119,10 +119,10 @@ def _get_installed_contribs(pkg_name="contrib"):
 
     for name in iter_modules():
         module = f"contrib.{name}"
-        yield name, contrib(module)
+        yield name, Contrib(module)
 
     for entry in _get_contrib_entrypoints():
-        yield entry.name, contrib(entry.value, distribution=entry.dist)
+        yield entry.name, Contrib(entry.value, distribution=entry.dist)
 
 
 def find_contrib(name, full_module=False):
@@ -190,7 +190,7 @@ def update_context(name, ctx: dict, full_module=False):
     """Updates a context in place from a contrib."""
     modctx = contrib_context(name, full_module)
     if modctx is None:
-        raise contribNotInstalled(f"contrib - {name} is not found.")
+        raise ContribNotInstalled(f"Contrib - {name} is not found.")
     else:
         ctx.update(modctx)
     return ctx
@@ -244,7 +244,7 @@ def contribs_load(
             print(f"loading contrib {name!r}")
         try:
             update_context(name, ctx=ctx, full_module=full_module)
-        except contribNotInstalled:
+        except ContribNotInstalled:
             if not suppress_warnings:
                 bad_imports.append(name)
         except Exception:
@@ -391,7 +391,7 @@ def auto_load_contribs_from_entrypoints(
     return contribs_load(modules, verbose=verbose, full_module=True)
 
 
-class contribAlias(ArgParserAlias):
+class ContribAlias(ArgParserAlias):
     """Manage deepsh extensions"""
 
     def build(self):
@@ -403,4 +403,4 @@ class contribAlias(ArgParserAlias):
         return parser
 
 
-contribs_main = contribAlias(threadable=False)
+contribs_main = ContribAlias(threadable=False)

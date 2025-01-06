@@ -21,7 +21,7 @@ from ast import (  # noqa # pylint: disable=unused-import
     BinOp,
     BitAnd,
     BitOr,
-    Bitcor,
+    BitXor,
     BoolOp,
     Break,
     Call,

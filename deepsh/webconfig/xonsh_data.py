@@ -17,7 +17,7 @@ from deepsh.pyghooks import (
 )
 from deepsh.pygments_cache import get_all_styles
 from deepsh.style_tools import partial_color_tokenize
-from deepsh.contribs import contrib, get_contribs
+from deepsh.contribs import Contrib, get_contribs
 
 # $RAISE_SUBPROC_ERROR = True
 # $DEEPSH_SHOW_TRACEBACK = False
@@ -204,7 +204,7 @@ def render_colors():
         yield style, escape(display)
 
 
-def format_contrib(contrib: contrib):
+def format_contrib(contrib: Contrib):
     return {
         "url": contrib.url,
         "license": contrib.license,

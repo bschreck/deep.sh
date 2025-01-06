@@ -1354,10 +1354,10 @@ class InterpreterSetting(Xettings):
     )
 
 
-class contribSetting(Xettings):
-    """contrib Settings"""
+class ContribSetting(Xettings):
+    """Contrib Settings"""
 
-    coNTRIBS_AUTOLOAD_DISABLED = Var.with_default(
+    CONTRIBS_AUTOLOAD_DISABLED = Var.with_default(
         default=False,
         type_str="bool",
         doc="""\
@@ -1366,7 +1366,7 @@ class contribSetting(Xettings):
     * Setting this to a list of contrib names will block loading those specifically.
     """,
         doc_default="""\
-    contribs with ``deepsh.contrib`` entrypoint will be loaded automatically by default.
+    Contribs with ``deepsh.contrib`` entrypoint will be loaded automatically by default.
     """,
     )
 

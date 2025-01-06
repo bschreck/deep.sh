@@ -82,7 +82,7 @@ def test_parser_hooking():
 def test_parser_default_func(mocker):
     import deepsh.contribs as xx
 
-    alias = xx.contribAlias()
+    alias = xx.ContribAlias()
 
     def func():
         return True

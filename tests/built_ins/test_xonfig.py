@@ -111,7 +111,7 @@ def rc_file(tmp_path, monkeypatch):
     return file
 
 
-class TestconfigWeb:
+class TestConfigWeb:
     def test_colors_get(self, request_factory):
         resp = request_factory("/").get()
         assert "Colors" in resp
@@ -123,7 +123,7 @@ class TestconfigWeb:
 
     def test_contribs_get(self, request_factory):
         resp = request_factory("/contribs").get()
-        assert "contribs" in resp
+        assert "Contribs" in resp
 
     def test_contribs_post(self, request_factory, rc_file, mocker):
         mocker.patch("deepsh.contribs.contribs_load", return_value=(None, None, None))

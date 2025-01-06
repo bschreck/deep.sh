@@ -220,9 +220,9 @@ class PromptsPage(Routes):
             self.update_rc(prompt=prompt)
 
 
-class contribsPage(Routes):
+class ContribsPage(Routes):
     path = "/contribs"
-    nav_title = "contribs"
+    nav_title = "Contribs"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -234,7 +234,7 @@ class contribsPage(Routes):
 
     @staticmethod
     def is_loaded(name):
-        return contribsPage.mod_name(name) in sys.modules
+        return ContribsPage.mod_name(name) in sys.modules
 
     def contrib_card(self, name, data):
         from deepsh.contribs import find_contrib
@@ -262,7 +262,7 @@ class contribsPage(Routes):
                 t.card_body()[
                     t.li()[
                         t.a(href="https://github.com/topics/contrib")[
-                            "contribs on Github"
+                            "Contribs on Github"
                         ]
                     ],
                     t.li()[

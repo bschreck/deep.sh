@@ -243,7 +243,7 @@ def test_exes_in_cwd_are_not_matched(faux_binary, monkeypatch):
 
 
 def test_nicos_coreutils(tmp_path):
-    """On NicoS the core tools are the symlinks to one universal ``coreutils`` binary file."""
+    """On NixOS the core tools are the symlinks to one universal ``coreutils`` binary file."""
     path = tmp_path / "core"
     coreutils = path / "coreutils"
     echo = path / "echo"

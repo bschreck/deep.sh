@@ -477,7 +477,7 @@ class CommandsCache(cabc.Mapping):
             return failure
         if (link := self.resolve_symlink(fname)) and link.endswith("coreutils"):
             """
-            On NicoS the core tools are the symlinks to one universal ``coreutils`` binary file.
+            On NixOS the core tools are the symlinks to one universal ``coreutils`` binary file.
             Detect it and use the default mode.
             """
             return failure

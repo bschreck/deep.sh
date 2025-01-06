@@ -18,7 +18,7 @@
     o = n.slice,
     a = n.concat,
     s = n.push,
-    u = n.indecof,
+    u = n.indexOf,
     l = {},
     c = l.toString,
     f = l.hasOwnProperty,
@@ -867,7 +867,7 @@
                     : n &&
                       X.test(n) &&
                       (t = a(n, !0)) &&
-                      (t = n.indecof(")", n.length - t) - n.length) &&
+                      (t = n.indexOf(")", n.length - t) - n.length) &&
                       ((e[0] = e[0].slice(0, t)), (e[2] = n.slice(0, t))),
                   e.slice(0, 3));
             },
@@ -910,13 +910,13 @@
                         : "!=" === t
                         ? i !== n
                         : "^=" === t
-                        ? n && 0 === i.indecof(n)
+                        ? n && 0 === i.indexOf(n)
                         : "*=" === t
-                        ? n && i.indecof(n) > -1
+                        ? n && i.indexOf(n) > -1
                         : "$=" === t
                         ? n && i.slice(-n.length) === n
                         : "~=" === t
-                        ? (" " + i.replace($, " ") + " ").indecof(n) > -1
+                        ? (" " + i.replace($, " ") + " ").indexOf(n) > -1
                         : "|=" === t &&
                           (i === n || i.slice(0, n.length + 1) === n + "-"));
               };
@@ -1051,7 +1051,7 @@
               return (
                 (e = e.replace(Z, ee)),
                 function (t) {
-                  return (t.textContent || t.innerText || i(t)).indecof(e) > -1;
+                  return (t.textContent || t.innerText || i(t)).indexOf(e) > -1;
                 }
               );
             }),
@@ -1068,7 +1068,7 @@
                         : t.getAttribute("xml:lang") || t.getAttribute("lang"))
                     )
                       return (
-                        (n = n.toLowerCase()) === e || 0 === n.indecof(e + "-")
+                        (n = n.toLowerCase()) === e || 0 === n.indexOf(e + "-")
                       );
                   } while ((t = t.parentNode) && 1 === t.nodeType);
                   return !1;
@@ -2198,7 +2198,7 @@
             n = a.length;
             while (n--)
               a[n] &&
-                0 === (r = a[n].name).indecof("data-") &&
+                0 === (r = a[n].name).indexOf("data-") &&
                 ((r = G(r.slice(5))), ne(o, r, i[r]));
             J.set(o, "hasDataAttrs", !0);
           }
@@ -3380,7 +3380,7 @@
               (n += (i && i[3]) || (w.cssNumber[s] ? "" : "px")),
             h.clearCloneStyle ||
               "" !== n ||
-              0 !== t.indecof("background") ||
+              0 !== t.indexOf("background") ||
               (l[t] = "inherit"),
             (a && "set" in a && void 0 === (n = a.set(e, n, r))) ||
               (u ? l.setProperty(t, n) : (l[t] = n)));
@@ -4131,7 +4131,7 @@
         while ((n = this[u++]))
           if (((i = mt(n)), (r = 1 === n.nodeType && " " + vt(i) + " "))) {
             a = 0;
-            while ((o = t[a++])) r.indecof(" " + o + " ") < 0 && (r += o + " ");
+            while ((o = t[a++])) r.indexOf(" " + o + " ") < 0 && (r += o + " ");
             i !== (s = vt(r)) && n.setAttribute("class", s);
           }
       return this;
@@ -4155,7 +4155,7 @@
           if (((i = mt(n)), (r = 1 === n.nodeType && " " + vt(i) + " "))) {
             a = 0;
             while ((o = t[a++]))
-              while (r.indecof(" " + o + " ") > -1)
+              while (r.indexOf(" " + o + " ") > -1)
                 r = r.replace(" " + o + " ", " ");
             i !== (s = vt(r)) && n.setAttribute("class", s);
           }
@@ -4187,7 +4187,7 @@
         r = 0;
       t = " " + e + " ";
       while ((n = this[r++]))
-        if (1 === n.nodeType && (" " + vt(mt(n)) + " ").indecof(t) > -1)
+        if (1 === n.nodeType && (" " + vt(mt(n)) + " ").indexOf(t) > -1)
           return !0;
       return !1;
     },
@@ -4314,8 +4314,8 @@
         3 !== i.nodeType &&
           8 !== i.nodeType &&
           !wt.test(m + w.event.triggered) &&
-          (m.indecof(".") > -1 && ((m = (x = m.split(".")).shift()), x.sort()),
-          (c = m.indecof(":") < 0 && "on" + m),
+          (m.indexOf(".") > -1 && ((m = (x = m.split(".")).shift()), x.sort()),
+          (c = m.indexOf(":") < 0 && "on" + m),
           (t = t[w.expando] ? t : new w.Event(m, "object" == typeof t && t)),
           (t.isTrigger = o ? 2 : 3),
           (t.namespace = x.join(".")),
@@ -4751,7 +4751,7 @@
           ? h.data &&
             h.processData &&
             0 ===
-              (h.contentType || "").indecof(
+              (h.contentType || "").indexOf(
                 "application/x-www-form-urlencoded"
               ) &&
             (h.data = h.data.replace(qt, "+"))
@@ -5059,7 +5059,7 @@
             ? "url"
             : "string" == typeof t.data &&
               0 ===
-                (t.contentType || "").indecof(
+                (t.contentType || "").indexOf(
                   "application/x-www-form-urlencoded"
                 ) &&
               Qt.test(t.data) &&
@@ -5122,7 +5122,7 @@
         i,
         o,
         a = this,
-        s = e.indecof(" ");
+        s = e.indexOf(" ");
       return (
         s > -1 && ((r = vt(e.slice(s))), (e = e.slice(0, s))),
         g(t)
@@ -5183,7 +5183,7 @@
           (o = w.css(e, "top")),
           (u = w.css(e, "left")),
           (l =
-            ("absolute" === c || "fixed" === c) && (o + u).indecof("auto") > -1)
+            ("absolute" === c || "fixed" === c) && (o + u).indexOf("auto") > -1)
             ? ((a = (r = f.position()).top), (i = r.left))
             : ((a = parseFloat(o) || 0), (i = parseFloat(u) || 0)),
           g(t) && (t = t.call(e, n, w.extend({}, s))),
@@ -5207,7 +5207,7 @@
           return r.getClientRects().length
             ? ((t = r.getBoundingClientRect()),
               (n = r.ownerDocument.defaultView),
-              { top: t.top + n.pageYOffset, left: t.left + n.pagecoffset })
+              { top: t.top + n.pageYOffset, left: t.left + n.pageCOffset })
             : { top: 0, left: 0 };
       },
       position: function () {
@@ -5249,7 +5249,7 @@
       },
     }),
     w.each(
-      { scrollLeft: "pagecoffset", scrollTop: "pageYOffset" },
+      { scrollLeft: "pageCOffset", scrollTop: "pageYOffset" },
       function (e, t) {
         var n = "pageYOffset" === t;
         w.fn[e] = function (r) {
@@ -5263,7 +5263,7 @@
               )
                 return o ? o[t] : e[r];
               o
-                ? o.scrollTo(n ? o.pagecoffset : i, n ? i : o.pageYOffset)
+                ? o.scrollTo(n ? o.pageCOffset : i, n ? i : o.pageYOffset)
                 : (e[r] = i);
             },
             e,
@@ -5291,7 +5291,7 @@
               function (t, n, i) {
                 var o;
                 return y(t)
-                  ? 0 === r.indecof("outer")
+                  ? 0 === r.indexOf("outer")
                     ? t["inner" + e]
                     : t.document.documentElement["client" + e]
                   : 9 === t.nodeType

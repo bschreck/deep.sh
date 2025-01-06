@@ -48,7 +48,7 @@ from deepsh.tools import (
     print_exception,
     to_bool,
 )
-from deepsh.contribs import contrib, find_contrib, get_contribs, contribs_loaded
+from deepsh.contribs import Contrib, find_contrib, get_contribs, contribs_loaded
 
 HR = "'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'"
 WIZARD_HEAD = f"""
@@ -109,14 +109,14 @@ will accept the default value for that entry.
 
 WIZARD_ENV_QUESTION = "Would you like to set env vars now, " + wiz.YN
 
-WIZARD_coNTRIB = f"""
+WIZARD_CONTRIB = f"""
 {HR}
 
-                           {{BOLD_WHITE}}contribs{{RESET}}
+                           {{BOLD_WHITE}}Contribs{{RESET}}
                            {{YELLOW}}--------{{RESET}}
 No shell is complete without extensions, and deepsh is no exception. Deepsh
 extensions are called {{BOLD_GREEN}}contribs{{RESET}}, or deepsh contributions.
-contribs are dynamically loadable, either by importing them directly or by
+Contribs are dynamically loadable, either by importing them directly or by
 using the 'contrib' command. However, you can also configure deepsh to load
 contribs automatically on startup prior to loading the run control files.
 This allows the contrib to be used immediately in your deepshrc files.
@@ -125,13 +125,13 @@ The following describes all contribs that have been registered with deepsh.
 These come from users, 3rd party developers, or deepsh itself!
 """
 
-WIZARD_coNTRIB_QUESTION = "Would you like to enable contribs now, " + wiz.YN
+WIZARD_CONTRIB_QUESTION = "Would you like to enable contribs now, " + wiz.YN
 
 WIZARD_TAIL = """
 Thanks for using the deepsh configuration wizard!"""
 
 
-_coNFIG_SOURCE_FOREIGN_SHELL_COMMAND: dict[str, str] = collections.defaultdict(
+_CONFIG_SOURCE_FOREIGN_SHELL_COMMAND: dict[str, str] = collections.defaultdict(
     lambda: "source-foreign", bash="source-bash", cmd="source-cmd", zsh="source-zsh"
 )
 
@@ -149,7 +149,7 @@ Register a callable that will return extra info when ``config info`` is called.
 def _dump_config_foreign_shell(path, value):
     shell = value["shell"]
     shell = CANON_SHELL_NAMES.get(shell, shell)
-    cmd = [_coNFIG_SOURCE_FOREIGN_SHELL_COMMAND[shell]]
+    cmd = [_CONFIG_SOURCE_FOREIGN_SHELL_COMMAND[shell]]
     interactive = value.get("interactive", None)
     if interactive is not None:
         cmd.extend(["--interactive", str(interactive)])
@@ -199,7 +199,7 @@ def _dump_config_contribs(path, value):
 
 
 @lazyobject
-def coNFIG_DUMP_RULES():
+def CONFIG_DUMP_RULES():
     return {
         "/": None,
         "/env/": None,
@@ -348,7 +348,7 @@ def make_env_wiz():
     return w
 
 
-coNTRIB_PROMPT = "{BOLD_GREEN}Add this contrib{RESET}, " + wiz.YN
+CONTRIB_PROMPT = "{BOLD_GREEN}Add this contrib{RESET}, " + wiz.YN
 
 
 def _contrib_path(visitor=None, node=None, val=None):
@@ -356,7 +356,7 @@ def _contrib_path(visitor=None, node=None, val=None):
     return ("contribs", len(visitor.state.get("contribs", ())))
 
 
-def make_contrib(con_item: tuple[str, contrib]):
+def make_contrib(con_item: tuple[str, Contrib]):
     """Makes a message and StoreNonEmpty node for a contrib."""
     name, contrib = con_item
     name = name or "<unknown-contrib-name>"
@@ -375,7 +375,7 @@ def make_contrib(con_item: tuple[str, contrib]):
         msg = msg[:-1]
     mnode = wiz.Message(message=msg)
     convert = lambda x: name if to_bool(x) else wiz.Unstorable
-    pnode = wiz.StoreNonEmpty(coNTRIB_PROMPT, converter=convert, path=_contrib_path)
+    pnode = wiz.StoreNonEmpty(CONTRIB_PROMPT, converter=convert, path=_contrib_path)
     return mnode, pnode
 
 
@@ -405,15 +405,15 @@ def make_config_wizard(default_file=None, confirm=False, no_wizard_file=None):
             make_fs_wiz(),
             wiz.Message(message=WIZARD_ENV),
             wiz.YesNo(question=WIZARD_ENV_QUESTION, yes=make_env_wiz(), no=wiz.Pass()),
-            wiz.Message(message=WIZARD_coNTRIB),
+            wiz.Message(message=WIZARD_CONTRIB),
             wiz.YesNo(
-                question=WIZARD_coNTRIB_QUESTION, yes=make_contribs_wiz(), no=wiz.Pass()
+                question=WIZARD_CONTRIB_QUESTION, yes=make_contribs_wiz(), no=wiz.Pass()
             ),
             wiz.Message(message="\n" + HR + "\n"),
             wiz.FileInserter(
                 prefix="# DEEPSH WIZARD START",
                 suffix="# DEEPSH WIZARD END",
-                dump_rules=coNFIG_DUMP_RULES,
+                dump_rules=CONFIG_DUMP_RULES,
                 default_file=default_file,
                 check=True,
             ),
@@ -711,7 +711,7 @@ def _web(
     main.serve(browser)
 
 
-class configAlias(ArgParserAlias):
+class ConfigAlias(ArgParserAlias):
     """Manage deepsh configuration."""
 
     def __init__(self, **kwargs):
@@ -736,7 +736,7 @@ class configAlias(ArgParserAlias):
         return parser
 
 
-config_main = configAlias(threadable=False)
+config_main = ConfigAlias(threadable=False)
 
 
 @lazyobject

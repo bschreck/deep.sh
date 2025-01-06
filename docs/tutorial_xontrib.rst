@@ -1,7 +1,7 @@
 .. _tutorial_contrib:
 
 ************************************
-Tutorial: Extensions (contribs)
+Tutorial: Extensions (Contribs)
 ************************************
 Take a deep breath and prepare for some serious Show & Tell; it's time to
 learn about deepsh extensions!
@@ -13,7 +13,7 @@ from the community.
 
 Overview
 ========
-contributions, or ``contribs``, are a set of tools and conventions for
+Contributions, or ``contribs``, are a set of tools and conventions for
 extending the functionality of deepsh beyond what is provided by default. This
 allows 3rd party developers and users to improve their deepsh experience without
 having to go through the deepsh development and release cycle.
@@ -33,7 +33,7 @@ took inspiration from for deepsh:
 
 Structure
 ================
-contribs are modules with some special functions written
+Contribs are modules with some special functions written
 in either deepsh (``*.xsh``) or Python (``*.py``).
 
 Here is a template:
@@ -62,7 +62,7 @@ and the currently active :py:class:`deepsh.built_ins.DeepshSession` instance is 
 
 .. note::
 
-    contribs without ``_load_contrib_`` are still supported.
+    Contribs without ``_load_contrib_`` are still supported.
     But when such contrib is loaded, variables listed
     in ``__all__`` are placed in the current
     execution context if defined.
@@ -102,9 +102,9 @@ You can also use the `contrib template <https://github.com/deepsh/contrib-cookie
 create the layout for your contrib package.
 
 
-Loading contribs
+Loading Contribs
 ================
-contribs may be loaded in a few different ways: from the `deepshrc <deepshrc.rst>`_ file
+Contribs may be loaded in a few different ways: from the `deepshrc <deepshrc.rst>`_ file
 (e.g. ``~/.deepshrc``), dynamically at runtime with the ``contrib`` command, or its Python API.
 
 Extensions are loaded via the ``contrib load`` command.
@@ -128,7 +128,7 @@ A contrib can be unloaded from the current session using ``contrib unload``
 
     contrib unload myext mpl mypkg.show
 
-contribs can use `setuptools entrypoints <https://setuptools.pypa.io/en/latest/userguide/entry_point.html?highlight=entrypoints>`_
+Contribs can use `setuptools entrypoints <https://setuptools.pypa.io/en/latest/userguide/entry_point.html?highlight=entrypoints>`_
 to mark themselves available for autoloading using the below format.
 
 .. code-block:: ini
@@ -146,7 +146,7 @@ Here the module should contain ``_load_contrib_`` function as described above.
     Any other imports or heavy computations should be done in lazy manner whenever possible.
 
 
-Listing Known contribs
+Listing Known Contribs
 ======================
 In addition to loading extensions, the ``contrib`` command also allows you to
 list the installed contribs. This command will report if they are loaded
@@ -168,7 +168,7 @@ string:
     >>> contrib list --json mpl
     {"mpl": {"loaded": false, "installed": true}}
 
-Authoring contribs
+Authoring Contribs
 ==================
 Writing a contrib is as easy as writing a deepsh or Python file and sticking
 it in a directory named ``contrib/``. However, please do not place an
@@ -202,7 +202,7 @@ Something similar can be done for any non-contrib package or sub-package
 that needs to distribute ``*.xsh`` files.
 
 
-Tell Us About Your contrib!
+Tell Us About Your Contrib!
 ===========================
 We request that you register your contrib with us.
 We think that will make your contribution more discoverable.

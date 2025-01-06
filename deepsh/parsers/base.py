@@ -674,7 +674,7 @@ class BaseParser:
     #
     precedence = (
         ("left", "PIPE"),
-        ("left", "coR"),
+        ("left", "COR"),
         ("left", "AMPERSAND"),
         ("left", "EQ", "NE"),
         ("left", "GT", "GE", "LT", "LE"),
@@ -1208,7 +1208,7 @@ class BaseParser:
         "%=": ast.Mod,
         "//=": ast.FloorDiv,
         "**=": ast.Pow,
-        "^=": ast.Bitcor,
+        "^=": ast.BitXor,
         "&=": ast.BitAnd,
         "|=": ast.BitOr,
         "<<=": ast.LShift,
@@ -1348,7 +1348,7 @@ class BaseParser:
                      | MODEQUAL
                      | AMPERSANDEQUAL
                      | PIPEEQUAL
-                     | coREQUAL
+                     | COREQUAL
                      | LSHIFTEQUAL
                      | RSHIFTEQUAL
                      | POWEQUAL
@@ -2077,7 +2077,7 @@ class BaseParser:
         p[0] = [
             ast.BinOp(
                 left=None,
-                op=ast.Bitcor(),
+                op=ast.BitXor(),
                 right=p[2],
                 lineno=p1.lineno,
                 col_offset=p1.lexpos,

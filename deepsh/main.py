@@ -334,7 +334,7 @@ def _load_rc_files(shell_kwargs: dict, args, env, execer, ctx):
 
 def _autoload_contribs(env):
     events.on_timingprobe.fire(name="pre_contribs_autoload")
-    disabled = env.get("coNTRIBS_AUTOLOAD_DISABLED", False)
+    disabled = env.get("CONTRIBS_AUTOLOAD_DISABLED", False)
     if disabled is True:
         return
     blocked_contribs = disabled or ()
@@ -676,7 +676,7 @@ def setup(
     aliases : dict-like, optional
         Aliases to add after the shell has been initialized.
     contribs : iterable of str, optional
-        contrib names to load.
+        Contrib names to load.
     threadable_predictors : dict-like, optional
         Threadable predictors to start up with. These overide the defaults.
     """
@@ -694,3 +694,4 @@ def setup(
 
     if threadable_predictors:
         XSH.commands_cache.threadable_predictors.update(threadable_predictors)
+print("Hello, World")

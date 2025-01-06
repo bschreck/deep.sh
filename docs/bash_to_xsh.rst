@@ -132,7 +132,7 @@ This page provides deepsh equivalents for common patterns in Bash.
         upon hitting the “tab” key.
     * - OhMyBash or BashIt
       - `awesome-contribs <https://github.com/deepsh/awesome-contribs>`_
-      - contributions, or ``contribs``, are a set of tools and conventions for extending the functionality
+      - Contributions, or ``contribs``, are a set of tools and conventions for extending the functionality
         of deepsh beyond what is provided by default.
     * - Display completions as list
       - ``$COMPLETIONS_DISPLAY = 'readline'``

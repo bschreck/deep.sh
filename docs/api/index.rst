@@ -74,7 +74,7 @@ For those of you who want the gritty details.
     deepsh.contexts
 
 
-**contribs:**
+**Contribs:**
 
 .. autosummary::
     :toctree: _autosummary/contribs
