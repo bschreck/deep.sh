@@ -4,9 +4,9 @@ Helpful Links
 =============
 
 * `GitHub Repository <https://github.com/deepsh/deepsh>`_: `releases <https://github.com/deepsh/deepsh/releases>`_, `changelog <https://github.com/deepsh/deepsh/blob/main/CHANGELOG.rst>`_
-* GitHub topics: `deepsh <https://github.com/topics/deepsh>`_ and `xontrib <https://github.com/topics/xontrib>`_
+* GitHub topics: `deepsh <https://github.com/topics/deepsh>`_ and `contrib <https://github.com/topics/contrib>`_
 * `DockerHub images <https://hub.docker.com/u/deepsh>`_
-* `Cookiecutter template to creating xontribs <https://github.com/deepsh/xontrib-cookiecutter>`_
+* `Cookiecutter template to creating contribs <https://github.com/deepsh/contrib-cookiecutter>`_
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`

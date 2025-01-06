@@ -3,7 +3,7 @@ from rever.activities.ghrelease import git_archive_asset
 from pkg_resources import parse_requirements
 
 $PROJECT = $GITHUB_ORG = $GITHUB_REPO = 'deepsh'
-$WEBSITE_URL = 'http://xon.sh'
+$WEBSITE_URL = 'http://con.sh'
 $ACTIVITIES = ['authors', 'version_bump', 'changelog', 'pytest', 'appimage',
                'tag', 'push_tag',
                'ghrelease',

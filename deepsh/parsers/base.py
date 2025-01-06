@@ -293,7 +293,7 @@ class BaseParser:
             "or_and_test_list",
             "and_not_test_list",
             "comp_op_expr_list",
-            "xor_and_expr_list",
+            "cor_and_expr_list",
             "ampersand_shift_expr_list",
             "shift_arith_expr_list",
             "op_factor_list",
@@ -329,8 +329,8 @@ class BaseParser:
             "or_and_test",
             "and_not_test",
             "comp_op_expr",
-            "pipe_xor_expr",
-            "xor_and_expr",
+            "pipe_cor_expr",
+            "cor_and_expr",
             "ampersand_shift_expr",
             "shift_arith_expr",
             "pm_term",
@@ -377,7 +377,7 @@ class BaseParser:
             "lshift",
             "rshift",
             "pipe",
-            "xor",
+            "cor",
             "ampersand",
             "for",
             "colon",
@@ -441,7 +441,7 @@ class BaseParser:
             "tilde",
             "timesequal",
             "while",
-            "xorequal",
+            "corequal",
             "match",
             "case",
         ]
@@ -674,7 +674,7 @@ class BaseParser:
     #
     precedence = (
         ("left", "PIPE"),
-        ("left", "XOR"),
+        ("left", "COR"),
         ("left", "AMPERSAND"),
         ("left", "EQ", "NE"),
         ("left", "GT", "GE", "LT", "LE"),
@@ -1348,7 +1348,7 @@ class BaseParser:
                      | MODEQUAL
                      | AMPERSANDEQUAL
                      | PIPEEQUAL
-                     | XOREQUAL
+                     | COREQUAL
                      | LSHIFTEQUAL
                      | RSHIFTEQUAL
                      | POWEQUAL
@@ -2049,13 +2049,13 @@ class BaseParser:
 
     def p_expr(self, p):
         """
-        expr : xor_expr
-             | xor_expr pipe_xor_expr_list
+        expr : cor_expr
+             | cor_expr pipe_cor_expr_list
         """
         p[0] = self._binop_combine(p[1], p[2] if len(p) > 2 else None)
 
-    def p_pipe_xor_expr(self, p):
-        """pipe_xor_expr : pipe_tok xor_expr"""
+    def p_pipe_cor_expr(self, p):
+        """pipe_cor_expr : pipe_tok cor_expr"""
         p1 = p[1]
         p[0] = [
             ast.BinOp(
@@ -2067,12 +2067,12 @@ class BaseParser:
             )
         ]
 
-    def p_xor_expr(self, p):
-        """xor_expr : and_expr xor_and_expr_list_opt"""
+    def p_cor_expr(self, p):
+        """cor_expr : and_expr cor_and_expr_list_opt"""
         p[0] = self._binop_combine(p[1], p[2])
 
-    def p_xor_and_expr(self, p):
-        """xor_and_expr : xor_tok and_expr"""
+    def p_cor_and_expr(self, p):
+        """cor_and_expr : cor_tok and_expr"""
         p1 = p[1]
         p[0] = [
             ast.BinOp(

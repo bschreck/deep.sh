@@ -151,11 +151,11 @@ In general, use ``xpip`` if you're configuring or adding features to deepsh, and
 you're doing Python development.
 
 
-``xonfig``
+``config``
 =================
 Manages deepsh configuration information.
 
-.. command-help:: deepsh.xonfig.xonfig_main
+.. command-help:: deepsh.config.config_main
 
 ``xthread`` and ``xunthread``
 =============================
@@ -218,6 +218,6 @@ it is instead aliased to ``['ls', '-G']``.
 The ``grep`` command is aliased to ``['grep', '--color=auto']``.
 
 
-``xontrib``
+``contrib``
 ==============
-Manages deepsh extensions. More information is available at :doc:`tutorial_xontrib`
+Manages deepsh extensions. More information is available at :doc:`tutorial_contrib`

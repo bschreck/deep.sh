@@ -4,7 +4,7 @@ import os
 import pytest
 
 from deepsh.platform import DEFAULT_ENCODING
-from deepsh.xoreutils import cat
+from deepsh.coreutils import cat
 
 
 @pytest.fixture
@@ -78,8 +78,8 @@ class TestCat:
     @pytest.mark.parametrize(
         "content",
         [
-            "this is a content\nfor testing xoreutil's cat",
-            "this is a content withe \\n\nfor testing xoreutil's cat\n",
+            "this is a content\nfor testing coreutil's cat",
+            "this is a content withe \\n\nfor testing coreutil's cat\n",
             "",
         ],
     )

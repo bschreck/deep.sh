@@ -1547,7 +1547,7 @@ def color_file(file_path: str, path_stat: os.stat_result) -> tuple[_TokenType, s
             cap = os_listxattr(file_path, follow_symlinks=False)
             if cap and "security.capability" in cap:  # protect None return on some OS?
                 color_key = "ca"
-            elif stat.S_IMODE(mode) & (stat.S_IXUSR + stat.S_IXGRP + stat.S_IXOTH):
+            elif stat.S_IMODE(mode) & (stat.S_IXUSR + stat.S_IXGRP + stat.S_ICOTH):
                 color_key = "ex"
             elif path_stat.st_nlink > 1:
                 color_key = "mh"

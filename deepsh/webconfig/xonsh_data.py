@@ -17,7 +17,7 @@ from deepsh.pyghooks import (
 )
 from deepsh.pygments_cache import get_all_styles
 from deepsh.style_tools import partial_color_tokenize
-from deepsh.xontribs import Xontrib, get_xontribs
+from deepsh.contribs import Contrib, get_contribs
 
 # $RAISE_SUBPROC_ERROR = True
 # $DEEPSH_SHOW_TRACEBACK = False
@@ -204,15 +204,15 @@ def render_colors():
         yield style, escape(display)
 
 
-def format_xontrib(xontrib: Xontrib):
+def format_contrib(contrib: Contrib):
     return {
-        "url": xontrib.url,
-        "license": xontrib.license,
-        "display": escape(rst_to_html(xontrib.get_description())),
+        "url": contrib.url,
+        "license": contrib.license,
+        "display": escape(rst_to_html(contrib.get_description())),
     }
 
 
-def render_xontribs():
-    md = get_xontribs()
-    for xontrib_name, xontrib in md.items():
-        yield xontrib_name, format_xontrib(xontrib)
+def render_contribs():
+    md = get_contribs()
+    for contrib_name, contrib in md.items():
+        yield contrib_name, format_contrib(contrib)

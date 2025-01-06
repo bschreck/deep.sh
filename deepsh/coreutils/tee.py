@@ -44,7 +44,7 @@ def tee(args, stdin, stdout, stderr):
     return int(errors)
 
 
-TEE_HELP = """This version of tee was written in Python for the deepsh project: http://xon.sh
+TEE_HELP = """This version of tee was written in Python for the deepsh project: http://con.sh
 Based on tee from GNU coreutils: http://www.gnu.org/software/coreutils/
 
 Usage: tee [OPTION]... [FILE]...

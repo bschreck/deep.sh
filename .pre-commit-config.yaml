@@ -14,7 +14,7 @@ repos:
         args: [., --fix, --exit-non-zero-on-fix]
         pass_filenames: false
       - id: ruff-format
-        args: ["deepsh", "xontrib", "tests", "xompletions"]
+        args: ["deepsh", "contrib", "tests", "completions"]
         pass_filenames: false
 
   - repo: https://github.com/pre-commit/mirrors-mypy

@@ -128,7 +128,7 @@ class ModuleReMatcher(ModuleFinder):
 
 
 class CommandCompleter:
-    """Lazily complete commands from `xompletions` package
+    """Lazily complete commands from `completions` package
 
     The base-name (case-insensitive) of the executable is used to find the matching completer module
     or the regex patterns.
@@ -142,7 +142,7 @@ class CommandCompleter:
     def matcher(self):
         if self._matcher is None:
             self._matcher = ModuleReMatcher(
-                "xompletions",
+                "completions",
                 *XSH.env.get("DEEPSH_COMPLETER_DIRS", []),
             )
             self._matcher.wrap(r"\bx?pip(?:\d|\.)*(exe)?$", "pip")
@@ -184,4 +184,4 @@ class CommandCompleter:
             return func(ctx)
 
 
-complete_xompletions = CommandCompleter()
+complete_completions = CommandCompleter()

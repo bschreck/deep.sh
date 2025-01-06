@@ -24,7 +24,7 @@ Let's dive in!
 
 Starting deepsh
 ========================
-Assuming you have successfully installed deepsh (see http://xon.sh),
+Assuming you have successfully installed deepsh (see http://con.sh),
 you can start up the deepsh interpreter via the ``deepsh`` command. Suppose
 you are in a lesser terminal:
 

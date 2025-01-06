@@ -17,18 +17,18 @@ tools are cross-platform.
 
 from deepsh.built_ins import DeepshSession
 from deepsh.platform import ON_POSIX
-from deepsh.xoreutils.cat import cat
-from deepsh.xoreutils.echo import echo
-from deepsh.xoreutils.pwd import pwd
-from deepsh.xoreutils.tee import tee
-from deepsh.xoreutils.tty import tty
-from deepsh.xoreutils.umask import umask
-from deepsh.xoreutils.uname import uname
-from deepsh.xoreutils.uptime import uptime
-from deepsh.xoreutils.yes import yes
+from deepsh.coreutils.cat import cat
+from deepsh.coreutils.echo import echo
+from deepsh.coreutils.pwd import pwd
+from deepsh.coreutils.tee import tee
+from deepsh.coreutils.tty import tty
+from deepsh.coreutils.umask import umask
+from deepsh.coreutils.uname import uname
+from deepsh.coreutils.uptime import uptime
+from deepsh.coreutils.yes import yes
 
 
-def _load_xontrib_(xsh: DeepshSession, **_):
+def _load_contrib_(xsh: DeepshSession, **_):
     xsh.aliases["cat"] = cat
     xsh.aliases["echo"] = echo
     xsh.aliases["pwd"] = pwd
@@ -39,6 +39,6 @@ def _load_xontrib_(xsh: DeepshSession, **_):
     xsh.aliases["umask"] = umask
     xsh.aliases["yes"] = yes
     if ON_POSIX:
-        from deepsh.xoreutils.ulimit import ulimit
+        from deepsh.coreutils.ulimit import ulimit
 
         xsh.aliases["ulimit"] = ulimit

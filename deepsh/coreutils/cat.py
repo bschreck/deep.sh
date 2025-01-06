@@ -6,7 +6,7 @@ import time
 
 import deepsh.procs.pipelines as xpp
 from deepsh.built_ins import XSH
-from deepsh.xoreutils.util import arg_handler, run_alias
+from deepsh.coreutils.util import arg_handler, run_alias
 
 
 def _cat_line(
@@ -129,7 +129,7 @@ def _cat_parse_args(args):
     return out
 
 
-CAT_HELP_STR = """This version of cat was written in Python for the deepsh project: http://xon.sh
+CAT_HELP_STR = """This version of cat was written in Python for the deepsh project: http://con.sh
 Based on cat from GNU coreutils: http://www.gnu.org/software/coreutils/
 
 Usage: cat [OPTION]... [FILE]...

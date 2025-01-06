@@ -1,4 +1,4 @@
-"""The deepsh configuration (xonfig) utility."""
+"""The deepsh configuration (config) utility."""
 
 import ast
 import collections
@@ -48,7 +48,7 @@ from deepsh.tools import (
     print_exception,
     to_bool,
 )
-from deepsh.xontribs import Xontrib, find_xontrib, get_xontribs, xontribs_loaded
+from deepsh.contribs import Contrib, find_contrib, get_contribs, contribs_loaded
 
 HR = "'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'`-.,_,.-*'"
 WIZARD_HEAD = f"""
@@ -57,9 +57,9 @@ WIZARD_HEAD = f"""
 This will present a guided tour through setting up the deepsh static
 config file. Deepsh will automatically ask you if you want to run this
 wizard if the configuration file does not exist. However, you can
-always rerun this wizard with the xonfig command:
+always rerun this wizard with the config command:
 
-    $ xonfig wizard
+    $ config wizard
 
 This wizard will load an existing configuration, if it is available.
 Also never fear when this wizard saves its results! It will create
@@ -109,47 +109,47 @@ will accept the default value for that entry.
 
 WIZARD_ENV_QUESTION = "Would you like to set env vars now, " + wiz.YN
 
-WIZARD_XONTRIB = f"""
+WIZARD_CONTRIB = f"""
 {HR}
 
-                           {{BOLD_WHITE}}Xontribs{{RESET}}
+                           {{BOLD_WHITE}}Contribs{{RESET}}
                            {{YELLOW}}--------{{RESET}}
 No shell is complete without extensions, and deepsh is no exception. Deepsh
-extensions are called {{BOLD_GREEN}}xontribs{{RESET}}, or deepsh contributions.
-Xontribs are dynamically loadable, either by importing them directly or by
-using the 'xontrib' command. However, you can also configure deepsh to load
-xontribs automatically on startup prior to loading the run control files.
-This allows the xontrib to be used immediately in your deepshrc files.
+extensions are called {{BOLD_GREEN}}contribs{{RESET}}, or deepsh contributions.
+Contribs are dynamically loadable, either by importing them directly or by
+using the 'contrib' command. However, you can also configure deepsh to load
+contribs automatically on startup prior to loading the run control files.
+This allows the contrib to be used immediately in your deepshrc files.
 
-The following describes all xontribs that have been registered with deepsh.
+The following describes all contribs that have been registered with deepsh.
 These come from users, 3rd party developers, or deepsh itself!
 """
 
-WIZARD_XONTRIB_QUESTION = "Would you like to enable xontribs now, " + wiz.YN
+WIZARD_CONTRIB_QUESTION = "Would you like to enable contribs now, " + wiz.YN
 
 WIZARD_TAIL = """
 Thanks for using the deepsh configuration wizard!"""
 
 
-_XONFIG_SOURCE_FOREIGN_SHELL_COMMAND: dict[str, str] = collections.defaultdict(
+_CONFIG_SOURCE_FOREIGN_SHELL_COMMAND: dict[str, str] = collections.defaultdict(
     lambda: "source-foreign", bash="source-bash", cmd="source-cmd", zsh="source-zsh"
 )
 
 
 events.doc(
-    "on_xonfig_info_requested",
+    "on_config_info_requested",
     """
-on_xonfig_info_requested() -> list[tuple[str, str]]
+on_config_info_requested() -> list[tuple[str, str]]
 
-Register a callable that will return extra info when ``xonfig info`` is called.
+Register a callable that will return extra info when ``config info`` is called.
 """,
 )
 
 
-def _dump_xonfig_foreign_shell(path, value):
+def _dump_config_foreign_shell(path, value):
     shell = value["shell"]
     shell = CANON_SHELL_NAMES.get(shell, shell)
-    cmd = [_XONFIG_SOURCE_FOREIGN_SHELL_COMMAND[shell]]
+    cmd = [_CONFIG_SOURCE_FOREIGN_SHELL_COMMAND[shell]]
     interactive = value.get("interactive", None)
     if interactive is not None:
         cmd.extend(["--interactive", str(interactive)])
@@ -186,7 +186,7 @@ def _dump_xonfig_foreign_shell(path, value):
     return " ".join(cmd)
 
 
-def _dump_xonfig_env(path, value):
+def _dump_config_env(path, value):
     name = os.path.basename(path.rstrip("/"))
     detyper = XSH.env.get_detyper(name)
     dval = str(value) if detyper is None else detyper(value)
@@ -194,19 +194,19 @@ def _dump_xonfig_env(path, value):
     return f"${name} = {dval!r}"
 
 
-def _dump_xonfig_xontribs(path, value):
-    return "xontrib load {}".format(" ".join(value))
+def _dump_config_contribs(path, value):
+    return "contrib load {}".format(" ".join(value))
 
 
 @lazyobject
-def XONFIG_DUMP_RULES():
+def CONFIG_DUMP_RULES():
     return {
         "/": None,
         "/env/": None,
-        "/foreign_shells/*/": _dump_xonfig_foreign_shell,
-        "/env/*": _dump_xonfig_env,
+        "/foreign_shells/*/": _dump_config_foreign_shell,
+        "/env/*": _dump_config_env,
         "/env/*/[0-9]*": None,
-        "/xontribs/": _dump_xonfig_xontribs,
+        "/contribs/": _dump_config_contribs,
     }
 
 
@@ -348,43 +348,43 @@ def make_env_wiz():
     return w
 
 
-XONTRIB_PROMPT = "{BOLD_GREEN}Add this xontrib{RESET}, " + wiz.YN
+CONTRIB_PROMPT = "{BOLD_GREEN}Add this contrib{RESET}, " + wiz.YN
 
 
-def _xontrib_path(visitor=None, node=None, val=None):
+def _contrib_path(visitor=None, node=None, val=None):
     # need this to append only based on user-selected size
-    return ("xontribs", len(visitor.state.get("xontribs", ())))
+    return ("contribs", len(visitor.state.get("contribs", ())))
 
 
-def make_xontrib(xon_item: tuple[str, Xontrib]):
-    """Makes a message and StoreNonEmpty node for a xontrib."""
-    name, xontrib = xon_item
-    name = name or "<unknown-xontrib-name>"
+def make_contrib(con_item: tuple[str, Contrib]):
+    """Makes a message and StoreNonEmpty node for a contrib."""
+    name, contrib = con_item
+    name = name or "<unknown-contrib-name>"
     msg = "\n{BOLD_CYAN}" + name + "{RESET}\n"
 
-    if xontrib.url:
-        msg += "{RED}url:{RESET} " + xontrib.url + "\n"
-    if xontrib.distribution:
-        msg += "{RED}package:{RESET} " + xontrib.distribution.name + "\n"
-        if xontrib.license:
-            msg += "{RED}license:{RESET} " + xontrib.license + "\n"
+    if contrib.url:
+        msg += "{RED}url:{RESET} " + contrib.url + "\n"
+    if contrib.distribution:
+        msg += "{RED}package:{RESET} " + contrib.distribution.name + "\n"
+        if contrib.license:
+            msg += "{RED}license:{RESET} " + contrib.license + "\n"
     msg += "{PURPLE}installed?{RESET} "
-    msg += ("no" if find_xontrib(name) is None else "yes") + "\n"
-    msg += _wrap_paragraphs(xontrib.get_description(), width=69)
+    msg += ("no" if find_contrib(name) is None else "yes") + "\n"
+    msg += _wrap_paragraphs(contrib.get_description(), width=69)
     if msg.endswith("\n"):
         msg = msg[:-1]
     mnode = wiz.Message(message=msg)
     convert = lambda x: name if to_bool(x) else wiz.Unstorable
-    pnode = wiz.StoreNonEmpty(XONTRIB_PROMPT, converter=convert, path=_xontrib_path)
+    pnode = wiz.StoreNonEmpty(CONTRIB_PROMPT, converter=convert, path=_contrib_path)
     return mnode, pnode
 
 
-def make_xontribs_wiz():
-    """Makes a xontrib wizard."""
-    return _make_flat_wiz(make_xontrib, get_xontribs().items())
+def make_contribs_wiz():
+    """Makes a contrib wizard."""
+    return _make_flat_wiz(make_contrib, get_contribs().items())
 
 
-def make_xonfig_wizard(default_file=None, confirm=False, no_wizard_file=None):
+def make_config_wizard(default_file=None, confirm=False, no_wizard_file=None):
     """Makes a configuration wizard for deepsh config file.
 
     Parameters
@@ -405,15 +405,15 @@ def make_xonfig_wizard(default_file=None, confirm=False, no_wizard_file=None):
             make_fs_wiz(),
             wiz.Message(message=WIZARD_ENV),
             wiz.YesNo(question=WIZARD_ENV_QUESTION, yes=make_env_wiz(), no=wiz.Pass()),
-            wiz.Message(message=WIZARD_XONTRIB),
+            wiz.Message(message=WIZARD_CONTRIB),
             wiz.YesNo(
-                question=WIZARD_XONTRIB_QUESTION, yes=make_xontribs_wiz(), no=wiz.Pass()
+                question=WIZARD_CONTRIB_QUESTION, yes=make_contribs_wiz(), no=wiz.Pass()
             ),
             wiz.Message(message="\n" + HR + "\n"),
             wiz.FileInserter(
                 prefix="# DEEPSH WIZARD START",
                 suffix="# DEEPSH WIZARD END",
-                dump_rules=XONFIG_DUMP_RULES,
+                dump_rules=CONFIG_DUMP_RULES,
                 default_file=default_file,
                 check=True,
             ),
@@ -457,7 +457,7 @@ def _wizard(
     deepshrcs = env.get("DEEPSHRC", [])
     fname = deepshrcs[-1] if deepshrcs and rcfile is None else rcfile
     no_wiz = os.path.join(env.get("DEEPSH_CONFIG_DIR"), "no-wizard")
-    w = make_xonfig_wizard(default_file=fname, confirm=confirm, no_wizard_file=no_wiz)
+    w = make_config_wizard(default_file=fname, confirm=confirm, no_wizard_file=no_wiz)
     tempenv = {"PROMPT": "", "DEEPSH_STORE_STDOUT": False}
     pv = wiz.PromptVisitor(w, store_in_history=False, multiline=False)
 
@@ -478,7 +478,7 @@ def _wizard(
             print_exception()
 
 
-def _xonfig_format_human(data):
+def _config_format_human(data):
     wcol1 = wcol2 = 0
     for key, val in data:
         wcol1 = max(wcol1, len(key))
@@ -502,7 +502,7 @@ def _xonfig_format_human(data):
     return s
 
 
-def _xonfig_format_json(data):
+def _config_format_json(data):
     data = {k.replace(" ", "_"): v for k, v in data}
     s = json.dumps(data, sort_keys=True, indent=1) + "\n"
     return s
@@ -554,11 +554,11 @@ def _info(
             ("encoding errors", env.get("DEEPSH_ENCODING_ERRORS")),
         ]
     )
-    for p in XSH.builtins.events.on_xonfig_info_requested.fire():
+    for p in XSH.builtins.events.on_config_info_requested.fire():
         if p is not None:
             data.extend(p)
 
-    data.extend([("xontrib", xontribs_loaded())])
+    data.extend([("contrib", contribs_loaded())])
     data.extend([("RC file", XSH.rc_files)])
 
     # Show sensitive env variables that could affect the shell behavior.
@@ -576,7 +576,7 @@ def _info(
         if (val := XSH.env.get(e)) is not None and (show_if is None or val == show_if):
             data.extend([(e, val)])
 
-    formatter = _xonfig_format_json if to_json else _xonfig_format_human
+    formatter = _config_format_json if to_json else _config_format_human
     s = formatter(data)
     return s
 
@@ -650,12 +650,12 @@ def _tok_colors(cmap, cols):
     return toks
 
 
-def xonfig_color_completer(*_, **__):
+def config_color_completer(*_, **__):
     yield from color_style_names()
 
 
 def _colors(
-    style: tp.Annotated[str, Arg(nargs="?", completer=xonfig_color_completer)] = None,
+    style: tp.Annotated[str, Arg(nargs="?", completer=config_color_completer)] = None,
 ):
     """Preview color style
 
@@ -691,7 +691,7 @@ def _tutorial():
     """Launch tutorial in browser."""
     import webbrowser
 
-    webbrowser.open("http://xon.sh/tutorial.html")
+    webbrowser.open("http://con.sh/tutorial.html")
 
 
 def _web(
@@ -711,7 +711,7 @@ def _web(
     main.serve(browser)
 
 
-class XonfigAlias(ArgParserAlias):
+class ConfigAlias(ArgParserAlias):
     """Manage deepsh configuration."""
 
     def __init__(self, **kwargs):
@@ -722,7 +722,7 @@ class XonfigAlias(ArgParserAlias):
         self.extra_commands.append(fn)
 
     def build(self):
-        parser = self.create_parser(prog="xonfig")
+        parser = self.create_parser(prog="config")
         # register as default action
         parser.add_command(_info, default=True)
         parser.add_command(_web)
@@ -736,7 +736,7 @@ class XonfigAlias(ArgParserAlias):
         return parser
 
 
-xonfig_main = XonfigAlias(threadable=False)
+config_main = ConfigAlias(threadable=False)
 
 
 @lazyobject
@@ -761,7 +761,7 @@ def _align_string(string, align="<", fill=" ", width=80):
 @lazyobject
 def TAGLINES():
     return [
-        "Exofrills in the shell",
+        "Ecofrills in the shell",
         "No frills in the shell",
         "Become the Lord of the Files",
         "Break out of your shell",
@@ -805,14 +805,14 @@ WELCOME_MSG = [
     ("{{INTENSE_BLACK}}", "<", "-"),
     "",
     (
-        "{{INTENSE_BLACK}}Create ~/.deepshrc file manually or use xonfig to suppress the welcome message",
+        "{{INTENSE_BLACK}}Create ~/.deepshrc file manually or use config to suppress the welcome message",
         "^",
         " ",
     ),
     "",
     "{{INTENSE_BLACK}}Start from commands:",
-    "  {{GREEN}}xonfig{{RESET}} web         {{INTENSE_BLACK}}# Run the configuration tool in the browser to create ~/.deepshrc {{RESET}}",
-    "  {{GREEN}}xonfig{{RESET}} tutorial    {{INTENSE_BLACK}}# Open the deepsh tutorial in the browser{{RESET}}",
+    "  {{GREEN}}config{{RESET}} web         {{INTENSE_BLACK}}# Run the configuration tool in the browser to create ~/.deepshrc {{RESET}}",
+    "  {{GREEN}}config{{RESET}} tutorial    {{INTENSE_BLACK}}# Open the deepsh tutorial in the browser{{RESET}}",
     "[SHELL_TYPE_WARNING]",
     "",
     ("{{INTENSE_BLACK}}", "<", "-"),

@@ -401,10 +401,10 @@ def test_subproc_toks_pyeval_nested():
     "phrase",
     [
         "xandy",
-        "xory",
+        "cory",
         "xand",
         "andy",
-        "xor",
+        "cor",
         "ory",
         "x-and",
         "x-or",

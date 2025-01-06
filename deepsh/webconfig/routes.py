@@ -220,27 +220,27 @@ class PromptsPage(Routes):
             self.update_rc(prompt=prompt)
 
 
-class XontribsPage(Routes):
-    path = "/xontribs"
-    nav_title = "Xontribs"
+class ContribsPage(Routes):
+    path = "/contribs"
+    nav_title = "Contribs"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.xontribs = dict(deepsh_data.render_xontribs())
+        self.contribs = dict(deepsh_data.render_contribs())
 
     @staticmethod
     def mod_name(name):
-        return f"xontrib.{name}"
+        return f"contrib.{name}"
 
     @staticmethod
     def is_loaded(name):
-        return XontribsPage.mod_name(name) in sys.modules
+        return ContribsPage.mod_name(name) in sys.modules
 
-    def xontrib_card(self, name, data):
-        from deepsh.xontribs import find_xontrib
+    def contrib_card(self, name, data):
+        from deepsh.contribs import find_contrib
 
         title = t.a(href=data["url"])[name]
-        if find_xontrib(name):
+        if find_contrib(name):
             act_label = "Add"
             if self.is_loaded(name):
                 act_label = "Remove"
@@ -258,34 +258,34 @@ class XontribsPage(Routes):
     def get(self):
         yield t.card()[
             t.card_body()[
-                t.card_title()["Popular xontrib sources"],
+                t.card_title()["Popular contrib sources"],
                 t.card_body()[
                     t.li()[
-                        t.a(href="https://github.com/topics/xontrib")[
-                            "Xontribs on Github"
+                        t.a(href="https://github.com/topics/contrib")[
+                            "Contribs on Github"
                         ]
                     ],
                     t.li()[
-                        t.a(href="https://github.com/deepsh/awesome-xontribs")[
-                            "Awesome xontribs"
+                        t.a(href="https://github.com/deepsh/awesome-contribs")[
+                            "Awesome contribs"
                         ]
                     ],
                     t.li()[
                         t.a(
-                            href="https://xon.sh/api/_autosummary/xontribs/xontrib.html"
-                        )["Core xontribs"]
+                            href="https://con.sh/api/_autosummary/contribs/contrib.html"
+                        )["Core contribs"]
                     ],
                     t.li()[
-                        t.a(href="https://github.com/deepsh/xontrib-template")[
-                            "Create a xontrib step by step from template"
+                        t.a(href="https://github.com/deepsh/contrib-template")[
+                            "Create a contrib step by step from template"
                         ]
                     ],
                 ],
             ]
         ]
         yield t.br()
-        for name, data in self.xontribs.items():
-            yield t.row()[t.col()[self.xontrib_card(name, data),]]
+        for name, data in self.contribs.items():
+            yield t.row()[t.col()[self.contrib_card(name, data),]]
             yield t.br()
 
     def post(self, data: dict[str, str]):
@@ -296,13 +296,13 @@ class XontribsPage(Routes):
             # todo: update rc file
             del sys.modules[self.mod_name(name)]
         else:
-            from deepsh.xontribs import xontribs_load
+            from deepsh.contribs import contribs_load
 
-            _, err, _ = xontribs_load([name])
+            _, err, _ = contribs_load([name])
             if err:
                 self.err(err)
             else:
-                self.update_rc(xontribs=[name])
+                self.update_rc(contribs=[name])
 
 
 class EnvVariablesPage(Routes):

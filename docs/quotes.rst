@@ -21,5 +21,5 @@ Quotes
 .. epigraph::
 
     “@pathogenomenick @btnaughton @lexnederbragt the dark wizardry of @scopatz :-)
-    check out xon.sh”
+    check out con.sh”
 

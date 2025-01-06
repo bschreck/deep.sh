@@ -22,7 +22,7 @@ events.doc(
     """
 on_transform_command(cmd: str) -> str
 
-Fired to request xontribs to transform a command line. Return the transformed
+Fired to request contribs to transform a command line. Return the transformed
 command, or the same command if no transformation occurs. Only done for
 interactive sessions.
 

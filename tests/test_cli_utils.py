@@ -80,12 +80,12 @@ def test_parser_hooking():
 
 
 def test_parser_default_func(mocker):
-    import deepsh.xontribs as xx
+    import deepsh.contribs as xx
 
-    alias = xx.XontribAlias()
+    alias = xx.ContribAlias()
 
     def func():
         return True
 
-    mocker.patch.object(xx, "xontribs_list", func)
+    mocker.patch.object(xx, "contribs_list", func)
     assert alias([]) is True

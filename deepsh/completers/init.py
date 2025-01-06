@@ -9,7 +9,7 @@ from deepsh.completers.commands import (
     complete_end_proc_keywords,
     complete_end_proc_tokens,
     complete_skipper,
-    complete_xompletions,
+    complete_completions,
 )
 from deepsh.completers.environment import complete_environment_vars
 from deepsh.completers.imports import complete_import
@@ -29,7 +29,7 @@ def default_completers(cmd_cache):
         ("base", complete_base),
         ("skip", complete_skipper),
         ("alias", complete_aliases),
-        ("xompleter", complete_xompletions),
+        ("completer", complete_completions),
         ("import", complete_import),
     ]
 

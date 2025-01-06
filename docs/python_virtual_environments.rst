@@ -10,14 +10,14 @@ The usual tools for creating Python virtual environments—``venv``, ``virtualen
 
 Luckily, deepsh has its own virtual environments manager called **Vox**. Run to install Vox::
 
-    $ xpip install xontrib-vox
+    $ xpip install contrib-vox
 
 Vox
 ===
 
-First, load the vox xontrib::
+First, load the vox contrib::
 
-    @ xontrib load vox
+    @ contrib load vox
 
 To create a new environment with vox, run ``vox new <envname>``::
 
@@ -102,14 +102,14 @@ Simply add the ``'{env_name}'`` variable to your ``$PROMPT``::
 
     $PROMPT = '{env_name: {}}' + restofmyprompt
 
-Note that you do **not** need to load the ``vox`` xontrib for this to work.
+Note that you do **not** need to load the ``vox`` contrib for this to work.
 For more details see :ref:`customprompt`.
 
 
 Automatically Switching Environments
 ------------------------------------
 
-Automatic environment switching based on the current directory is managed with the ``autovox`` xontrib (``xontrib load autovox``). Third-party xontribs may register various policies for use with autovox. Pick and choose xontribs that implement policies that match your work style.
+Automatic environment switching based on the current directory is managed with the ``autovox`` contrib (``contrib load autovox``). Third-party contribs may register various policies for use with autovox. Pick and choose contribs that implement policies that match your work style.
 
 Implementing policies is easy! Just register with the ``autovox_policy`` event and return a ``Path`` if there is a matching venv. For example, this policy implements handling if there is a ``.venv`` directory in the project::
 

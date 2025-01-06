@@ -9,7 +9,7 @@ Guides
     tutorial
     tutorial_hist
     tutorial_macros
-    tutorial_xontrib
+    tutorial_contrib
     tutorial_deepsh_projects
     tutorial_events
     tutorial_completers

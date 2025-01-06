@@ -56,7 +56,7 @@ def _register_completer(
          for the given prefix.  If this completer should not be used in a given
          context, it should return an empty set or None.
 
-         For more information see https://xon.sh/tutorial_completers.html#writing-a-new-completer.
+         For more information see https://con.sh/tutorial_completers.html#writing-a-new-completer.
 
     pos
         position into the list of completers at which the new

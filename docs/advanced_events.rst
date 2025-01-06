@@ -14,7 +14,7 @@ Why Unordered?
 Yes, handler call order is not guaranteed. Please don't file bugs about this.
 
 This was chosen because the order of handler registration is dependent on load order, which is
-stable in a release but not something generally reasoned about. In addition, xontribs mean that we
+stable in a release but not something generally reasoned about. In addition, contribs mean that we
 don't know what handlers could be registered. So even an "ordered" event system would be unable to
 make guarantees about ordering because of the larger system.
 

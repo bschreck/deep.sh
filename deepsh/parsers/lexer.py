@@ -68,7 +68,7 @@ def token_map():
         "**": "POW",
         "|": "PIPE",
         "~": "TILDE",
-        "^": "XOR",
+        "^": "COR",
         "<<": "LSHIFT",
         ">>": "RSHIFT",
         "<": "LT",
@@ -90,7 +90,7 @@ def token_map():
         "<<=": "LSHIFTEQUAL",
         ">>=": "RSHIFTEQUAL",
         "&=": "AMPERSANDEQUAL",
-        "^=": "XOREQUAL",
+        "^=": "COREQUAL",
         "|=": "PIPEEQUAL",
         "//=": "DOUBLEDIVEQUAL",
         # extra deepsh operators

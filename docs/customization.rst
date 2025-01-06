@@ -39,13 +39,13 @@ You can view the available styles by typing
 
 .. code-block:: console
 
-   @ xonfig styles
+   @ config styles
 
 For a quick peek at the theme's colors you can do
 
 .. code-block:: console
 
-   @ xonfig colors <theme name>
+   @ config colors <theme name>
 
 To set a new theme, do
 
@@ -71,7 +71,7 @@ To do so, add something similar to your ``.deepshrc``:
    register_custom_style("mystyle", mystyle, base="monokai")
    $DEEPSH_COLOR_STYLE="mystyle"
 
-You can check ``xonfig colors`` for the token names. The ``base`` style will be used as a fallback for styles you don't set - pick one from ``xonfig styles`` (``default`` is used if omitted).
+You can check ``config colors`` for the token names. The ``base`` style will be used as a fallback for styles you don't set - pick one from ``config styles`` (``default`` is used if omitted).
 
 .. _import_local_modules:
 
@@ -178,7 +178,7 @@ you can try to replace a command for this action by the following:
 
 .. code-block:: sh
 
-    exo-open --working-directory %f --launch TerminalEmulator deepsh --shell-type=best
+    eco-open --working-directory %f --launch TerminalEmulator deepsh --shell-type=best
 
 In order to do this, go to ``Edit > Configure custom actions...``,
 then choose ``Open Terminal Here`` and click on ``Edit currently selected action`` button.

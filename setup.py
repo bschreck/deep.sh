@@ -62,7 +62,7 @@ def dirty_version():
     If install/sdist is run from a git directory (not a conda install), add
     a devN suffix to reported version number and write a gitignored file
     that holds the git hash of the current state of the repo to be queried
-    by ``xonfig``
+    by ``config``
     """
     try:
         _version = subprocess.check_output(["git", "describe", "--tags"])
@@ -194,13 +194,13 @@ class install_scripts_quoted_shebang(install_scripts):
 
 
 class install_scripts_rewrite(install_scripts):
-    """Change default python3 to the concrete python binary used to install/develop inside xon.sh script"""
+    """Change default python3 to the concrete python binary used to install/develop inside con.sh script"""
 
     def run(self):
         super().run()
         if not self.dry_run:
             for file in self.get_outputs():
-                if file.endswith("xon.sh"):
+                if file.endswith("con.sh"):
                     # this is the value distutils use on its shebang translation
                     bs_cmd = self.get_finalized_command("build_scripts")
                     exec_param = getattr(bs_cmd, "executable", None)
@@ -226,8 +226,8 @@ class xdevelop(develop):
             restore_version()
 
     def install_script(self, dist, script_name, script_text, dev_path=None):
-        if script_name == "xon.sh":
-            # change default python3 to the concrete python binary used to install/develop inside xon.sh script
+        if script_name == "con.sh":
+            # change default python3 to the concrete python binary used to install/develop inside con.sh script
             script_text = script_text.replace(" python3 ", f' "{sys.executable}" ')
         super().install_script(dist, script_name, script_text, dev_path)
 

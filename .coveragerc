@@ -2,7 +2,7 @@
 #branch = true
 source =
   deepsh/
-  xontrib/
+  contrib/
 omit =
   .venv/*
   deepsh/lazyasd.py

@@ -10,7 +10,7 @@
         </p>
     </description>
     <launchable type="desktop-id">deepsh.desktop</launchable>
-    <url type="homepage">http://xon.sh</url>
+    <url type="homepage">http://con.sh</url>
     <provides>
         <binary>python{{ python-version }}</binary>
     </provides>

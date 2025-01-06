@@ -1,4 +1,4 @@
-"""Implements the which xoreutil."""
+"""Implements the which coreutil."""
 
 import argparse
 import functools
@@ -8,7 +8,7 @@ import deepsh
 import deepsh.platform as xp
 import deepsh.procs.pipelines as xpp
 from deepsh.built_ins import XSH
-from deepsh.xoreutils import _which
+from deepsh.coreutils import _which
 
 
 @functools.lru_cache
@@ -158,7 +158,7 @@ def which(args, stdin=None, stdout=None, stderr=None, spec=None):
                 continue
         # which.whichgen gives the nicest 'verbose' output if PATH is taken
         # from os.environ so we temporarily override it with
-        # __xosnh_env__['PATH']
+        # __cosnh_env__['PATH']
         original_os_path = xp.os_environ["PATH"]
         xp.os_environ["PATH"] = XSH.env.detype()["PATH"]
         matches = _which.whichgen(arg, exts=exts, verbose=verbose)

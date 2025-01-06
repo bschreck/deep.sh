@@ -14,7 +14,7 @@ XSH.aliases["qa"] = _quit_awesome
 # setting aliases as list are faster since they don't involve parser.
 XSH.aliases["gc"] = ["git", "commit"]
 
-# some customization options, see https://xon.sh/envvars.html for details
+# some customization options, see https://con.sh/envvars.html for details
 env["MULTILINE_PROMPT"] = "`·.,¸,.·*¯`·.,¸,.·*¯"
 env["DEEPSH_SHOW_TRACEBACK"] = True
 env["DEEPSH_STORE_STDOUT"] = True

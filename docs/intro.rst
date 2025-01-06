@@ -7,7 +7,7 @@
     ~
     <script>
     var taglines = [
-        "Exofrills in the shell",
+        "Ecofrills in the shell",
         "No frills in the shell",
         "Become the Lord of the Files",
         "Break out of your shell",

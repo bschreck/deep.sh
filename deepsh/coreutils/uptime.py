@@ -267,7 +267,7 @@ def boottime() -> "float":
 
 
 def main(args=None):
-    from deepsh.xoreutils.util import run_alias
+    from deepsh.coreutils.util import run_alias
 
     run_alias("uptime", args)
 

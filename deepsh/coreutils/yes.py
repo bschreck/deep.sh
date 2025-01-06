@@ -21,5 +21,5 @@ Repeatedly output a line with all specified STRING(s), or 'y'.
 
       --help     display this help and exit
 
-This version of yes was written in Python for the deepsh project: http://xon.sh
+This version of yes was written in Python for the deepsh project: http://con.sh
 Based on yes from GNU coreutils: http://www.gnu.org/software/coreutils/"""

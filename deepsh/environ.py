@@ -673,7 +673,7 @@ def default_completer_dirs(env):
     3. ``$DEEPSH_DATA_DIR/generated_completions`` - auto generated completers from man pages
     4. ``$XDG_DATA_DIRS/deepsh/vendor_completions`` - completers from other programs can be placed here.
 
-    Other than this, Python package namespace ``xompletions`` can be used to put completer modules as well.
+    Other than this, Python package namespace ``completions`` can be used to put completer modules as well.
     """
     # inspired from - https://fishshell.com/docs/current/completions.html#where-to-put-completions
     return [
@@ -976,7 +976,7 @@ class GeneralSetting(Xettings):
     DEEPSHRC_DIR = Var.with_default(
         default_deepshrcdir,
         "A list of directories, from which all .xsh|.py files will be loaded "
-        "at startup, sorted in lexographic order. Files in these directories "
+        "at startup, sorted in lecographic order. Files in these directories "
         "are loaded after any files in DEEPSHRC.",
         type_str="env_path",
     )
@@ -996,7 +996,7 @@ class GeneralSetting(Xettings):
     DEEPSH_COLOR_STYLE = Var.with_default(
         "default",
         "Sets the color style for deepsh colors. This is a style name, not "
-        "a color map. Run ``xonfig styles`` to see the available styles.",
+        "a color map. Run ``config styles`` to see the available styles.",
         type_str="str",
     )
 
@@ -1354,19 +1354,19 @@ class InterpreterSetting(Xettings):
     )
 
 
-class XontribSetting(Xettings):
-    """Xontrib Settings"""
+class ContribSetting(Xettings):
+    """Contrib Settings"""
 
-    XONTRIBS_AUTOLOAD_DISABLED = Var.with_default(
+    CONTRIBS_AUTOLOAD_DISABLED = Var.with_default(
         default=False,
         type_str="bool",
         doc="""\
-    Controls auto-loading behaviour of xontrib packages at the startup.
+    Controls auto-loading behaviour of contrib packages at the startup.
     * Set this to ``True`` to disable autoloading completely.
-    * Setting this to a list of xontrib names will block loading those specifically.
+    * Setting this to a list of contrib names will block loading those specifically.
     """,
         doc_default="""\
-    Xontribs with ``deepsh.xontrib`` entrypoint will be loaded automatically by default.
+    Contribs with ``deepsh.contrib`` entrypoint will be loaded automatically by default.
     """,
     )
 
@@ -1482,7 +1482,7 @@ class PromptSetting(Xettings):
         prompt.default_prompt(),
         "The prompt text. May contain keyword arguments which are "
         "auto-formatted, see 'Customizing the Prompt' at "
-        "http://xon.sh/tutorial.html#customizing-the-prompt. "
+        "http://con.sh/tutorial.html#customizing-the-prompt. "
         "This value is never inherited from parent processes.",
         doc_default="``deepsh.environ.DEFAULT_PROMPT``",
     )
@@ -1493,7 +1493,7 @@ class PromptSetting(Xettings):
         detype=None,
         doc="Dictionary containing variables to be used when formatting $PROMPT "
         "and $TITLE. See 'Customizing the Prompt' "
-        "http://xon.sh/tutorial.html#customizing-the-prompt",
+        "http://con.sh/tutorial.html#customizing-the-prompt",
         is_configurable=False,
     )
     PROMPT_REFRESH_INTERVAL = Var.with_default(
@@ -1577,7 +1577,7 @@ class PromptSetting(Xettings):
         DEFAULT_TITLE,
         "The title text for the window in which deepsh is running. Formatted "
         "in the same manner as ``$PROMPT``, see 'Customizing the Prompt' "
-        "http://xon.sh/tutorial.html#customizing-the-prompt.",
+        "http://con.sh/tutorial.html#customizing-the-prompt.",
         doc_default="``deepsh.environ.DEFAULT_TITLE``",
     )
     UPDATE_PROMPT_ON_KEYPRESS = Var.with_default(
@@ -1874,7 +1874,7 @@ This is to reduce the noise in generated completions.""",
         "Toggles 'fuzzy' matching of paths for tab completion, which is only "
         "used as a fallback if no other completions succeed but can be used "
         "as a way to adjust for typographical errors. If ``True``, then, e.g.,"
-        " ``xonhs`` will match ``deepsh``.",
+        " ``conhs`` will match ``deepsh``.",
     )
     SUBSEQUENCE_PATH_COMPLETION = Var.with_default(
         True,

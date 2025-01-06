@@ -32,7 +32,7 @@ This page provides deepsh equivalents for common patterns in Bash.
 
         ``echo ";"``
 
-      - Read `Subprocess Strings <https://xon.sh/tutorial_subproc_strings.html>`_ tutorial
+      - Read `Subprocess Strings <https://con.sh/tutorial_subproc_strings.html>`_ tutorial
         to understand how strings become arguments in deepsh.
         There is no notion of an escaping character in deepsh like the backslash (``\``) in bash.
         Single or double quotes can be used to remove the special meaning of certain
@@ -125,14 +125,14 @@ This page provides deepsh equivalents for common patterns in Bash.
     * - ``while getopts``
       - Use `argparse <https://docs.python.org/3/library/argparse.html>`_ or `click <https://click.palletsprojects.com>`_.
       - See also `awesome-cli-app <https://github.com/anki-code/deepsh-awesome-cli-app>`_ and
-        `xontrib-argcomplete <https://github.com/anki-code/xontrib-argcomplete>`_ .
+        `contrib-argcomplete <https://github.com/anki-code/contrib-argcomplete>`_ .
     * - ``complete``
       - ``completer list``
       - As with many other shells, deepsh ships with the ability to complete partially-specified arguments
         upon hitting the “tab” key.
     * - OhMyBash or BashIt
-      - `awesome-xontribs <https://github.com/deepsh/awesome-xontribs>`_
-      - Xontributions, or ``xontribs``, are a set of tools and conventions for extending the functionality
+      - `awesome-contribs <https://github.com/deepsh/awesome-contribs>`_
+      - Contributions, or ``contribs``, are a set of tools and conventions for extending the functionality
         of deepsh beyond what is provided by default.
     * - Display completions as list
       - ``$COMPLETIONS_DISPLAY = 'readline'``
@@ -156,5 +156,5 @@ to set :ref:`$DEEPSH_TRACE_SUBPROC <deepsh_trace_subproc>` to ``True``:
     TRACE SUBPROC: (['echo', 'hello\n', 'world'], '|', ['grep', 'hello'])
 
 If after time you still try to type ``export``, ``unset`` or ``!!`` commands
-there are the `bashisms <https://github.com/deepsh/xontrib-bashisms>`_
-and `sh <https://github.com/anki-code/xontrib-sh>`_ xontribs.
+there are the `bashisms <https://github.com/deepsh/contrib-bashisms>`_
+and `sh <https://github.com/anki-code/contrib-sh>`_ contribs.

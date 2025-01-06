@@ -65,7 +65,7 @@ def test_state_visitor_store():
     assert flat_exp == flat_obs
 
 
-def dump_xonfig_env_mock(path, value):
+def dump_config_env_mock(path, value):
     name = os.path.basename(path.rstrip("/"))
     return f"${name} = {value!r}"
 
@@ -77,7 +77,7 @@ def test_tuple_store_and_write():
     dump_rules = {
         "/": None,
         "/env/": None,
-        "/env/*": dump_xonfig_env_mock,
+        "/env/*": dump_config_env_mock,
         "/env/*/[0-9]*": None,
     }
     fi = FileInserter(

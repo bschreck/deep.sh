@@ -242,7 +242,7 @@ def test_exes_in_cwd_are_not_matched(faux_binary, monkeypatch):
     assert cache.locate_binary(faux_binary.name) is None
 
 
-def test_nixos_coreutils(tmp_path):
+def test_nicos_coreutils(tmp_path):
     """On NixOS the core tools are the symlinks to one universal ``coreutils`` binary file."""
     path = tmp_path / "core"
     coreutils = path / "coreutils"

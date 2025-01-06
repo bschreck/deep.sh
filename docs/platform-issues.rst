@@ -32,7 +32,7 @@ lines to your ``~/.bashrc file``:
 
 Use the Nix Package manager with Deepsh
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To users of the `Nix Package Manager <https://www.nixos.org/>`_ these few lines might be life-savers:
+To users of the `Nix Package Manager <https://www.nicos.org/>`_ these few lines might be life-savers:
 
 .. code-block:: deepshcon
 
@@ -45,7 +45,7 @@ To users of the `Nix Package Manager <https://www.nixos.org/>`_ these few lines 
         $NIX_PATH="nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixpkgs:/nix/var/nix/profiles/per-user/root/channels"
         $PATH += [f"{$HOME}/.nix-profile/bin", "/nix/var/nix/profiles/default/bin"]
 
-Btw. a hacky solution to install xontribs that do not yet ship with ``nixpkgs`` is:
+Btw. a hacky solution to install contribs that do not yet ship with ``nixpkgs`` is:
 
 .. code-block:: deepshcon
 
@@ -57,7 +57,7 @@ Btw. a hacky solution to install xontribs that do not yet ship with ``nixpkgs`` 
 
     python -m ensurepip --user
     deepsh
-    python -m pip install --user -U pip xontrib-z deepsh-direnv
+    python -m pip install --user -U pip contrib-z deepsh-direnv
 
 Just run the last three lines, do not put them in your `deepshrc`!
 
@@ -222,20 +222,20 @@ Python (like other processes on Windows) locks the current working directory so
 it can't be deleted or renamed. ``cmd.exe`` has this behaviour as well, but it
 is quite annoying for a shell.
 
-The :ref:`free_cwd <free_cwd>` xontrib (add-on) for deepsh solves some of this problem. It
+The :ref:`free_cwd <free_cwd>` contrib (add-on) for deepsh solves some of this problem. It
 works by hooking the prompt to reset the current working directory to the root
 drive folder whenever the shell is idle. It only works with the prompt-toolkit
 back-end. To enable that behaviour run the following:
 
 .. code-block:: deepshcon
 
-   >>> xpip install xontrib-free-cwd
+   >>> xpip install contrib-free-cwd
 
 Add this line to your ``~/.deepshrc`` file to have it always enabled.
 
 .. code-block:: deepshcon
 
-   >>> xontrib load free_cwd
+   >>> contrib load free_cwd
 
 
 Name space conflicts

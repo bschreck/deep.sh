@@ -40,5 +40,5 @@ Echo the STRING(s) to standard output.
   -E             disable interpretation of backslash escapes (default)
   -h  --help     display this message and exit
 
-This version of echo was written in Python for the deepsh project: http://xon.sh
+This version of echo was written in Python for the deepsh project: http://con.sh
 Based on echo from GNU coreutils: http://www.gnu.org/software/coreutils/"""

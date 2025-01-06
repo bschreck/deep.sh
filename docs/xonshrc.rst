@@ -7,7 +7,7 @@ exactly once at startup.
 The control file usually contains:
 
 * Assignment statements setting `environment variables <envvars.html>`_. This includes standard OS environment variables that affect other programs and many that Deepsh uses for itself.
-* ``xontrib`` commands to load selected add-ins (`xontribs <tutorial_xontrib.html#loading-xontribs>`_).
+* ``contrib`` commands to load selected add-ins (`contribs <tutorial_contrib.html#loading-contribs>`_).
 * Deepsh function definitions.
 * `Alias definitions <aliases.html>`_, many of which invoke the above functions with specified arguments.
 
@@ -25,22 +25,22 @@ In addition:
 * Use ``deepsh --rc snail.xsh`` to run only a certain control file.
 * Use ``deepsh -i script.xsh`` to run deepsh in interactive mode with loading all possible control files.
 * Use ``deepsh --rc rc1.xsh rc2.xsh -- script.xsh`` to run scripts with multiple control files.
-* You can create autoloadable `xontrib <tutorial_xontrib.html#loading-xontribs>`_ as alternative to run control file and reuse it as python package.
+* You can create autoloadable `contrib <tutorial_contrib.html#loading-contribs>`_ as alternative to run control file and reuse it as python package.
 
 The options set per user override settings in the system-wide control file.
 
-Deepsh provides 2 wizards to create your own "deepshrc".  ``xonfig web`` provides basic settings, and ``xonfig wizard``
+Deepsh provides 2 wizards to create your own "deepshrc".  ``config web`` provides basic settings, and ``config wizard``
 steps you through all the available options.
 
-xonfig web
+config web
 -----------
 
-This helps you choose a color theme, customized prompt and add-in packages ("xontribs").  It
+This helps you choose a color theme, customized prompt and add-in packages ("contribs").  It
 initializes your personal run control file (usually at ``~/.deepshrc``).  To invoke it (from a deepsh prompt):
 
 .. code-block:: deepshcon
 
-  >>> xonfig web
+  >>> config web
   Web config started at 'http://localhost:8421'. Hit Ctrl+C to stop.
   127.0.0.1 - - [23/Aug/2020 15:04:39] "GET / HTTP/1.1" 200 -
 
@@ -53,32 +53,32 @@ The page has:
   their actual appearance is not and do vary widely.  Seeing is believing!
 :Prompts: shows various sample prompts.  It is recommended to select one but to then edit
   the ``deepshrc`` file to further refine your prompt.
-:Xontribs: are community-contributed add-ins often used to enhance command completion and line editing,
+:Contribs: are community-contributed add-ins often used to enhance command completion and line editing,
   but can affect any aspect of Deepsh behavior.
   Choose one or more to suit your needs but note that they will require installation of additional
-  packages.  You can extend Deepsh by `writing your own xontrib <tutorial_xontrib.html>`_, and are invited/urged to do so!
+  packages.  You can extend Deepsh by `writing your own contrib <tutorial_contrib.html>`_, and are invited/urged to do so!
 :Save: Click to write the configuration choices to your ``~/.deepshrc``. This will add a few tagged lines to your run control file, but will not
-  overwrite it completely, so you can run `xonfig web` at any time.
+  overwrite it completely, so you can run `config web` at any time.
 
-xonfig wizard
+config wizard
 --------------
 
 This imports settings and tools you have defined in your existing (ordinary) shell such as ``bash``.
-It also walks you through setting all known environment variables and xontribs
+It also walks you through setting all known environment variables and contribs
 in a question-and-answer format:
 
 .. code-block:: deepshcon
 
-    @ xonfig wizard
+    @ config wizard
 
               Welcome to the deepsh configuration wizard!
               ------------------------------------------
     This will present a guided tour through setting up the deepsh static
     config file. Deepsh will automatically ask you if you want to run this
     wizard if the configuration file does not exist. However, you can
-    always rerun this wizard with the xonfig command:
+    always rerun this wizard with the config command:
 
-        @ xonfig wizard
+        @ config wizard
 
     This wizard will load an existing configuration, if it is available.
     Also never fear when this wizard saves its results! It will create
@@ -174,7 +174,7 @@ The following is a real-world example of such a file.
 .. include:: deepshrc.xsh
     :code: deepsh
 
-See also `xontrib-rc-awesome <https://github.com/anki-code/xontrib-rc-awesome>`_.
+See also `contrib-rc-awesome <https://github.com/anki-code/contrib-rc-awesome>`_.
 
 Real world sample rc.py
 -------------------------

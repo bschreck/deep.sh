@@ -3,7 +3,7 @@
 """
 Provides a cross-platform way to figure out the system uname.
 
-This version of uname was written in Python for the deepsh project: http://xon.sh
+This version of uname was written in Python for the deepsh project: http://con.sh
 
 Based on cat from GNU coreutils: http://www.gnu.org/software/coreutils/
 """
@@ -25,7 +25,7 @@ def uname_fn(
     hardware_platform=False,
     operating_system=False,
 ):
-    """This version of uname was written in Python for the deepsh project: https://xon.sh
+    """This version of uname was written in Python for the deepsh project: https://con.sh
 
     Based on uname from GNU coreutils: http://www.gnu.org/software/coreutils/
 
@@ -88,7 +88,7 @@ uname = ArgParserAlias(func=uname_fn, has_args=True, prog="uname")
 
 
 def main(args=None):
-    from deepsh.xoreutils.util import run_alias
+    from deepsh.coreutils.util import run_alias
 
     run_alias("uname", args)
 

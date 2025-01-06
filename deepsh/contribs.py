@@ -1,4 +1,4 @@
-"""Tools for helping manage xontributions."""
+"""Tools for helping manage contributions."""
 
 import contextlib
 import importlib
@@ -25,17 +25,17 @@ class ExitCode(IntEnum):
     INIT_FAILED = 2
 
 
-class XontribNotInstalled(Exception):
-    """raised when the requested xontrib is not found"""
+class ContribNotInstalled(Exception):
+    """raised when the requested contrib is not found"""
 
 
-class Xontrib(tp.NamedTuple):
-    """Meta class that is used to describe a xontrib"""
+class Contrib(tp.NamedTuple):
+    """Meta class that is used to describe a contrib"""
 
     module: str
-    """path to the xontrib module"""
+    """path to the contrib module"""
     distribution: "tp.Optional[Distribution]" = None
-    """short description about the xontrib."""
+    """short description about the contrib."""
 
     def get_description(self):
         if self.distribution:
@@ -64,7 +64,7 @@ class Xontrib(tp.NamedTuple):
 
     @property
     def is_auto_loaded(self):
-        loaded = getattr(XSH.builtins, "autoloaded_xontribs", None) or {}
+        loaded = getattr(XSH.builtins, "autoloaded_contribs", None) or {}
         return self.module in set(loaded.values())
 
 
@@ -78,16 +78,16 @@ def get_module_docstring(module: str) -> str:
     return ""
 
 
-def get_xontribs() -> dict[str, Xontrib]:
-    """Return xontrib definitions lazily."""
-    return dict(_get_installed_xontribs())
+def get_contribs() -> dict[str, Contrib]:
+    """Return contrib definitions lazily."""
+    return dict(_get_installed_contribs())
 
 
 def _patch_in_userdir():
     """
     Patch in user site packages directory.
 
-    If deepsh is installed in non-writeable location, then xontribs will end up
+    If deepsh is installed in non-writeable location, then contribs will end up
     there, so we make them accessible."""
     if not os.access(os.path.dirname(sys.executable), os.W_OK):
         from site import getusersitepackages
@@ -96,8 +96,8 @@ def _patch_in_userdir():
             sys.path.append(user_site_packages)
 
 
-def _get_installed_xontribs(pkg_name="xontrib"):
-    """List all core packages + newly installed xontribs"""
+def _get_installed_contribs(pkg_name="contrib"):
+    """List all core packages + newly installed contribs"""
     _patch_in_userdir()
     spec = importlib.util.find_spec(pkg_name)
 
@@ -118,40 +118,40 @@ def _get_installed_xontribs(pkg_name="xontrib"):
                     yield path.name
 
     for name in iter_modules():
-        module = f"xontrib.{name}"
-        yield name, Xontrib(module)
+        module = f"contrib.{name}"
+        yield name, Contrib(module)
 
-    for entry in _get_xontrib_entrypoints():
-        yield entry.name, Xontrib(entry.value, distribution=entry.dist)
+    for entry in _get_contrib_entrypoints():
+        yield entry.name, Contrib(entry.value, distribution=entry.dist)
 
 
-def find_xontrib(name, full_module=False):
-    """Finds a xontribution from its name."""
+def find_contrib(name, full_module=False):
+    """Finds a contribution from its name."""
     _patch_in_userdir()
 
     # here the order is important. We try to run the correct cases first and then later trial cases
     # that will likely fail
 
     if name.startswith("."):
-        return importlib.util.find_spec(name, package="xontrib")
+        return importlib.util.find_spec(name, package="contrib")
 
     if full_module:
         return importlib.util.find_spec(name)
 
-    autoloaded = getattr(XSH.builtins, "autoloaded_xontribs", None) or {}
+    autoloaded = getattr(XSH.builtins, "autoloaded_contribs", None) or {}
     if name in autoloaded:
         return importlib.util.find_spec(autoloaded[name])
 
     with contextlib.suppress(ValueError):
-        return importlib.util.find_spec("." + name, package="xontrib")
+        return importlib.util.find_spec("." + name, package="contrib")
 
     return importlib.util.find_spec(name)
 
 
-def xontrib_context(name, full_module=False):
-    """Return a context dictionary for a xontrib of a given name."""
+def contrib_context(name, full_module=False):
+    """Return a context dictionary for a contrib of a given name."""
 
-    spec = find_xontrib(name, full_module)
+    spec = find_contrib(name, full_module)
     if spec is None:
         return None
     module = importlib.import_module(spec.name)
@@ -167,7 +167,7 @@ def xontrib_context(name, full_module=False):
             for attr in pubnames:
                 yield attr, getattr(module, attr)
 
-    entrypoint = getattr(module, "_load_xontrib_", None)
+    entrypoint = getattr(module, "_load_contrib_", None)
     if entrypoint is None:
         ctx.update(dict(_get__all__()))
     else:
@@ -177,62 +177,62 @@ def xontrib_context(name, full_module=False):
     return ctx
 
 
-def prompt_xontrib_install(names: list[str]):
-    """Returns a formatted string with name of xontrib package to prompt user"""
+def prompt_contrib_install(names: list[str]):
+    """Returns a formatted string with name of contrib package to prompt user"""
     return (
-        "The following xontribs are enabled but not installed: \n"
+        "The following contribs are enabled but not installed: \n"
         f"   {names}\n"
-        "Please make sure that they are installed correctly by checking https://deepsh.github.io/awesome-xontribs/\n"
+        "Please make sure that they are installed correctly by checking https://deepsh.github.io/awesome-contribs/\n"
     )
 
 
 def update_context(name, ctx: dict, full_module=False):
-    """Updates a context in place from a xontrib."""
-    modctx = xontrib_context(name, full_module)
+    """Updates a context in place from a contrib."""
+    modctx = contrib_context(name, full_module)
     if modctx is None:
-        raise XontribNotInstalled(f"Xontrib - {name} is not found.")
+        raise ContribNotInstalled(f"Contrib - {name} is not found.")
     else:
         ctx.update(modctx)
     return ctx
 
 
-def _xontrib_name_completions(loaded=False):
-    for name, xontrib in get_xontribs().items():
-        if xontrib.is_loaded is loaded:
+def _contrib_name_completions(loaded=False):
+    for name, contrib in get_contribs().items():
+        if contrib.is_loaded is loaded:
             yield RichCompletion(
-                name, append_space=True, description=xontrib.get_description()
+                name, append_space=True, description=contrib.get_description()
             )
 
 
-def xontrib_names_completer(**_):
-    yield from _xontrib_name_completions(loaded=False)
+def contrib_names_completer(**_):
+    yield from _contrib_name_completions(loaded=False)
 
 
-def xontrib_unload_completer(**_):
-    yield from _xontrib_name_completions(loaded=True)
+def contrib_unload_completer(**_):
+    yield from _contrib_name_completions(loaded=True)
 
 
-def xontribs_load(
+def contribs_load(
     names: Annotated[
         tp.Sequence[str],
-        Arg(nargs="+", completer=xontrib_names_completer),
+        Arg(nargs="+", completer=contrib_names_completer),
     ] = (),
     verbose=False,
     full_module=False,
     suppress_warnings=False,
 ):
-    """Load xontribs from a list of names
+    """Load contribs from a list of names
 
     Parameters
     ----------
     names
-        names of xontribs
+        names of contribs
     verbose : -v, --verbose
         verbose output
     full_module : -f, --full
-        indicates that the names are fully qualified module paths and not inside ``xontrib`` package
+        indicates that the names are fully qualified module paths and not inside ``contrib`` package
     suppress_warnings : -s, --suppress-warnings
-        no warnings about missing xontribs and return code 0
+        no warnings about missing contribs and return code 0
     """
     ctx = {} if XSH.ctx is None else XSH.ctx
     res = ExitCode.OK
@@ -241,104 +241,104 @@ def xontribs_load(
     bad_imports = []
     for name in names:
         if verbose:
-            print(f"loading xontrib {name!r}")
+            print(f"loading contrib {name!r}")
         try:
             update_context(name, ctx=ctx, full_module=full_module)
-        except XontribNotInstalled:
+        except ContribNotInstalled:
             if not suppress_warnings:
                 bad_imports.append(name)
         except Exception:
             res = ExitCode.INIT_FAILED
-            print_exception(f"Failed to load xontrib {name}.")
+            print_exception(f"Failed to load contrib {name}.")
     if bad_imports:
         res = ExitCode.NOT_FOUND
-        stderr = prompt_xontrib_install(bad_imports)
+        stderr = prompt_contrib_install(bad_imports)
     return stdout, stderr, res
 
 
-def xontribs_unload(
+def contribs_unload(
     names: Annotated[
         tp.Sequence[str],
-        Arg(nargs="+", completer=xontrib_unload_completer),
+        Arg(nargs="+", completer=contrib_unload_completer),
     ] = (),
     verbose=False,
 ):
-    """Unload the given xontribs
+    """Unload the given contribs
 
     Parameters
     ----------
     names
-        name of xontribs to unload
+        name of contribs to unload
 
     Notes
     -----
-    Proper cleanup can be implemented by the xontrib. The default is equivalent to ``del sys.modules[module]``.
+    Proper cleanup can be implemented by the contrib. The default is equivalent to ``del sys.modules[module]``.
     """
     for name in names:
         if verbose:
-            print(f"unloading xontrib {name!r}")
+            print(f"unloading contrib {name!r}")
 
-        spec = find_xontrib(name)
+        spec = find_contrib(name)
         try:
             if spec and spec.name in sys.modules:
                 module = sys.modules[spec.name]
-                unloader = getattr(module, "_unload_xontrib_", None)
+                unloader = getattr(module, "_unload_contrib_", None)
                 if unloader is not None:
                     unloader(XSH)
                 del sys.modules[spec.name]
         except Exception as ex:
-            print_exception(f"Failed to unload xontrib {name} ({ex})")
+            print_exception(f"Failed to unload contrib {name} ({ex})")
 
 
-def xontribs_reload(
+def contribs_reload(
     names: Annotated[
         tp.Sequence[str],
-        Arg(nargs="+", completer=xontrib_unload_completer),
+        Arg(nargs="+", completer=contrib_unload_completer),
     ] = (),
     verbose=False,
 ):
-    """Reload the given xontribs
+    """Reload the given contribs
 
     Parameters
     ----------
     names
-        name of xontribs to reload
+        name of contribs to reload
     """
     for name in names:
         if verbose:
-            print(f"reloading xontrib {name!r}")
-        xontribs_unload([name])
-        xontribs_load([name])
+            print(f"reloading contrib {name!r}")
+        contribs_unload([name])
+        contribs_load([name])
 
 
-def xontrib_data():
-    """Collects and returns the data about installed xontribs."""
+def contrib_data():
+    """Collects and returns the data about installed contribs."""
     data = {}
-    for xo_name, xontrib in get_xontribs().items():
-        data[xo_name] = {
-            "name": xo_name,
-            "loaded": xontrib.is_loaded,
-            "auto": xontrib.is_auto_loaded,
-            "module": xontrib.module,
+    for co_name, contrib in get_contribs().items():
+        data[co_name] = {
+            "name": co_name,
+            "loaded": contrib.is_loaded,
+            "auto": contrib.is_auto_loaded,
+            "module": contrib.module,
         }
 
     return dict(sorted(data.items()))
 
 
-def xontribs_loaded():
-    """Returns list of loaded xontribs."""
-    return [k for k, xontrib in get_xontribs().items() if xontrib.is_loaded]
+def contribs_loaded():
+    """Returns list of loaded contribs."""
+    return [k for k, contrib in get_contribs().items() if contrib.is_loaded]
 
 
-def xontribs_list(to_json=False, _stdout=None):
-    """List installed xontribs and show whether they are loaded or not
+def contribs_list(to_json=False, _stdout=None):
+    """List installed contribs and show whether they are loaded or not
 
     Parameters
     ----------
     to_json : -j, --json
         reports results as json
     """
-    data = xontrib_data()
+    data = contrib_data()
     if to_json:
         s = json.dumps(data)
         return s
@@ -359,10 +359,10 @@ def xontribs_list(to_json=False, _stdout=None):
         print_color(s[:-1], file=_stdout)
 
 
-def _get_xontrib_entrypoints() -> "tp.Iterable[EntryPoint]":
+def _get_contrib_entrypoints() -> "tp.Iterable[EntryPoint]":
     from importlib import metadata
 
-    name = "deepsh.xontribs"
+    name = "deepsh.contribs"
     entries = metadata.entry_points()
     # for some reason, on CI (win py3.8) atleast, returns dict
     group = (
@@ -373,34 +373,34 @@ def _get_xontrib_entrypoints() -> "tp.Iterable[EntryPoint]":
     yield from group
 
 
-def auto_load_xontribs_from_entrypoints(
+def auto_load_contribs_from_entrypoints(
     blocked: "tp.Sequence[str]" = (), verbose=False
 ):
-    """Load xontrib modules exposed via setuptools's entrypoints"""
+    """Load contrib modules exposed via setuptools's entrypoints"""
 
-    if not hasattr(XSH.builtins, "autoloaded_xontribs"):
-        XSH.builtins.autoloaded_xontribs = {}
+    if not hasattr(XSH.builtins, "autoloaded_contribs"):
+        XSH.builtins.autoloaded_contribs = {}
 
     def get_loadable():
-        for entry in _get_xontrib_entrypoints():
+        for entry in _get_contrib_entrypoints():
             if entry.name not in blocked:
-                XSH.builtins.autoloaded_xontribs[entry.name] = entry.value
+                XSH.builtins.autoloaded_contribs[entry.name] = entry.value
                 yield entry.value
 
     modules = list(get_loadable())
-    return xontribs_load(modules, verbose=verbose, full_module=True)
+    return contribs_load(modules, verbose=verbose, full_module=True)
 
 
-class XontribAlias(ArgParserAlias):
+class ContribAlias(ArgParserAlias):
     """Manage deepsh extensions"""
 
     def build(self):
-        parser = self.create_parser(prog="xontrib")
-        parser.add_command(xontribs_load, prog="load")
-        parser.add_command(xontribs_unload, prog="unload")
-        parser.add_command(xontribs_reload, prog="reload")
-        parser.add_command(xontribs_list, prog="list", default=True)
+        parser = self.create_parser(prog="contrib")
+        parser.add_command(contribs_load, prog="load")
+        parser.add_command(contribs_unload, prog="unload")
+        parser.add_command(contribs_reload, prog="reload")
+        parser.add_command(contribs_list, prog="list", default=True)
         return parser
 
 
-xontribs_main = XontribAlias(threadable=False)
+contribs_main = ContribAlias(threadable=False)

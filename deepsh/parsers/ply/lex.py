@@ -141,7 +141,7 @@ class Lexer:
         self.lexliterals = ''         # Literal characters that can be passed through
         self.lexmodule = None         # Module
         self.lineno = 1               # Current line number
-        self.lexoptimize = False      # Optimized mode
+        self.lecoptimize = False      # Optimized mode
 
     def clone(self, object=None):
         c = copy.copy(self)
@@ -358,7 +358,7 @@ class Lexer:
                     break
 
                 # Verify type of the token.  If not in the token map, raise an error
-                if not self.lexoptimize:
+                if not self.lecoptimize:
                     if newtok.type not in self.lextokens_all:
                         raise LexError("%s:%d: Rule '%s' returned an unknown token type '%s'" % (
                             func.__code__.co_filename, func.__code__.co_firstlineno,
@@ -871,8 +871,8 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
 
     ldict = None
     stateinfo  = {'INITIAL': 'inclusive'}
-    lexobj = Lexer()
-    lexobj.lexoptimize = optimize
+    lecobj = Lexer()
+    lecobj.lecoptimize = optimize
     global token, input
 
     if errorlog is None:
@@ -912,11 +912,11 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
 
     if optimize and lextab:
         try:
-            lexobj.readtab(lextab, ldict)
-            token = lexobj.token
-            input = lexobj.input
-            lexer = lexobj
-            return lexobj
+            lecobj.readtab(lextab, ldict)
+            token = lecobj.token
+            input = lecobj.input
+            lexer = lecobj
+            return lecobj
 
         except ImportError:
             pass
@@ -928,17 +928,17 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
         debuglog.info('lex: states   = %r', linfo.stateinfo)
 
     # Build a dictionary of valid token names
-    lexobj.lextokens = set()
+    lecobj.lextokens = set()
     for n in linfo.tokens:
-        lexobj.lextokens.add(n)
+        lecobj.lextokens.add(n)
 
     # Get literals specification
     if isinstance(linfo.literals, (list, tuple)):
-        lexobj.lexliterals = type(linfo.literals[0])().join(linfo.literals)
+        lecobj.lexliterals = type(linfo.literals[0])().join(linfo.literals)
     else:
-        lexobj.lexliterals = linfo.literals
+        lecobj.lexliterals = linfo.literals
 
-    lexobj.lextokens_all = lexobj.lextokens | set(lexobj.lexliterals)
+    lecobj.lextokens_all = lecobj.lextokens | set(lecobj.lexliterals)
 
     # Get the stateinfo dictionary
     stateinfo = linfo.stateinfo
@@ -969,9 +969,9 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
 
     for state in regexs:
         lexre, re_text, re_names = _form_master_re(regexs[state], reflags, ldict, linfo.toknames)
-        lexobj.lexstatere[state] = lexre
-        lexobj.lexstateretext[state] = re_text
-        lexobj.lexstaterenames[state] = re_names
+        lecobj.lexstatere[state] = lexre
+        lecobj.lexstateretext[state] = re_text
+        lecobj.lexstaterenames[state] = re_names
         if debug:
             for i, text in enumerate(re_text):
                 debuglog.info("lex: state '%s' : regex[%d] = '%s'", state, i, text)
@@ -979,35 +979,35 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
     # For inclusive states, we need to add the regular expressions from the INITIAL state
     for state, stype in stateinfo.items():
         if state != 'INITIAL' and stype == 'inclusive':
-            lexobj.lexstatere[state].extend(lexobj.lexstatere['INITIAL'])
-            lexobj.lexstateretext[state].extend(lexobj.lexstateretext['INITIAL'])
-            lexobj.lexstaterenames[state].extend(lexobj.lexstaterenames['INITIAL'])
+            lecobj.lexstatere[state].extend(lecobj.lexstatere['INITIAL'])
+            lecobj.lexstateretext[state].extend(lecobj.lexstateretext['INITIAL'])
+            lecobj.lexstaterenames[state].extend(lecobj.lexstaterenames['INITIAL'])
 
-    lexobj.lexstateinfo = stateinfo
-    lexobj.lexre = lexobj.lexstatere['INITIAL']
-    lexobj.lexretext = lexobj.lexstateretext['INITIAL']
-    lexobj.lexreflags = reflags
+    lecobj.lexstateinfo = stateinfo
+    lecobj.lexre = lecobj.lexstatere['INITIAL']
+    lecobj.lexretext = lecobj.lexstateretext['INITIAL']
+    lecobj.lexreflags = reflags
 
     # Set up ignore variables
-    lexobj.lexstateignore = linfo.ignore
-    lexobj.lexignore = lexobj.lexstateignore.get('INITIAL', '')
+    lecobj.lexstateignore = linfo.ignore
+    lecobj.lexignore = lecobj.lexstateignore.get('INITIAL', '')
 
     # Set up error functions
-    lexobj.lexstateerrorf = linfo.errorf
-    lexobj.lexerrorf = linfo.errorf.get('INITIAL', None)
-    if not lexobj.lexerrorf:
+    lecobj.lexstateerrorf = linfo.errorf
+    lecobj.lexerrorf = linfo.errorf.get('INITIAL', None)
+    if not lecobj.lexerrorf:
         errorlog.warning('No t_error rule is defined')
 
     # Set up eof functions
-    lexobj.lexstateeoff = linfo.eoff
-    lexobj.lexeoff = linfo.eoff.get('INITIAL', None)
+    lecobj.lexstateeoff = linfo.eoff
+    lecobj.lexeoff = linfo.eoff.get('INITIAL', None)
 
     # Check state information for ignore and error rules
     for s, stype in stateinfo.items():
         if stype == 'exclusive':
             if s not in linfo.errorf:
                 errorlog.warning("No error rule is defined for exclusive state '%s'", s)
-            if s not in linfo.ignore and lexobj.lexignore:
+            if s not in linfo.ignore and lecobj.lexignore:
                 errorlog.warning("No ignore rule is defined for exclusive state '%s'", s)
         elif stype == 'inclusive':
             if s not in linfo.errorf:
@@ -1016,9 +1016,9 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
                 linfo.ignore[s] = linfo.ignore.get('INITIAL', '')
 
     # Create global versions of the token() and input() functions
-    token = lexobj.token
-    input = lexobj.input
-    lexer = lexobj
+    token = lecobj.token
+    input = lecobj.input
+    lexer = lecobj
 
     # If in optimize mode, we write the lextab
     if lextab and optimize:
@@ -1039,13 +1039,13 @@ def lex(module=None, object=None, debug=False, optimize=False, lextab='lextab',
                     srcfile = getattr(sys.modules[pkgname], '__file__', '')
             outputdir = os.path.dirname(srcfile)
         try:
-            lexobj.writetab(lextab, outputdir)
+            lecobj.writetab(lextab, outputdir)
             if lextab in sys.modules:
                 del sys.modules[lextab]
         except IOError as e:
             errorlog.warning("Couldn't write lextab module %r. %s" % (lextab, e))
 
-    return lexobj
+    return lecobj
 
 # -----------------------------------------------------------------------------
 # runmain()

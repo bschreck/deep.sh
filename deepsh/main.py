@@ -31,8 +31,8 @@ from deepsh.tools import (
     to_bool_or_int,
     unquote,
 )
-from deepsh.xonfig import print_welcome_screen
-from deepsh.xontribs import auto_load_xontribs_from_entrypoints, xontribs_load
+from deepsh.config import print_welcome_screen
+from deepsh.contribs import auto_load_contribs_from_entrypoints, contribs_load
 
 events.transmogrify("on_post_init", "LoadEvent")
 events.doc(
@@ -81,13 +81,13 @@ NOTE: All the caveats of the ``atexit`` module also apply to this event.
 """,
 )
 
-events.transmogrify("on_xontribs_loaded", "LoadEvent")
+events.transmogrify("on_contribs_loaded", "LoadEvent")
 events.doc(
-    "on_xontribs_loaded",
+    "on_contribs_loaded",
     """
-on_xontribs_loaded() -> None
+on_contribs_loaded() -> None
 
-Fired after external xontribs with ``entrypoints defined`` are loaded.
+Fired after external contribs with ``entrypoints defined`` are loaded.
 """,
 )
 
@@ -332,17 +332,17 @@ def _load_rc_files(shell_kwargs: dict, args, env, execer, ctx):
     events.on_post_rc.fire()
 
 
-def _autoload_xontribs(env):
-    events.on_timingprobe.fire(name="pre_xontribs_autoload")
-    disabled = env.get("XONTRIBS_AUTOLOAD_DISABLED", False)
+def _autoload_contribs(env):
+    events.on_timingprobe.fire(name="pre_contribs_autoload")
+    disabled = env.get("CONTRIBS_AUTOLOAD_DISABLED", False)
     if disabled is True:
         return
-    blocked_xontribs = disabled or ()
-    auto_load_xontribs_from_entrypoints(
-        blocked_xontribs, verbose=bool(env.get("DEEPSH_DEBUG", False))
+    blocked_contribs = disabled or ()
+    auto_load_contribs_from_entrypoints(
+        blocked_contribs, verbose=bool(env.get("DEEPSH_DEBUG", False))
     )
-    events.on_xontribs_loaded.fire()
-    events.on_timingprobe.fire(name="post_xontribs_autoload")
+    events.on_contribs_loaded.fire()
+    events.on_timingprobe.fire(name="post_contribs_autoload")
 
 
 def start_services(shell_kwargs, args, pre_env=None):
@@ -373,7 +373,7 @@ def start_services(shell_kwargs, args, pre_env=None):
         env[k] = v
 
     if not shell_kwargs.get("norc"):
-        _autoload_xontribs(env)
+        _autoload_contribs(env)
     _load_rc_files(shell_kwargs, args, env, execer, ctx)
     # create shell
     XSH.shell = Shell(execer=execer, **shell_kwargs)
@@ -648,7 +648,7 @@ def setup(
     shell_type="none",
     env=(("RAISE_SUBPROC_ERROR", True),),
     aliases=(),
-    xontribs=(),
+    contribs=(),
     threadable_predictors=(),
 ):
     """Starts up a new deepsh shell. Calling this in function in another
@@ -675,8 +675,8 @@ def setup(
         has been initialized.
     aliases : dict-like, optional
         Aliases to add after the shell has been initialized.
-    xontribs : iterable of str, optional
-        Xontrib names to load.
+    contribs : iterable of str, optional
+        Contrib names to load.
     threadable_predictors : dict-like, optional
         Threadable predictors to start up with. These overide the defaults.
     """
@@ -689,8 +689,9 @@ def setup(
     XSH.env.update(env)
     install_import_hooks(XSH.execer)
     XSH.aliases.update(aliases)
-    if xontribs:
-        xontribs_load(xontribs)
+    if contribs:
+        contribs_load(contribs)
 
     if threadable_predictors:
         XSH.commands_cache.threadable_predictors.update(threadable_predictors)
+print("Hello, World")

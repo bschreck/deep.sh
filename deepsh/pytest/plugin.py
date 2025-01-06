@@ -1,6 +1,6 @@
 """Pytest plugin for testing Deepsh.
 
-These fixture names are Public API and need to be handled carefully as there are Xontribs dependent on them for testing
+These fixture names are Public API and need to be handled carefully as there are Contribs dependent on them for testing
 """
 
 import importlib
@@ -390,22 +390,22 @@ def readline_shell(deepsh_execer, tmpdir, mocker):
 
 
 @pytest.fixture
-def load_xontrib():
+def load_contrib():
     to_unload = []
 
     def wrapper(*names: str):
-        from deepsh.xontribs import xontrib_data, xontribs_load
+        from deepsh.contribs import contrib_data, contribs_load
 
-        xo_data = xontrib_data()
+        co_data = contrib_data()
 
         for name in names:
-            module = xo_data[name]["module"]
+            module = co_data[name]["module"]
             if module not in sys.modules:
                 to_unload.append(module)
 
-            _, stderr, res = xontribs_load([module], full_module=True)
+            _, stderr, res = contribs_load([module], full_module=True)
             if stderr:
-                raise Exception(f"Failed to load xontrib: {stderr}")
+                raise Exception(f"Failed to load contrib: {stderr}")
         return
 
     yield wrapper

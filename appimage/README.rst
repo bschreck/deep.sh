@@ -8,4 +8,4 @@ The steps to build ``deepsh.AppImage`` for release:
 
 3. The actual code to build appimage is in `rever/activities/appimage.py <https://github.com/regro/rever/blob/master/rever/activities/appimage.xsh>`_.
 
-See also: https://xon.sh/appimage.html
+See also: https://con.sh/appimage.html

@@ -21,7 +21,7 @@ except ImportError:
 
 import deepsh.lib.lazyjson as xlj
 import deepsh.tools as xt
-import deepsh.xoreutils.uptime as uptime
+import deepsh.coreutils.uptime as uptime
 from deepsh.history.base import History
 
 

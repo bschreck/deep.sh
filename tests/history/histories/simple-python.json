@@ -235,7 +235,7 @@
       "DEFAULTS_PATH": "/usr/share/gconf/awesome-gnome.default.path",
       "DESKTOP_SESSION": "awesome-gnome",
       "DISPLAY": ":0",
-      "EDITOR": "xo",
+      "EDITOR": "co",
       "GDMSESSION": "awesome-gnome",
       "GDM_LANG": "en_US",
       "GIO_LAUNCHED_DESKTOP_FILE": "/usr/share/applications/awesome.desktop",

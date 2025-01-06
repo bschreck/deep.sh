@@ -5,21 +5,21 @@ import pytest
     "args, prefix, exp",
     [
         (
-            "xonfig",
+            "config",
             "-",
             {"-h", "--help"},
         ),
         (
-            "xonfig colors",
+            "config colors",
             "b",
             {"blue", "brown"},
         ),
     ],
 )
-def test_xonfig(args, prefix, exp, xsh_with_aliases, monkeypatch, check_completer):
-    from deepsh import xonfig
+def test_config(args, prefix, exp, xsh_with_aliases, monkeypatch, check_completer):
+    from deepsh import config
 
-    monkeypatch.setattr(xonfig, "color_style_names", lambda: ["blue", "brown", "other"])
+    monkeypatch.setattr(config, "color_style_names", lambda: ["blue", "brown", "other"])
     assert check_completer(args, prefix=prefix) == exp
 
 
@@ -27,13 +27,13 @@ def test_xonfig(args, prefix, exp, xsh_with_aliases, monkeypatch, check_complete
     "args, prefix, exp, exp_part",
     [
         (
-            "xontrib",
+            "contrib",
             "l",
             {"list", "load"},
             None,
         ),
         (
-            "xontrib load",
+            "contrib load",
             "",
             None,
             {
@@ -43,7 +43,7 @@ def test_xonfig(args, prefix, exp, xsh_with_aliases, monkeypatch, check_complete
         ),
     ],
 )
-def test_xontrib(args, prefix, exp, exp_part, xsh_with_aliases, check_completer):
+def test_contrib(args, prefix, exp, exp_part, xsh_with_aliases, check_completer):
     result = check_completer(args, prefix=prefix)
     if exp:
         assert result == exp
@@ -57,7 +57,7 @@ def test_module_matcher(tmp_path, xession):
     for idx, ext in enumerate(commands.ModuleFinder.extensions):
         (tmp_path / f"a{idx}{ext}").write_text("def deepsh_complete(): pass")
 
-    matcher = commands.ModuleFinder("xompletions", str(tmp_path))
+    matcher = commands.ModuleFinder("completions", str(tmp_path))
     assert matcher.get_module("pip").deepsh_complete
     assert matcher.get_module("a0").deepsh_complete
     # todo: fix *.xsh import

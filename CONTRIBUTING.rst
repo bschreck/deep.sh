@@ -307,8 +307,8 @@ committed and pull-requested per usual. The docs are built and deployed using
 GitHub Actions.
 
 Docs associated with the latest release are hosted at
-https://xon.sh while docs for the current ``main`` branch are available at
-https://xon.sh/dev
+https://con.sh while docs for the current ``main`` branch are available at
+https://con.sh/dev
 
 Branches and Releases
 =====================

@@ -124,7 +124,7 @@ def test_python_rc(shell, tmpdir, monkeypatch, capsys, xession, mocker):
 def test_rcdir(shell, tmpdir, monkeypatch, capsys):
     """
     Test that files are loaded from an rcdir, after a normal rc file,
-    and in lexographic order.
+    and in lecographic order.
     """
 
     rcdir = tmpdir.join("rc.d")
@@ -538,10 +538,10 @@ def test_deepsh_no_file_returncode(shell, monkeypatch, monkeypatch_stderr):
         deepsh.main.main()
 
 
-def test_auto_loading_xontribs(xession, shell, mocker):
+def test_auto_loading_contribs(xession, shell, mocker):
     from importlib.metadata import EntryPoint
 
-    group = "deepsh.xontribs"
+    group = "deepsh.contribs"
 
     mocker.patch(
         "importlib.metadata.entry_points",
@@ -550,7 +550,7 @@ def test_auto_loading_xontribs(xession, shell, mocker):
             group: [EntryPoint(name="test", group=group, value="test.module")]
         },
     )
-    xontribs_load = mocker.patch("deepsh.xontribs.xontribs_load")
+    contribs_load = mocker.patch("deepsh.contribs.contribs_load")
     deepsh.main.premain([])
-    assert xession.builtins.autoloaded_xontribs == {"test": "test.module"}
-    xontribs_load.assert_called()
+    assert xession.builtins.autoloaded_contribs == {"test": "test.module"}
+    contribs_load.assert_called()

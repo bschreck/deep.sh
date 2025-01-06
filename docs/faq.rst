@@ -25,10 +25,10 @@ Coincidentally, within the week, `an article floated to the top of Hacker News <
 that teaches you how to write a shell in C. So I thought, "It can't be
 that hard..."
 
-And thus, `again <http://exofrills.org>`_, I entered the danger zone.
+And thus, `again <http://ecofrills.org>`_, I entered the danger zone.
 
 
-2. Why not another exotic shell, such as ``fish``?
+2. Why not another ecotic shell, such as ``fish``?
 -----------------------------------------------------
 While many other alternative shells have an amazing suite of features
 as well as much improved syntax of traditional options, none of them
@@ -95,7 +95,7 @@ manually use the ``![]``, ``!()``, ``$[]`` or ``$()`` operators on your code.
 5. Context-sensitive parsing is gross
 --------------------------------------
 Yes, context-sensitive parsing is gross. But the point of deepsh is that it uses
-xontext-sensitive parsing and
+context-sensitive parsing and
 is ultimately a lot less gross than other shell languages, such as Bash.
 Furthermore, its use is heavily limited here.
 

@@ -42,5 +42,5 @@ Print the file name of the terminal connected to standard input.
   -s, --silent, --quiet   print nothing, only return an exit status
       --help     display this help and exit
 
-This version of tty was written in Python for the deepsh project: http://xon.sh
+This version of tty was written in Python for the deepsh project: http://con.sh
 Based on tty from GNU coreutils: http://www.gnu.org/software/coreutils/"""

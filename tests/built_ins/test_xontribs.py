@@ -1,16 +1,16 @@
-"""xontrib tests, such as they are"""
+"""contrib tests, such as they are"""
 
 import sys
 
 import pytest
 
-from deepsh.xontribs import (
-    xontrib_context,
-    xontribs_load,
-    xontribs_loaded,
-    xontribs_main,
-    xontribs_reload,
-    xontribs_unload,
+from deepsh.contribs import (
+    contrib_context,
+    contribs_load,
+    contribs_loaded,
+    contribs_main,
+    contribs_reload,
+    contribs_unload,
 )
 
 
@@ -37,7 +37,7 @@ def test_noall(tmpmod):
     Tests what get's exported from a module without __all__
     """
 
-    with tmpmod.mkdir("xontrib").join("spameggs.py").open("w") as x:
+    with tmpmod.mkdir("contrib").join("spameggs.py").open("w") as x:
         x.write(
             """
 spam = 1
@@ -46,7 +46,7 @@ _foobar = 3
 """
         )
 
-    ctx = xontrib_context("spameggs")
+    ctx = contrib_context("spameggs")
     assert ctx == {"spam": 1, "eggs": 2}
 
 
@@ -55,7 +55,7 @@ def test_withall(tmpmod):
     Tests what get's exported from a module with __all__
     """
 
-    with tmpmod.mkdir("xontrib").join("spameggs.py").open("w") as x:
+    with tmpmod.mkdir("contrib").join("spameggs.py").open("w") as x:
         x.write(
             """
 __all__ = 'spam', '_foobar'
@@ -65,101 +65,101 @@ _foobar = 3
 """
         )
 
-    ctx = xontrib_context("spameggs")
+    ctx = contrib_context("spameggs")
     assert ctx == {"spam": 1, "_foobar": 3}
 
 
-def test_xshxontrib(tmpmod):
+def test_xshcontrib(tmpmod):
     """
-    Test that .xsh xontribs are loadable
+    Test that .xsh contribs are loadable
     """
-    with tmpmod.mkdir("xontrib").join("script.xsh").open("w") as x:
+    with tmpmod.mkdir("contrib").join("script.xsh").open("w") as x:
         x.write(
             """
 hello = 'world'
 """
         )
 
-    ctx = xontrib_context("script")
+    ctx = contrib_context("script")
     assert ctx == {"hello": "world"}
 
 
-def test_xontrib_load(tmpmod):
+def test_contrib_load(tmpmod):
     """
-    Test that .xsh xontribs are loadable
+    Test that .xsh contribs are loadable
     """
-    with tmpmod.mkdir("xontrib").join("script.xsh").open("w") as x:
+    with tmpmod.mkdir("contrib").join("script.xsh").open("w") as x:
         x.write(
             """
 hello = 'world'
 """
         )
 
-    xontribs_load(["script"])
-    assert "script" in xontribs_loaded()
+    contribs_load(["script"])
+    assert "script" in contribs_loaded()
 
 
-def test_xontrib_unload(tmpmod, xession):
-    with tmpmod.mkdir("xontrib").join("script.py").open("w") as x:
+def test_contrib_unload(tmpmod, xession):
+    with tmpmod.mkdir("contrib").join("script.py").open("w") as x:
         x.write(
             """
 hello = 'world'
 
-def _unload_xontrib_(xsh): del xsh.ctx['hello']
+def _unload_contrib_(xsh): del xsh.ctx['hello']
 """
         )
 
-    xontribs_load(["script"])
-    assert "script" in xontribs_loaded()
+    contribs_load(["script"])
+    assert "script" in contribs_loaded()
     assert "hello" in xession.ctx
-    xontribs_unload(["script"])
-    assert "script" not in xontribs_loaded()
+    contribs_unload(["script"])
+    assert "script" not in contribs_loaded()
     assert "hello" not in xession.ctx
 
 
-def test_xontrib_reload(tmpmod, xession):
-    with tmpmod.mkdir("xontrib").join("script.py").open("w") as x:
+def test_contrib_reload(tmpmod, xession):
+    with tmpmod.mkdir("contrib").join("script.py").open("w") as x:
         x.write(
             """
 hello = 'world'
 
-def _unload_xontrib_(xsh): del xsh.ctx['hello']
+def _unload_contrib_(xsh): del xsh.ctx['hello']
 """
         )
 
-    xontribs_load(["script"])
-    assert "script" in xontribs_loaded()
+    contribs_load(["script"])
+    assert "script" in contribs_loaded()
     assert xession.ctx["hello"] == "world"
 
-    with tmpmod.join("xontrib").join("script.py").open("w") as x:
+    with tmpmod.join("contrib").join("script.py").open("w") as x:
         x.write(
             """
 hello = 'world1'
 
-def _unload_xontrib_(xsh): del xsh.ctx['hello']
+def _unload_contrib_(xsh): del xsh.ctx['hello']
 """
         )
-    xontribs_reload(["script"])
-    assert "script" in xontribs_loaded()
+    contribs_reload(["script"])
+    assert "script" in contribs_loaded()
     assert xession.ctx["hello"] == "world1"
 
 
-def test_xontrib_load_dashed(tmpmod):
+def test_contrib_load_dashed(tmpmod):
     """
-    Test that .xsh xontribs are loadable
+    Test that .xsh contribs are loadable
     """
-    with tmpmod.mkdir("xontrib").join("scri-pt.xsh").open("w") as x:
+    with tmpmod.mkdir("contrib").join("scri-pt.xsh").open("w") as x:
         x.write(
             """
 hello = 'world'
 """
         )
 
-    xontribs_load(["scri-pt"])
-    assert "scri-pt" in xontribs_loaded()
+    contribs_load(["scri-pt"])
+    assert "scri-pt" in contribs_loaded()
 
 
-def test_xontrib_list(xession, capsys):
-    xontribs_main(["list"])
+def test_contrib_list(xession, capsys):
+    contribs_main(["list"])
     out, err = capsys.readouterr()
     assert "coreutils" in out

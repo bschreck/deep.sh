@@ -1274,19 +1274,19 @@ def test_pipe_op_three(check_ast):
     check_ast("{42} | {65} | {1} | {7}")
 
 
-def test_xor_op(check_ast):
+def test_cor_op(check_ast):
     check_ast("{42} ^ {65}")
 
 
-def test_xor_op_two(check_ast):
+def test_cor_op_two(check_ast):
     check_ast("{42} ^ {65} ^ {1}")
 
 
-def test_xor_op_three(check_ast):
+def test_cor_op_three(check_ast):
     check_ast("{42} ^ {65} ^ {1} ^ {7}")
 
 
-def test_xor_pipe(check_ast):
+def test_cor_pipe(check_ast):
     check_ast("{42} ^ {65} | {1}")
 
 
@@ -1401,7 +1401,7 @@ def test_mod_eq(check_stmts):
     check_stmts("x = 42; x %= 2")
 
 
-def test_xor_eq(check_stmts):
+def test_cor_eq(check_stmts):
     check_stmts("x = 42; x ^= 2")
 
 

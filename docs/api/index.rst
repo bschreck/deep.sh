@@ -43,7 +43,7 @@ For those of you who want the gritty details.
     deepsh.shells.ptk_shell
     deepsh.lib.pretty
     deepsh.history.diff_history
-    deepsh.xoreutils
+    deepsh.coreutils
 
 
 **Helpers:**
@@ -68,17 +68,17 @@ For those of you who want the gritty details.
     deepsh.pyghooks
     deepsh.shells.dumb_shell
     deepsh.wizard
-    deepsh.xonfig
-    deepsh.xontribs
+    deepsh.config
+    deepsh.contribs
     deepsh.codecache
     deepsh.contexts
 
 
-**Xontribs:**
+**Contribs:**
 
 .. autosummary::
-    :toctree: _autosummary/xontribs
+    :toctree: _autosummary/contribs
     :template: api-summary-module.rst
     :recursive:
 
-    xontrib
+    contrib

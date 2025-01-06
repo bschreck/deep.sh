@@ -21,10 +21,10 @@ dist/
 deepsh.egg-info/
 docs/_build/
 docs/envvarsbody
-docs/xontribsbody
+docs/contribsbody
 docs/eventsbody
 deepsh/dev.githash
-xontrib/__init__.py
+contrib/__init__.py
 
 # temporary files from vim and emacs
 *~

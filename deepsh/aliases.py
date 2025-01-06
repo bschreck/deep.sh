@@ -15,7 +15,7 @@ from typing import Literal
 
 import deepsh.completers._aliases as xca
 import deepsh.history.main as xhm
-import deepsh.xoreutils.which as xxw
+import deepsh.coreutils.which as xxw
 from deepsh.built_ins import XSH
 from deepsh.cli_utils import Annotated, Arg, ArgParserAlias
 from deepsh.dirstack import _get_cwd, cd, dirs, popd, pushd
@@ -51,7 +51,7 @@ from deepsh.tools import (
     to_shlvl,
     unthreadable,
 )
-from deepsh.xontribs import xontribs_main
+from deepsh.contribs import contribs_main
 
 
 @lazyobject
@@ -918,7 +918,7 @@ def xexec_fn(
     a command directly in the same process. In the event of a name conflict,
     please use the xexec command directly or dive into subprocess mode
     explicitly with ![exec command]. For more details, please see
-    http://xon.sh/faq.html#exec.
+    http://con.sh/faq.html#exec.
     """
     if len(command) == 0:
         return (None, "deepsh: exec: no command specified\n", 1)
@@ -952,11 +952,11 @@ xexec = ArgParserAlias(func=xexec_fn, has_args=True, prog="xexec")
 
 
 @lazyobject
-def xonfig():
+def config():
     """Runs the deepsh configuration utility."""
-    from deepsh.xonfig import xonfig_main  # lazy import
+    from deepsh.config import config_main  # lazy import
 
-    return xonfig_main
+    return config_main
 
 
 @unthreadable
@@ -1058,12 +1058,12 @@ def make_default_aliases():
         "history": xhm.history_main,
         "trace": trace,
         "timeit": timeit_alias,
-        "xonfig": xonfig,
+        "config": config,
         "scp-resume": ["rsync", "--partial", "-h", "--progress", "--rsh=ssh"],
         "showcmd": showcmd,
         "ipynb": ["jupyter", "notebook", "--no-browser"],
         "which": xxw.which,
-        "xontrib": xontribs_main,
+        "contrib": contribs_main,
         "completer": xca.completer_alias,
         "xpip": detect_xpip_alias(),
         "deepsh-reset": deepsh_reset,

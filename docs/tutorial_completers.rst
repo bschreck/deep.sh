@@ -223,7 +223,7 @@ Using this class, you can:
 
 * Provide a specific prefix length per completion (via ``prefix_len``)
 * Control how the completion looks in prompt-toolkit (via ``display``, ``description`` and ``style``) -
-    use the ``jedi`` xontrib to see it in action.
+    use the ``jedi`` contrib to see it in action.
 * Append a space after the completion (``append_space=True``)
 
 

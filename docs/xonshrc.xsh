@@ -11,7 +11,7 @@ def _quit_awesome(args, stdin=None):
 
 aliases['qa'] = _quit_awesome
 
-# some customization options, see https://xon.sh/envvars.html for details
+# some customization options, see https://con.sh/envvars.html for details
 $MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
 $DEEPSH_SHOW_TRACEBACK = True
 $DEEPSH_STORE_STDOUT = True

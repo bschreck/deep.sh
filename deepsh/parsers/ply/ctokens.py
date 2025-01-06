@@ -13,13 +13,13 @@ tokens = [
 
     # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MODULO',
-    'OR', 'AND', 'NOT', 'XOR', 'LSHIFT', 'RSHIFT',
+    'OR', 'AND', 'NOT', 'COR', 'LSHIFT', 'RSHIFT',
     'LOR', 'LAND', 'LNOT',
     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
 
     # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
     'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL',
-    'LSHIFTEQUAL','RSHIFTEQUAL', 'ANDEQUAL', 'XOREQUAL', 'OREQUAL',
+    'LSHIFTEQUAL','RSHIFTEQUAL', 'ANDEQUAL', 'COREQUAL', 'OREQUAL',
 
     # Increment/decrement (++,--)
     'INCREMENT', 'DECREMENT',
@@ -49,7 +49,7 @@ t_MODULO           = r'%'
 t_OR               = r'\|'
 t_AND              = r'&'
 t_NOT              = r'~'
-t_XOR              = r'\^'
+t_COR              = r'\^'
 t_LSHIFT           = r'<<'
 t_RSHIFT           = r'>>'
 t_LOR              = r'\|\|'
@@ -74,7 +74,7 @@ t_LSHIFTEQUAL      = r'<<='
 t_RSHIFTEQUAL      = r'>>='
 t_ANDEQUAL         = r'&='
 t_OREQUAL          = r'\|='
-t_XOREQUAL         = r'\^='
+t_COREQUAL         = r'\^='
 
 # Increment/decrement
 t_INCREMENT        = r'\+\+'

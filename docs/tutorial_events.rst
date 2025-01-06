@@ -35,15 +35,15 @@ Note that the event system is keyword only. Event handlers must match argument n
 Can I use this, too?
 ====================
 
-Yes! It's even easy! In your xontrib, you just have to do something like::
+Yes! It's even easy! In your contrib, you just have to do something like::
 
-    events.doc('myxontrib_on_spam', """
-    myxontrib_on_spam(can: Spam) -> bool?
+    events.doc('mycontrib_on_spam', """
+    mycontrib_on_spam(can: Spam) -> bool?
 
     Fired in case of spam. Return ``True`` if it's been eaten.
     """)
 
-This will enable users to call ``help(events.myxontrib_on_spam)`` and get useful output.
+This will enable users to call ``help(events.mycontrib_on_spam)`` and get useful output.
 
 Further Reading
 ===============

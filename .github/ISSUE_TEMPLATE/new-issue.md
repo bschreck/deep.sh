@@ -29,12 +29,12 @@ Traceback (if applicable):
 
 <!--- What you expect and what is your real life use case. -->
 
-## xonfig
+## config
 
 <details>
 
 ```xsh
-# Please paste the output of the `xonfig` command here.
+# Please paste the output of the `config` command here.
 ```
 
 </details>
